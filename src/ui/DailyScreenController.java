@@ -59,58 +59,39 @@ public class DailyScreenController {
     @FXML
     private Label organicField;
     
-    public void setSpeedLabelText(Integer text) {
-		this.speedLabel.setText(text.toString());
-	}
     
-    public void startSpeedLabelWorker(int refreshRate){
-    	intWorker speedWorker = new intWorker(FieldTypes.SPEED);
+    public void startWorker(int refreshRate, FieldTypes fieldType, Label label){
+    	Worker speedWorker = new Worker(fieldType);
     	speedWorker.setPeriod(Duration.seconds(refreshRate));
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
 			public void handle(WorkerStateEvent event) {
-				System.out.println("test");
-				setSpeedLabelText((Integer) event.getSource().getValue());
-				
+				MyTypeHolder value = (MyTypeHolder)event.getSource().getValue();
+				label.setText(value.toString());				
 			}
 		});
     	speedWorker.start();
-    	
-    	setSpeedLabelText(1);
     }
     
     public void initialize(){
-    	startSpeedLabelWorker(3);
+    	startWorker(3, FieldTypes.SPEED, speedLabel);
+    	startWorker(6, FieldTypes.SPEED, avgWeightField);
     }
     
-    private static class intWorker extends ScheduledService<Integer> {
+    private static class Worker extends ScheduledService<MyTypeHolder> {
     	private Controller ctr = new Controller();
     	private FieldTypes fieldType;
-    	private IntegerProperty integer2 = new SimpleIntegerProperty();
-    	
-    	public final void setInteger(Integer value) {
-			integer2.set(value);
-		}
-    	
-    	public final Integer getInteger() {
-    		return integer2.get();
-    	}
 
-		public intWorker(FieldTypes fieldType) {
+		public Worker(FieldTypes fieldType) {
 			this.fieldType = fieldType;
 		}
-		
-		public final IntegerProperty integerProperty() {
-			return integer2;
-		}
-    	
+
 		@Override
-		protected Task<Integer> createTask() {
-			return new Task<Integer>() {
-				protected Integer call(){
-					integer2.set(ctr.getValue(fieldType).getInteger());
-					return ctr.getValue(fieldType).getInteger();
+		protected Task<MyTypeHolder> createTask() {
+			return new Task<MyTypeHolder>() {
+				protected MyTypeHolder call(){
+					return ctr.getValue(fieldType);
 				}
 			};
 		}

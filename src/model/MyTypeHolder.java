@@ -1,9 +1,15 @@
 package model;
 
 public class MyTypeHolder {
-	Integer integer;
-	String string;
-	boolean bool;
+	private Integer integer;
+	private String string;
+	private boolean bool;
+	private FieldType type;
+	
+	
+	public enum FieldType {
+		INTEGER, STRING, BOOL
+	}
 	
 
 	
@@ -21,14 +27,17 @@ public class MyTypeHolder {
 	
 	public void setInteger(int integer) {
 		this.integer = integer;
+		setType(FieldType.INTEGER);
 	}
 	
 	public void setString(String string) {
 		this.string = string;
+		setType(FieldType.STRING);
 	}
 	
 	public void setBool(boolean bool) {
 		this.bool = bool;
+		setType(FieldType.BOOL);
 	}
 	
 	public Integer getInteger() {
@@ -39,8 +48,33 @@ public class MyTypeHolder {
 		return string;
 	}
 	
-	public boolean getBool() {
+	public Boolean getBool() {
 		return bool;
+	}
+	
+	private void setType(FieldType type) {
+		this.type = type;
+
+	}
+	
+	@Override
+	public String toString() {
+		String string;
+		switch (type) {
+		case STRING:
+			string = getString();
+			break;
+		case INTEGER:
+			string = getInteger().toString();
+			break;
+		case BOOL:
+			string = getBool().toString();
+			break;
+		default:
+			string = "Fejl";
+			break;
+		}
+		return string;
 	}
 
 }
