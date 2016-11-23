@@ -24,6 +24,12 @@ public class Controller {
 		return new MyTypeHolder(rand.nextInt(1000));
 	}
 	
+	/**
+	 * calculates average from a resultset from DB
+	 * @param fromTimeDate
+	 * @param toTimeDate
+	 * @return average weight within specified time frame
+	 */
 	public int getAvgWeight(int fromTimeDate, int toTimeDate){
 		ResultSet res = dba.getAvgWeight(fromTimeDate, toTimeDate);
 		int total = 0;
