@@ -9,4 +9,9 @@ public class DatabaseAccess {
 		return null;
 	}
 
+	public void getSpeed(long startTime, long endTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
