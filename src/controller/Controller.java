@@ -47,7 +47,7 @@ public class Controller {
 	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
-		
+		// variable parameters!!!  http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html
 		switch (fieldType) {
 		case SPEED:
 			return getSpeed();
