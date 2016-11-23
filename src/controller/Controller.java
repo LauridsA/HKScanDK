@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
@@ -20,6 +22,22 @@ public class Controller {
 		//ResultSet res = dba.getAvgWeight();
 		Random rand = new Random();
 		return new MyTypeHolder(rand.nextInt(1000));
+	}
+	
+	public int getAvgWeight(int fromTimeDate, int toTimeDate){
+		ResultSet res = dba.getAvgWeight(fromTimeDate, toTimeDate);
+		int total = 0;
+		int average = 0;
+		try {
+			while (res.next()) {
+				total += res.getInt("avgweight");
+			}
+			average = total / res.getFetchSize();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return average;
 	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
