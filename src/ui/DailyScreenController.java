@@ -54,6 +54,11 @@ public class DailyScreenController {
     private Label organicField;
     
     
+    /**
+     * @param refreshRate How often should the worker run,
+     * @param fieldType The field 
+     * @param label
+     */
     public void startWorker(int refreshRate, FieldTypes fieldType, Label label){
     	Worker speedWorker = new Worker(fieldType);
     	speedWorker.setPeriod(Duration.seconds(refreshRate));
