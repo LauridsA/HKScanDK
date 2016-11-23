@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Random;
 

@@ -2,13 +2,7 @@ package ui;
 
 
 
-import java.util.Date;
-
-import org.omg.CORBA.INITIALIZE;
-
 import controller.Controller;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
