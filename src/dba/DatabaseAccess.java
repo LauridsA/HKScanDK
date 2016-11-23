@@ -7,6 +7,11 @@ import java.sql.SQLException;
 
 public class DatabaseAccess {
 
+	/**
+	 * @param fromTimeDate the start time of the desired average weight
+	 * @param toTimeDate the end time of the desired average weight
+	 * @return the result as a multi dimensional array (ResultSet)
+	 */
 	public ResultSet getAvgWeight(int fromTimeDate, int toTimeDate) {
 		PreparedStatement statement = null;
 		String query = "SELECT (avgweight) FROM batch WHERE (fromdate = ? AND todate = ?)";
@@ -38,7 +43,12 @@ public class DatabaseAccess {
 		return result;
 	}
 
-	public int getSpeed(int fromTimeStamp, int toTimeStamp) throws SQLException {
+	/**
+	 * @param fromTimeStamp the start time of the desired speed
+	 * @param toTimeStamp the end time of the desired speed
+	 * @return speed as an integer number
+	 */
+	public int getSpeed(int fromTimeStamp, int toTimeStamp) {
 		PreparedStatement statement = null;
 		String query = "SELECT (value) FROM speed WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
@@ -60,8 +70,12 @@ public class DatabaseAccess {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
-			con.setAutoCommit(false);
-			con.close();
+			try {
+				con.setAutoCommit(false);
+				con.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		if (speed == 0) {
 			System.out.println("Database error: Nothing found");

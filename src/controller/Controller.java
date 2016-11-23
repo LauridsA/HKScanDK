@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
@@ -22,8 +24,30 @@ public class Controller {
 		return new MyTypeHolder(rand.nextInt(1000));
 	}
 	
-	public MyTypeHolder getValue(FieldTypes fieldType){
+	/**
+	 * calculates average from a resultset from DB
+	 * @param fromTimeDate
+	 * @param toTimeDate
+	 * @return average weight within specified time frame
+	 */
+	public int getAvgWeight(int fromTimeDate, int toTimeDate){
+		ResultSet res = dba.getAvgWeight(fromTimeDate, toTimeDate);
+		int total = 0;
+		int average = 0;
+		try {
+			while (res.next()) {
+				total += res.getInt("avgweight");
+			}
+			average = total / res.getFetchSize();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
+		return average;
+	}
+	
+	public MyTypeHolder getValue(FieldTypes fieldType){
+		// variable parameters!!!  http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html
 		switch (fieldType) {
 		case SPEED:
 			return getSpeed();
