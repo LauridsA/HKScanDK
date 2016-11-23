@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * The values which can be pulled from the controller.
+ *
+ */
 public enum FieldTypes {
 SPEED, AVGWEIGTH, ORGANIC,
 SLAUGTHERAMOUNTNIGHT, SLAUGTHERAMOUNTDAY,

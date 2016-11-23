@@ -18,6 +18,8 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		initStage();
 		initScene();
+		primaryStage.setMaximized(true);
+		primaryStage.setFullScreen(false);
 		/*
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/ui/Main.fxml"));
