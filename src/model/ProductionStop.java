@@ -7,12 +7,13 @@ public class ProductionStop {
 	private int length;
 	private String team;
 	private Timestamp timestamp;
-	private int fgt;
+	private String what;
+	private int faggot;
+	// this is a comment
 	
-	public String boooOOOO() {
+	public String booo() {
 		while(true) {
 			// DOOO
-			fgt++;
 		}
 	}
 	
