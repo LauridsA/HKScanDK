@@ -133,4 +133,32 @@ public class DatabaseAccess {
 		return res;
 	}
 
+	public long getTeamNightStart() {
+		PreparedStatement statement = null;
+		String query = "SELECT starttimestamp FROM team WHERE teamname = 'nat'";
+		ResultSet result = null;
+		long startTime = 0;
+		
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(true);
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			result.next();
+			startTime = result.getLong("starttimestamp");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return startTime;
+	}
+
 }

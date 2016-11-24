@@ -53,11 +53,19 @@ public class Controller {
 			return getSpeed();
 		case AVGWEIGHT:
 			return getAvgWeight();
+		case ORGANIC: 
+			return getOrganic();
 		default:
 			return new MyTypeHolder("fejl");
 		}
 	}
 	
+	public MyTypeHolder getOrganic() {
+		Date date = new Date();
+		date.getTime();
+		dba.getOrganic(long )
+		return null;
+	}
 	public int getRefreshRate(FieldTypes type) {
 		return dba.getRereshRate(type);
 	}
