@@ -7,17 +7,6 @@ public class ProductionStop {
 	private int length;
 	private String team;
 	private Timestamp timestamp;
-	private String what;
-	private int faggot;
-	// this is a comment
-	
-	public String faggot() {
-		while(true) {
-			int i = 0;
-			i++;
-			// DOOO
-		}
-	}
 	
 	public ProductionStop(String message, int length, Timestamp timestamp, String team){
 		this.message = message;
