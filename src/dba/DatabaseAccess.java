@@ -99,6 +99,42 @@ public class DatabaseAccess {
 		case AVGWEIGHT:
 			sqlType = "avgweight";
 			break;
+		case ORGANIC:
+			sqlType = "organic";
+			break;
+		case SLAUGTHERAMOUNTNIGHT:
+			sqlType = "slaughteramount";
+			break;
+		case SLAUGTHERAMOUNTDAY:
+			sqlType = "slaughteramount";
+			break;
+		case STOPNIGHT:
+			sqlType = "productionstop";
+			break;
+		case STOPDAY:
+			sqlType = "productionstop";
+			break;
+		case DAYEXPECTED:
+			// TODO what goes here?
+			sqlType = "";
+			break;
+		case TOTALEXPECTED:
+			// TODO what goes here?
+			sqlType = "";
+			break;
+		case EXPECTEDFINISH:
+			sqlType = "";
+			// TODO what goes here?
+			break;
+		case TOTALSLAUGTHERAMOUNT:
+			sqlType = "slaughteramount";
+			break;
+		case PRODUCTIONSTOPS:
+			sqlType = "productionstop";
+			break;
+		case DAILYMESSAGES:
+			sqlType = "dailymessages";
+			break;
 		default:
 			// TODO throw exception
 			return 5;
