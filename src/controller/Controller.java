@@ -54,8 +54,12 @@ public class Controller {
 		case AVGWEIGTH:
 			return getAvgWeight();
 		default:
-			return new MyTypeHolder(1);
+			return new MyTypeHolder("fejl");
 		}
+	}
+	
+	public int getRefreshRate(FieldTypes type) {
+		return dba.getRereshRate(type);
 	}
 
 }

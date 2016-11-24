@@ -62,13 +62,12 @@ public class DailyScreenController {
      * Method for starting a worker.<br>
      * This worker will update a label from the UI based on a refresRate and fieldType.
      * 
-     * @param refreshRate How often should the {@link ScheduledService} run the {@link Task},
      * @param fieldType The {@link FieldTypes} value which should be pulled
      * @param label The ui {@link Label} which should be updated.
      */
-    public void startWorker(int refreshRate, FieldTypes fieldType, Label label){
+    public void startWorker(FieldTypes fieldType, Label label){
     	Worker speedWorker = new Worker(fieldType);
-    	speedWorker.setPeriod(Duration.seconds(refreshRate));
+    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -77,15 +76,15 @@ public class DailyScreenController {
 				label.setText(value.toString());				
 			}
 		});
-    	speedWorker.start();
+    	speedWorker.start(); 
     }
     
     /**
      * Start the controller
      */
     public void initialize(){
-    	startWorker(3, FieldTypes.SPEED, speedLabel);
-    	startWorker(6, FieldTypes.SPEED, avgWeightField);
+    	startWorker(FieldTypes.SPEED, speedLabel);
+    	startWorker(FieldTypes.SPEED, avgWeightField);
     }
     
     /**
@@ -110,7 +109,7 @@ public class DailyScreenController {
 		 */
 		
 		/**
-		 * Task for 
+		 * Task which should be executed
 		 */
 		@Override
 		protected Task<MyTypeHolder> createTask() {

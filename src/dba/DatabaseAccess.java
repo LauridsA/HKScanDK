@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
+
+import model.FieldTypes;
 
 public class DatabaseAccess {
 
@@ -86,6 +89,24 @@ public class DatabaseAccess {
 	public void getSpeed(long startTime, long endTime) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getRereshRate(FieldTypes type) {
+		int value;
+		String sqlType;
+		switch (type) {
+		case SPEED:
+			value = 5;
+			sqlType = "speed";
+			break;
+
+		default:
+			return 5;
+		}
+		// TODO: hent refreshrate fra db
+		String sql = "SELECT refreshrate FROM refreashratetable WHERE type = sqlTypeHere";
+		return value;
+
 	}
 
 }
