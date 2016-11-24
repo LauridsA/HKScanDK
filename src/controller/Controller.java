@@ -47,7 +47,6 @@ public class Controller {
 	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
-		// variable parameters!!!  http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html
 		switch (fieldType) {
 		case SPEED:
 			return getSpeed();
@@ -55,11 +54,51 @@ public class Controller {
 			return getAvgWeight();
 		case ORGANIC: 
 			return getOrganic();
+		case SLAUGTHERAMOUNTNIGHT:
+			return getSlaughterAmount();
+		case SLAUGTHERAMOUNTDAY:
+			return getSlaughterAmount();
+		case STOPNIGHT:
+			return getNoStop();
+		case STOPDAY:
+			return getNoStop();
+		case DAYEXPECTED:
+			return expected();
+		case TOTALEXPECTED:
+			return expected();
+		case EXPECTEDFINISH:
+			return expectedFinish();
+		case TOTALSLAUGTHERAMOUNT:
+			return totalSlaughterAmount();
+		case PRODUCTIONSTOPS:
+			return getProductionStop();
+		case DAILYMESSAGES:
+			return getDailyMessages();
 		default:
 			return new MyTypeHolder("fejl");
 		}
 	}
-	
+
+	private MyTypeHolder getProductionStop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder getDailyMessages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder expected() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder getNoStop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder getSlaughterAmount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	public MyTypeHolder getOrganic() {
 		Date date = new Date();
 		date.getTime();
