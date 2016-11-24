@@ -17,9 +17,8 @@ public class DatabaseAccess {
 	 */
 	public ResultSet getAvgWeight(int fromTimeDate, int toTimeDate) {
 		PreparedStatement statement = null;
-		String query = "SELECT (avgweight) FROM batch WHERE (fromdate = ? AND todate = ?)";
+		String query = "SELECT avgweight FROM batch WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
-		
 		Connection con = null;
 		
 		try {
@@ -53,7 +52,7 @@ public class DatabaseAccess {
 	 */
 	public int getSpeed(int fromTimeStamp, int toTimeStamp) {
 		PreparedStatement statement = null;
-		String query = "SELECT (value) FROM speed WHERE (fromdate = ? AND todate = ?)";
+		String query = "SELECT value FROM speed WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
 		int speed = 0;
 		
@@ -96,17 +95,36 @@ public class DatabaseAccess {
 		String sqlType;
 		switch (type) {
 		case SPEED:
-			value = 5;
 			sqlType = "speed";
 			break;
 
 		default:
 			return 5;
 		}
-		// TODO: hent refreshrate fra db
-		String sql = "SELECT refreshrate FROM refreashratetable WHERE type = sqlTypeHere";
-		return value;
-
+		String query = "SELECT refreshrate FROM information WHERE informationname = ?";
+		PreparedStatement statement;
+		ResultSet result = null;
+		int res = 0;
+		Connection con = null;
+		
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setString(1, sqlType);
+			result = statement.executeQuery();
+			res = result.getInt("refreshrate");
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				con.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return res;
 	}
 
 }
