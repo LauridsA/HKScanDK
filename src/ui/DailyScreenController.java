@@ -84,7 +84,7 @@ public class DailyScreenController {
      */
     public void initialize(){
     	startWorker(FieldTypes.SPEED, speedLabel);
-    	startWorker(FieldTypes.SPEED, avgWeightField);
+    	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     }
     
     /**

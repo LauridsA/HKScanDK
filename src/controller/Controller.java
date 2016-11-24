@@ -51,7 +51,7 @@ public class Controller {
 		switch (fieldType) {
 		case SPEED:
 			return getSpeed();
-		case AVGWEIGTH:
+		case AVGWEIGHT:
 			return getAvgWeight();
 		default:
 			return new MyTypeHolder("fejl");

@@ -34,7 +34,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				con.close();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -74,7 +74,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(false);
-				con.close();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -91,14 +91,16 @@ public class DatabaseAccess {
 	}
 	
 	public int getRereshRate(FieldTypes type) {
-		int value;
 		String sqlType;
 		switch (type) {
 		case SPEED:
 			sqlType = "speed";
 			break;
-
+		case AVGWEIGHT:
+			sqlType = "avgweight";
+			break;
 		default:
+			// TODO throw exception
 			return 5;
 		}
 		String query = "SELECT refreshrate FROM information WHERE informationname = ?";
@@ -106,24 +108,28 @@ public class DatabaseAccess {
 		ResultSet result = null;
 		int res = 0;
 		Connection con = null;
-		
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setString(1, sqlType);
 			result = statement.executeQuery();
+			result.next();
 			res = result.getInt("refreshrate");
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				con.close();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		if (res == 0) {
+			res = 10;
+		}
+		System.out.println(res);
 		return res;
 	}
 
