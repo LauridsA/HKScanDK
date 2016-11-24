@@ -86,10 +86,11 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * might be slightly generic
-	 * @param fromTimeStamp
-	 * @param toTimeStamp
-	 * @return
+	 * might be slightly generic, hopefully
+	 * @param fromTimeStamp the start time of the desired speed
+	 * @param toTimeStamp the end time of the desired speed
+	 * @param field the enumerate value of the desired resultset value.
+	 * @return ResultSet returns the resultset within the specified timeframe and of the specified enumerate value.
 	 */
 	public ResultSet getResultSetValue(long fromTimeStamp, long toTimeStamp, FieldTypes field){
 		PreparedStatement statement = null;
