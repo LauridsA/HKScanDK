@@ -1,6 +1,5 @@
 package ui;
 
-import controller.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -10,8 +9,6 @@ import javafx.scene.control.Label;
  */
 
 public class ProductionStopController {
-	
-	Controller ctr = new Controller();
 	
 	@FXML
 	private Label timeField;
