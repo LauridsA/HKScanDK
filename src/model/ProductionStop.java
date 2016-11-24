@@ -11,8 +11,10 @@ public class ProductionStop {
 	private int faggot;
 	// this is a comment
 	
-	public String booo() {
+	public String faggot() {
 		while(true) {
+			int i = 0;
+			i++;
 			// DOOO
 		}
 	}
