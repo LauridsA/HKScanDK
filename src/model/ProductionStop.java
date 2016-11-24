@@ -7,10 +7,12 @@ public class ProductionStop {
 	private int length;
 	private String team;
 	private Timestamp timestamp;
+	private int fgt;
 	
-	public String booo() {
+	public String boooOOOO() {
 		while(true) {
 			// DOOO
+			fgt++;
 		}
 	}
 	
