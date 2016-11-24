@@ -85,6 +85,44 @@ public class DatabaseAccess {
 		return speed;
 	}
 	
+	/**
+	 * might be slightly generic
+	 * @param fromTimeStamp
+	 * @param toTimeStamp
+	 * @return
+	 */
+	public ResultSet getResultSetValue(long fromTimeStamp, long toTimeStamp, FieldTypes field){
+		PreparedStatement statement = null;
+		String query = "SELECT value FROM ? WHERE (fromdate = ? AND todate = ?)";
+		ResultSet result = null;		
+		Connection con = null;
+		
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setLong(2, fromTimeStamp);
+			statement.setLong(3, toTimeStamp);
+			statement.setString(1, field.toString());
+			result = statement.executeQuery();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return
+	 * @return refreshrate Returns the refresh rate of the specified field as an integer
+	 */
 	public int getRereshRate(FieldTypes type) {
 		String sqlType;
 		switch (type) {
