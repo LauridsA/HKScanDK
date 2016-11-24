@@ -206,7 +206,7 @@
                            <children>
                               <BorderPane id="productionStopBorderPane" prefHeight="414.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <center>
-                                    <ScrollPane id="productionStopScrollPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@application.css" BorderPane.alignment="CENTER" />
+                                    <ScrollPane id="productionStopScrollPane" fx:id="productionStopScrollPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@application.css" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
                                     <GridPane BorderPane.alignment="CENTER">
@@ -254,7 +254,7 @@
                            </children></Pane>
                      </top>
                      <center>
-                        <ScrollPane id="dailyMessagesScrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <ScrollPane id="dailyMessagesScrollPane" fx:id="dailyMsgScrollPane" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>

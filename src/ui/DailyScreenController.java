@@ -9,6 +9,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.util.Duration;
 import model.FieldTypes;
 import model.MyTypeHolder;
@@ -56,6 +57,12 @@ public class DailyScreenController {
 
     @FXML
     private Label organicField;
+    
+    @FXML
+    private ScrollPane dailyMsgScrollPane;
+    
+    @FXML
+    private ScrollPane productionStopPane;
     
     
     /**
