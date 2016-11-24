@@ -50,7 +50,7 @@ public class DatabaseAccess {
 	 * @param toTimeStamp the end time of the desired speed
 	 * @return speed as an integer number
 	 */
-	public int getSpeed(int fromTimeStamp, int toTimeStamp) {
+	public int getSpeed(long fromTimeStamp, long toTimeStamp) {
 		PreparedStatement statement = null;
 		String query = "SELECT value FROM speed WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
@@ -61,8 +61,8 @@ public class DatabaseAccess {
 			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
-			statement.setInt(1, fromTimeStamp);
-			statement.setInt(2, toTimeStamp);
+			statement.setLong(1, fromTimeStamp);
+			statement.setLong(2, toTimeStamp);
 			result = statement.executeQuery();
 			con.commit();
 			while (result.next()) {
@@ -83,11 +83,6 @@ public class DatabaseAccess {
 			System.out.println("Database error: Nothing found");
 		}
 		return speed;
-	}
-
-	public void getSpeed(long startTime, long endTime) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public int getRereshRate(FieldTypes type) {
