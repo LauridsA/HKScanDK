@@ -8,6 +8,12 @@ public class ProductionStop {
 	private String team;
 	private Timestamp timestamp;
 	
+	public String booo() {
+		while(true) {
+			// DOOO
+		}
+	}
+	
 	public ProductionStop(String message, int length, Timestamp timestamp, String team){
 		this.message = message;
 		this.length = length;
