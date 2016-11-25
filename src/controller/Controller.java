@@ -79,6 +79,14 @@ public class Controller {
 		}
 	}
 
+	private MyTypeHolder expectedFinish() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder totalSlaughterAmount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	private MyTypeHolder getProductionStop() {
 		// TODO Auto-generated method stub
 		return null;
@@ -102,7 +110,7 @@ public class Controller {
 	public MyTypeHolder getOrganic() {
 		Date date = new Date();
 		date.getTime();
-		dba.getOrganic(long )
+		//dba.getOrganic(long )
 		return null;
 	}
 	public int getRefreshRate(FieldTypes type) {
