@@ -111,9 +111,7 @@ public class Controller {
 		Date date = new Date();
 		ResultSet result;
 		Boolean organic;
-		date.getTime();
-		long time = date.getTime();
-		result = dba.getOrganic(time);
+		result = dba.getOrganic(date.getTime());
 		try {
 			while(result.next()){
 				organic = result.getBoolean("organic");
