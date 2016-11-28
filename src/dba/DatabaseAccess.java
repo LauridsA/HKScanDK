@@ -22,7 +22,6 @@ public class DatabaseAccess {
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, now);
-			statement.setLong(2, now);
 			result = statement.executeQuery();
 			con.commit();
 		} catch (Exception e) {
