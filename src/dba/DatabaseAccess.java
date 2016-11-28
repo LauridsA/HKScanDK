@@ -9,6 +9,35 @@ import java.util.Random;
 import model.FieldTypes;
 
 public class DatabaseAccess {
+	
+	
+	public ResultSet getOrganic(long before, long now){
+		PreparedStatement statement = null;
+		String query = "SELECT * FROM batch WHERE (fromdate = ? AND todate = ?)";
+		ResultSet result = null;
+		Connection con = null;
+		
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setLong(1, before);
+			statement.setLong(2, now);
+			result = statement.executeQuery();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		return result;
+	}
 
 	/**
 	 * @param fromTimeDate the start time of the desired average weight

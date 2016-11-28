@@ -109,9 +109,22 @@ public class Controller {
 	}
 	public MyTypeHolder getOrganic() {
 		Date date = new Date();
+		ResultSet result;
+		Boolean organic;
 		date.getTime();
-		//dba.getOrganic(long )
-		return null;
+		long time = date.getTime();
+		result = dba.getOrganic(time-3600, time);
+		try {
+			while(result.next()){
+				organic = result.getBoolean("organic");
+				if(organic){
+					return new MyTypeHolder(true);
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return new MyTypeHolder(false);
 	}
 	public int getRefreshRate(FieldTypes type) {
 		return dba.getRereshRate(type);
