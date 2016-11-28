@@ -11,9 +11,11 @@ import model.FieldTypes;
 public class DatabaseAccess {
 	
 	
-	public ResultSet getOrganic(long before, long now){
+	public ResultSet getOrganic(long now){
 		PreparedStatement statement = null;
-		String query = "SELECT organic FROM batch WHERE (fromdate = ? AND todate = ?)";
+		String query = "SELECT organic FROM batch JOIN teamtimetable ON (batch.teamnighttimetableid = teamtimetable.id OR batch.teamdaytimetableid = teamtimetable.id)"
+				+ "WHERE teamtimetable.id = (SELECT timetableid FROM timetable WHERE (starttimestamp < ? < endtimestamp OR "
+				+ "starttimestamp > ? < endtimestamp OR starttimestamp < ? > endtimestamp)"; //NEEDS MOAR
 		ResultSet result = null;
 		Connection con = null;
 		
@@ -21,7 +23,7 @@ public class DatabaseAccess {
 			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
-			statement.setLong(1, before);
+			statement.setLong(1, now);
 			statement.setLong(2, now);
 			result = statement.executeQuery();
 			con.commit();

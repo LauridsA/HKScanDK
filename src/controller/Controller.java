@@ -113,7 +113,7 @@ public class Controller {
 		Boolean organic;
 		date.getTime();
 		long time = date.getTime();
-		result = dba.getOrganic(time-3600, time);
+		result = dba.getOrganic(time);
 		try {
 			while(result.next()){
 				organic = result.getBoolean("organic");
