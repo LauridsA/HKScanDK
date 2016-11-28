@@ -13,7 +13,7 @@ public class DatabaseAccess {
 	
 	public ResultSet getOrganic(long before, long now){
 		PreparedStatement statement = null;
-		String query = "SELECT * FROM batch WHERE (fromdate = ? AND todate = ?)";
+		String query = "SELECT organic FROM batch WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
 		Connection con = null;
 		
