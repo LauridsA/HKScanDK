@@ -5,12 +5,24 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
 
+import dba.DBSingleConnection;
 import dba.DatabaseAccess;
 import model.FieldTypes;
 import model.MyTypeHolder;
 
 public class Controller {
-		private DatabaseAccess dba = new DatabaseAccess();
+	private DatabaseAccess dba = new DatabaseAccess();
+	
+		
+		
+	public Controller(DBSingleConnection dbSinCon) {
+		dba = new DatabaseAccess(dbSinCon);	
+	}
+	
+	public Controller() {
+		dba = new DatabaseAccess();
+	}
+	
 	public MyTypeHolder getSpeed() {
 		Date date = new Date();
 		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));

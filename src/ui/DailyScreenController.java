@@ -65,7 +65,7 @@ public class DailyScreenController {
     @FXML
     private ScrollPane productionStopPane;
 
-	private DBSingleConnection dbSinCon;
+	private DBSingleConnection dbSinCon = new DBSingleConnection();
     
     
     /**
@@ -95,8 +95,8 @@ public class DailyScreenController {
     public void initialize(){
     	startWorker(FieldTypes.SPEED, speedLabel);
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
-    	//startWorker(FieldTypes.ORGANIC, organicField);
-    	startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
+    	startWorker(FieldTypes.ORGANIC, organicField);
+    	//startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
     }
     
     /**
@@ -133,8 +133,9 @@ public class DailyScreenController {
 				 * @see javafx.concurrent.Task#call()
 				 */
 				protected MyTypeHolder call(){
-					System.out.println(fieldType);
-					return ctr.getValue(fieldType);
+					MyTypeHolder returnValue = ctr.getValue(fieldType);
+					System.out.println(fieldType + " Value: " + returnValue);
+					return returnValue;
 				}
 			};
 		}

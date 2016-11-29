@@ -12,7 +12,17 @@ import java.util.TimeZone;
 import model.FieldTypes;
 
 public class DatabaseAccess {
+	private DBSingleConnection dbSinCon;
 	
+	public DatabaseAccess(DBSingleConnection dbSinCon) {
+		this.dbSinCon = dbSinCon;
+	}
+	
+	public DatabaseAccess() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private String getTime(Long time) {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
 		//dt.setTimeZone(new Ti);
@@ -30,7 +40,7 @@ public class DatabaseAccess {
 		Boolean organic = false;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, now);
@@ -55,7 +65,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -76,7 +86,7 @@ public class DatabaseAccess {
 		int avgweight = 0;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, fromTimeDate);
@@ -89,7 +99,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.getDBcon();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -113,7 +123,7 @@ public class DatabaseAccess {
 		
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, fromTimeStamp);
@@ -130,7 +140,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(false);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.getStackTrace();
@@ -156,7 +166,7 @@ public class DatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(2, fromTimeStamp);
@@ -169,7 +179,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}

@@ -39,7 +39,7 @@ public class DBSingleConnection {
 			//System.out.println("connection suceded");
 		} catch (Exception e) {
 			System.out.println("Con problem");
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -51,9 +51,9 @@ public class DBSingleConnection {
 			con.close();
 			inuse = false;
 			System.out.println("everyone wake up");
-			notifyAll();
 		} catch (Exception e) {
 			System.out.println("error");
+			e.printStackTrace();
 		}
 	}
 	
@@ -64,12 +64,13 @@ public class DBSingleConnection {
 				System.out.println("I'm waiting");
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		inuse = true;
 		openConnection();
+		notifyAll();
 		return con;
+		
 	}
 }
