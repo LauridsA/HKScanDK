@@ -3,6 +3,7 @@ package ui;
 
 
 import controller.Controller;
+import dba.DBSingleConnection;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -63,6 +64,8 @@ public class DailyScreenController {
     
     @FXML
     private ScrollPane productionStopPane;
+
+	private DBSingleConnection dbSinCon;
     
     
     /**
@@ -73,7 +76,7 @@ public class DailyScreenController {
      * @param label The ui {@link Label} which should be updated.
      */
     public void startWorker(FieldTypes fieldType, Label label){
-    	Worker speedWorker = new Worker(fieldType);
+    	Worker speedWorker = new Worker(fieldType, dbSinCon);
     	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
@@ -106,9 +109,12 @@ public class DailyScreenController {
     private static class Worker extends ScheduledService<MyTypeHolder> {
     	private Controller ctr = new Controller();
     	private FieldTypes fieldType;
+    	private DBSingleConnection dbSinCon;
 
-		public Worker(FieldTypes fieldType) {
+		public Worker(FieldTypes fieldType, DBSingleConnection dbSinCon) {
 			this.fieldType = fieldType;
+			this.dbSinCon = dbSinCon;
+			this.ctr = new Controller(dbSinCon);
 		}
 		
 		/* (non-Javadoc)
@@ -133,6 +139,14 @@ public class DailyScreenController {
 		}
     	
     }
+
+	public void setDatabaseController(DBSingleConnection dbsincon) {
+		this.dbSinCon = dbsincon;
+	}
+	
+	public DBSingleConnection getDbSinCon() {
+		return dbSinCon;
+	}
     
 
 }

@@ -4,11 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
+import java.util.TimeZone;
 
 import model.FieldTypes;
 
 public class DatabaseAccess {
+	
+	private String getTime(Long time) {
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+		//dt.setTimeZone(new Ti);
+		return dt.format(new Date(time));
+		//dt.fot
+
+	}
 	
 	
 	public Boolean getOrganic(long now){
@@ -25,9 +36,15 @@ public class DatabaseAccess {
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			con.commit();
+			
+			
 			while (result.next()) {
-				System.out.print(result.getInt("nightid") + " " + result.getLong("nightstarttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetableday.endtimestamp") + " " + result.getLong("timetableday.endtimestamp") + " now: " + now);
-				System.out.print(result.getInt("dayid") + " " + result.getLong("daystarttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetableday.endtimestamp") + " " + result.getLong("timetableday.endtimestamp") + " now: " + now);
+				
+				System.out.println(getTime(result.getLong("daystarttimestamp")));
+				//System.out.print(result.getBoolean("organic") + "\tnigth " +  result.getInt("nightid") + " " + result.getLong("nightstarttimestamp") + " " + result.getLong("nightendtimestamp"));
+				//System.out.print(" day " + result.getInt("dayid") + " " + result.getLong("daystarttimestamp") + " " + result.getLong("dayendtimestamp"));
+				//System.out.println(" now: " + now);
+				//new Date(result.getLong("daystarttimestamp"));
 				if(result.getBoolean("organic")){
 					organic = true;
 				}
@@ -38,7 +55,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -70,7 +87,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -110,7 +127,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(false);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -148,7 +165,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -227,7 +244,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -259,7 +276,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}

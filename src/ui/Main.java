@@ -1,6 +1,7 @@
 package ui;
 	
 import controller.Controller;
+import dba.DBSingleConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,13 +14,14 @@ public class Main extends Application {
 	private BorderPane rootLayout;
 	private Stage primaryStage;
 	private AnchorPane anchorPane;
+	private DBSingleConnection dbsincon = new DBSingleConnection();
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		initStage();
 		initScene();
-		primaryStage.setMaximized(true);
+		primaryStage.setMaximized(false);
 		primaryStage.setFullScreen(false);
 		/*
 		try {
@@ -60,6 +62,7 @@ public class Main extends Application {
 			anchorPane = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(anchorPane);
+			((DailyScreenController) loader.getController()).setDatabaseController(dbsincon);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
