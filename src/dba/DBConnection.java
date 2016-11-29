@@ -22,7 +22,7 @@ public class DBConnection {
 		
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			System.out.println("Driver find the driver");
+			//System.out.println("Driver find the driver");
 		} catch (Exception e) {
 			System.out.println("Driver not found");
 			System.out.println(e.getMessage());
@@ -33,7 +33,7 @@ public class DBConnection {
 			con = DriverManager.getConnection(connectionString);
 			con.setAutoCommit(true);
 			dma = con.getMetaData();
-			System.out.println("connection suceded");
+			//System.out.println("connection suceded");
 		} catch (Exception e) {
 			System.out.println("Con problem");
 			System.out.println(e.getMessage());
@@ -47,7 +47,7 @@ public class DBConnection {
 		try {
 			con.close();
 			instance = null;
-			System.out.println("con closed");
+			//System.out.println("con closed");
 		} catch (Exception e) {
 			System.out.println("error");
 		}

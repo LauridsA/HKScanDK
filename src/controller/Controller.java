@@ -107,22 +107,12 @@ public class Controller {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	/**
+	 * @return
+	 */
 	public MyTypeHolder getOrganic() {
-		Date date = new Date();
-		ResultSet result;
-		Boolean organic;
-		result = dba.getOrganic(date.getTime());
-		try {
-			while(result.next()){
-				organic = result.getBoolean("organic");
-				if(organic){
-					return new MyTypeHolder(true);
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return new MyTypeHolder(false);
+		Date date = new Date();		
+		return new MyTypeHolder(dba.getOrganic(date.getTime()));
 	}
 	public int getRefreshRate(FieldTypes type) {
 		return dba.getRereshRate(type);

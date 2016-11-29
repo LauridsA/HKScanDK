@@ -11,11 +11,12 @@ import model.FieldTypes;
 public class DatabaseAccess {
 	
 	
-	public ResultSet getOrganic(long now){
+	public Boolean getOrganic(long now){
 		PreparedStatement statement = null;
 		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
 		ResultSet result = null;
 		Connection con = null;
+		Boolean organic = false;
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
@@ -24,6 +25,11 @@ public class DatabaseAccess {
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			con.commit();
+			while (result.next()) {
+				if(result.getBoolean("organic")){
+					organic = true;
+				}
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -34,8 +40,7 @@ public class DatabaseAccess {
 				System.out.println(e.getMessage());
 			}
 		}
-		
-		return result;
+		return organic;
 	}
 
 	/**
@@ -53,8 +58,8 @@ public class DatabaseAccess {
 			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
-			statement.setInt(1, fromTimeDate);
-			statement.setInt(2, toTimeDate);
+			statement.setLong(1, fromTimeDate);
+			statement.setLong(2, toTimeDate);
 			result = statement.executeQuery();
 			con.commit();
 		} catch (Exception e) {
@@ -64,7 +69,7 @@ public class DatabaseAccess {
 				con.setAutoCommit(true);
 				DBConnection.closeConnection();
 			} catch (SQLException e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		if (result == null) {

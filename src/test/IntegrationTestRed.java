@@ -8,7 +8,7 @@ public class IntegrationTestRed {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		assertTrue(getOrganic());
 	}
 
 }
