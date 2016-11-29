@@ -68,11 +68,12 @@ public class DatabaseAccess {
 	 * @param toTimeDate the end time of the desired average weight
 	 * @return the result as a multi dimensional array (ResultSet)
 	 */
-	public ResultSet getAvgWeight(int fromTimeDate, int toTimeDate) {
+	public int getAvgWeight(int fromTimeDate, int toTimeDate) {
 		PreparedStatement statement = null;
 		String query = "SELECT avgweight FROM batch WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;
 		Connection con = null;
+		int avgweight = 0;
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
@@ -82,6 +83,7 @@ public class DatabaseAccess {
 			statement.setLong(2, toTimeDate);
 			result = statement.executeQuery();
 			con.commit();
+			avgweight = result.getInt("avgweight");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -95,7 +97,7 @@ public class DatabaseAccess {
 		if (result == null) {
 			System.out.println("Database error: nothing found.");
 		}
-		return result;
+		return avgweight;
 	}
 
 	/**
@@ -105,7 +107,7 @@ public class DatabaseAccess {
 	 */
 	public int getSpeed(long fromTimeStamp, long toTimeStamp) {
 		PreparedStatement statement = null;
-		String query = "SELECT value FROM speed WHERE (fromdate = ? AND todate = ?)";
+		String query = "SELECT value FROM speed WHERE stimestamp BETWEEN ? AND ?";
 		ResultSet result = null;
 		int speed = 0;
 		
@@ -119,17 +121,19 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			con.commit();
 			while (result.next()) {
-				speed = result.getInt("value");
-				// TODO average speed???
+				speed += result.getInt("value");
 			}
+			speed = speed / result.getFetchSize();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.getStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(false);
 				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.getStackTrace();
 			}
 		}
 		if (speed == 0) {
