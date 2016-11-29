@@ -13,7 +13,7 @@ public class DatabaseAccess {
 	
 	public Boolean getOrganic(long now){
 		PreparedStatement statement = null;
-		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
+		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT timetablenight.id as nightid, timetableday.id as dayid, organic, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT timetablenight.id as nightid, timetableday.id as dayid, organic, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
 		ResultSet result = null;
 		Connection con = null;
 		Boolean organic = false;
@@ -26,7 +26,8 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			con.commit();
 			while (result.next()) {
-				System.out.println(result.getInt("id") + " " + result.getLong("starttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetablenight.starttimestamp") + " " + result.getLong("timetablenight.endtimestamp") + " now: " + now);
+				System.out.print(result.getInt("nightid") + " " + result.getLong("nightstarttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetableday.endtimestamp") + " " + result.getLong("timetableday.endtimestamp") + " now: " + now);
+				System.out.print(result.getInt("dayid") + " " + result.getLong("daystarttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetableday.endtimestamp") + " " + result.getLong("timetableday.endtimestamp") + " now: " + now);
 				if(result.getBoolean("organic")){
 					organic = true;
 				}
