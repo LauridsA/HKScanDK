@@ -13,13 +13,12 @@ public class Controller {
 		private DatabaseAccess dba = new DatabaseAccess();
 	public MyTypeHolder getSpeed() {
 		Date date = new Date();
-		long time = date.getTime();
-		dba.getSpeed(time-3600, time);
-		Random rand = new Random();
-		return new MyTypeHolder(rand.nextInt(1000));
+		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));
 	}
 	public MyTypeHolder getAvgWeight() {
 		//ResultSet res = dba.getAvgWeight();
+		Date time = new Date();
+		
 		Random rand = new Random();
 		return new MyTypeHolder(rand.nextInt(1000));
 	}
@@ -30,20 +29,8 @@ public class Controller {
 	 * @param toTimeDate
 	 * @return average weight within specified time frame
 	 */
-	public int getAvgWeight(int fromTimeDate, int toTimeDate){
-		ResultSet res = dba.getAvgWeight(fromTimeDate, toTimeDate);
-		int total = 0;
-		int average = 0;
-		try {
-			while (res.next()) {
-				total += res.getInt("avgweight");
-			}
-			average = total / res.getFetchSize();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return average;
+	public int getAvgWeight(int fromTimeDate, int toTimeDate){		
+		return dba.getAvgWeight(fromTimeDate, toTimeDate);
 	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
@@ -63,11 +50,13 @@ public class Controller {
 		case STOPDAY:
 			return getNoStop();
 		case DAYEXPECTED:
-			return expected();
+			return dayExpected();
 		case TOTALEXPECTED:
-			return expected();
+			return totalExpected();
 		case EXPECTEDFINISH:
 			return expectedFinish();
+		case EXPECTEDPERHOUR:
+			return expectedPerHour();
 		case TOTALSLAUGTHERAMOUNT:
 			return totalSlaughterAmount();
 		case PRODUCTIONSTOPS:
@@ -79,6 +68,24 @@ public class Controller {
 		}
 	}
 
+	private MyTypeHolder dayExpected() {
+		// TODO Auto-generated method stub
+		return new MyTypeHolder(10);
+	}
+	/**
+	 * Calls dayExpected and getSpeed, divides them and returns result.
+	 * @return dayExpected / getSpeed as an Integer
+	 */
+	private MyTypeHolder expectedPerHour() {
+		MyTypeHolder dayExpected = dayExpected();
+		int dayExpectedInt  = dayExpected.getInteger();
+		int speed = getSpeed().getInteger();
+		return new MyTypeHolder(dayExpectedInt / speed); 
+	}
+	private MyTypeHolder totalExpected() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	private MyTypeHolder expectedFinish() {
 		// TODO Auto-generated method stub
 		return null;
@@ -92,10 +99,6 @@ public class Controller {
 		return null;
 	}
 	private MyTypeHolder getDailyMessages() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	private MyTypeHolder expected() {
 		// TODO Auto-generated method stub
 		return null;
 	}

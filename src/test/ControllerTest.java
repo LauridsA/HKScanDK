@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controller.Controller;
+import model.FieldTypes;
 
 public class ControllerTest {
 	Controller ctr = null;
@@ -45,6 +46,16 @@ public class ControllerTest {
 	@Test
 	public void testGetRefreshRate() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetSpeed(){
+		assertEquals(ctr.getSpeed(), actual); // TODO need comparison.
+	}
+	
+	@Test
+	Public void testGetExpectedPerHour(){
+		assertEquals(ctr.getValue(FieldTypes.EXPECTEDPERHOUR), actual); // TODO need comparison.
 	}
 
 }
