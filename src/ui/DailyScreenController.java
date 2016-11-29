@@ -126,6 +126,7 @@ public class DailyScreenController {
 				 * @see javafx.concurrent.Task#call()
 				 */
 				protected MyTypeHolder call(){
+					System.out.println(fieldType);
 					return ctr.getValue(fieldType);
 				}
 			};

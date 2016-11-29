@@ -26,12 +26,14 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			con.commit();
 			while (result.next()) {
+				System.out.println(result.getInt("id") + " " + result.getLong("starttimestamp") + " " + result.getLong("endtimestamp") + " night: " + result.getLong("timetablenight.starttimestamp") + " " + result.getLong("timetablenight.endtimestamp") + " now: " + now);
 				if(result.getBoolean("organic")){
 					organic = true;
 				}
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
