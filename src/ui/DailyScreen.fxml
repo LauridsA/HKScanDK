@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
@@ -52,7 +53,7 @@
                                                 </BorderPane>
                                                 <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                                    <top>
-                                                      <Label text="Øko dag" BorderPane.alignment="CENTER" />
+                                                      <Label text="Øko-dag" BorderPane.alignment="CENTER" />
                                                    </top>
                                                    <center>
                                                       <Label fx:id="organicField" text="Label" BorderPane.alignment="CENTER" />
@@ -87,7 +88,7 @@
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                                <center>
-                                                                  <Label text="Label" BorderPane.alignment="CENTER" />
+                                                                  <Label text="Antal stop" BorderPane.alignment="CENTER" />
                                                                </center>
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -102,9 +103,15 @@
                                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                     </rowConstraints>
                                                                      <children>
-                                                                        <Label text="Nat" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                                                                        <Label text="Nat" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                                                           <padding>
+                                                                              <Insets left="2.0" />
+                                                                           </padding></Label>
                                                                         <Label fx:id="slaugtherAmountNightField" text="Antal" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                                                        <Label text="Dag" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                                                        <Label text="Dag" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                                           <padding>
+                                                                              <Insets left="2.0" />
+                                                                           </padding></Label>
                                                                         <Label fx:id="slaugtherAmountDayField" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                                                      </children>
                                                                   </GridPane>
@@ -114,9 +121,15 @@
                                                                <center>
                                                                   <GridPane BorderPane.alignment="CENTER">
                                                                      <children>
-                                                                        <Label text="Nat" />
+                                                                        <Label text="Nat">
+                                                                           <padding>
+                                                                              <Insets left="2.0" />
+                                                                           </padding></Label>
                                                                         <Label fx:id="stopNightField" text="Antal" GridPane.columnIndex="1" />
-                                                                        <Label text="Dag" GridPane.rowIndex="1" />
+                                                                        <Label text="Dag" GridPane.rowIndex="1">
+                                                                           <padding>
+                                                                              <Insets left="2.0" />
+                                                                           </padding></Label>
                                                                         <Label fx:id="stopDayField" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                                      </children>
                                                                      <columnConstraints>
@@ -137,7 +150,7 @@
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                                <center>
-                                                                  <Label text="Dorventet per time" BorderPane.alignment="CENTER" />
+                                                                  <Label text="Forventet per time" BorderPane.alignment="CENTER" />
                                                                </center>
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
@@ -168,7 +181,10 @@
                                                          <children>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0">
                                                                <left>
-                                                                  <Label text="Slagte antal efter plan" BorderPane.alignment="CENTER" />
+                                                                  <Label text="Slagte antal efter plan" BorderPane.alignment="CENTER">
+                                                                     <padding>
+                                                                        <Insets left="2.0" />
+                                                                     </padding></Label>
                                                                </left>
                                                                <center>
                                                                   <Label fx:id="planedSlaugtherAmountField" text="Antal" BorderPane.alignment="CENTER" />
@@ -176,18 +192,24 @@
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                                                <left>
-                                                                  <Label text="I alt slagtet" BorderPane.alignment="CENTER" />
+                                                                  <Label text="I alt slagtet" BorderPane.alignment="CENTER">
+                                                                     <padding>
+                                                                        <Insets left="2.0" />
+                                                                     </padding></Label>
                                                                </left>
                                                                <center>
-                                                                  <Label fx:id="totalSlaugtherAmountField" text="Label" BorderPane.alignment="CENTER" />
+                                                                  <Label fx:id="totalSlaugtherAmountField" text="Antal" BorderPane.alignment="CENTER" />
                                                                </center>
                                                             </BorderPane>
                                                             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                                <left>
-                                                                  <Label text="Forventet færdig" BorderPane.alignment="CENTER" />
+                                                                  <Label text="Forventet færdig" BorderPane.alignment="CENTER">
+                                                                     <padding>
+                                                                        <Insets left="2.0" />
+                                                                     </padding></Label>
                                                                </left>
                                                                <center>
-                                                                  <Label fx:id="expectedFinishTimeField" text="Label" BorderPane.alignment="CENTER" />
+                                                                  <Label fx:id="expectedFinishTimeField" text="Antal" BorderPane.alignment="CENTER" />
                                                                </center>
                                                             </BorderPane>
                                                          </children>
@@ -218,7 +240,10 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Produktionsstop" />
+                                          <Label text="Produktionsstop">
+                                             <padding>
+                                                <Insets left="2.0" />
+                                             </padding></Label>
                                           <GridPane gridLinesVisible="true" GridPane.rowIndex="1">
                                             <columnConstraints>
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -229,9 +254,18 @@
                                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <Label text="Tidspunkt" />
-                                                <Label text="Længde(min)" GridPane.columnIndex="1" />
-                                                <Label text="Beskrivelse" GridPane.columnIndex="2" />
+                                                <Label text="Tidspunkt">
+                                                   <padding>
+                                                      <Insets left="2.0" />
+                                                   </padding></Label>
+                                                <Label text="Længde(min)" GridPane.columnIndex="1">
+                                                   <padding>
+                                                      <Insets left="2.0" />
+                                                   </padding></Label>
+                                                <Label text="Beskrivelse" GridPane.columnIndex="2">
+                                                   <padding>
+                                                      <Insets left="2.0" />
+                                                   </padding></Label>
                                              </children>
                                           </GridPane>
                                        </children>
