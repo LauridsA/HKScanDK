@@ -13,7 +13,7 @@ public class DatabaseAccess {
 	
 	public ResultSet getOrganic(long now){
 		PreparedStatement statement = null;
-		String query = "DECLARE @time INT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
+		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT * FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
 		ResultSet result = null;
 		Connection con = null;
 		
