@@ -272,7 +272,7 @@ public class DatabaseAccess {
 
 	public long getTeamNightStart() {
 		PreparedStatement statement = null;
-		String query = "SELECT starttimestamp FROM team WHERE teamname = 'nat'";
+		String query = "SELECT starttimestamp FROM teamtimetable WHERE team = '2'";
 		ResultSet result = null;
 		long startTime = 0;
 		
