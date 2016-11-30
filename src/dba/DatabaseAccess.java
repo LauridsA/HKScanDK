@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
-import java.util.TimeZone;
 
 import model.FieldTypes;
 
@@ -53,18 +51,15 @@ public class DatabaseAccess {
 			amount = amount / result.getFetchSize();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			e.getStackTrace();
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(false);
 				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				e.getStackTrace();
+				e.printStackTrace();
 			}
-		}
-		if (amount == 0) {
-			System.out.println("Database error: Nothing found");
 		}
 		return amount;
 	}
@@ -173,14 +168,14 @@ public class DatabaseAccess {
 			speed = speed / result.getFetchSize();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			e.getStackTrace();
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(false);
 				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				e.getStackTrace();
+				e.printStackTrace();
 			}
 		}
 		if (speed == 0) {
@@ -219,6 +214,7 @@ public class DatabaseAccess {
 				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return result;
@@ -228,7 +224,7 @@ public class DatabaseAccess {
 	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return
 	 * @return refreshrate Returns the refresh rate of the specified field as an integer
 	 */
-	public int getRereshRate(FieldTypes type) {
+	public int getRefreshRate(FieldTypes type) {
 		String sqlType;
 		switch (type) {
 		case SPEED:
@@ -295,7 +291,8 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				DBConnection.getInstance();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -327,7 +324,8 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				DBConnection.getInstance();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -338,12 +336,9 @@ public class DatabaseAccess {
 	public int getCurrentTeamId(long currentTime){
 		
 		PreparedStatement statement = null;
-		
-		
-		String query = "DECLARE @time BIGINT = 1480479800000; SELECT team, id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp) ";
+		String query = "DECLARE @time BIGINT = ?; SELECT team, id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)";
 		ResultSet result = null;
 		int teamId = 0;
-		
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
@@ -351,23 +346,20 @@ public class DatabaseAccess {
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 			result.next();
-			teamId = result.getInt("starttimestamp");
+			teamId = result.getInt("team");
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				DBConnection.getInstance();
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 		return teamId;
-	}
-	}	
-		return 0;
-		
 	}
 	
 

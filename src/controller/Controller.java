@@ -128,7 +128,7 @@ public class Controller {
 		return new MyTypeHolder(dba.getOrganic(date.getTime()));
 	}
 	public int getRefreshRate(FieldTypes type) {
-		return dba.getRereshRate(type);
+		return dba.getRefreshRate(type);
 	}
 
 }
