@@ -113,7 +113,13 @@ public class DatabaseAccess {
 	 */
 	public int getAvgWeight(long now) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT timetablenight.id as nightid, timetableday.id as dayid, avgweight, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT timetablenight.id as nightid, timetableday.id as dayid, avgweight, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
+		String query = "DECLARE @time BIGINT = ?; "
+				+ "IF EXISTS (SELECT id FROM teamtimetable WHERE "
+				+ "(starttimestamp < @time AND @time < endtimestamp)) SELECT timetablenight.id as nightid, "
+				+ "timetableday.id as dayid, avgweight, timetablenight.starttimestamp as "
+				+ "nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, "
+				+ "timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as "
+				+ "dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT timetablenight.id as nightid, timetableday.id as dayid, avgweight, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
 		ResultSet result = null;
 		Connection con = null;
 		int avgweight = 0;
@@ -253,8 +259,7 @@ public class DatabaseAccess {
 			sqlType = "";
 			break;
 		case TOTALEXPECTED:
-			// TODO what goes here?
-			sqlType = "";
+			sqlType = "batch";
 			break;
 		case EXPECTEDFINISH:
 			sqlType = "";
@@ -344,6 +349,7 @@ public class DatabaseAccess {
 			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(true);
 			statement = con.prepareStatement(query);
+			statement.setLong(1, currentTime);
 			result = statement.executeQuery();
 			result.next();
 			teamId = result.getInt("team");
@@ -360,6 +366,36 @@ public class DatabaseAccess {
 			}
 		}
 		return teamId;
+	}
+	
+	public int	totalExpected(long timeStamp, int teamId) {
+		PreparedStatement statement = null;
+		String query = "DECLARE @time BIGINT = ?; SELECT value FROM batch JOIN teamtimetable ON teamtimetable.teamdaytimetableid = batch.teamdaytimetableid WHERE (starttimestamp < @time AND @time < endtimestamp)";
+		ResultSet result = null;
+		int expectedAmount = 0;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(true);
+			statement = con.prepareStatement(query);
+			statement.setLong(1, timeStamp);
+			result = statement.executeQuery();
+			while (result.next()) {
+				expectedAmount += result.getInt("value");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.getInstance();
+				DBConnection.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return expectedAmount;
 	}
 	
 
