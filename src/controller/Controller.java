@@ -29,10 +29,8 @@ public class Controller {
 	}
 	public MyTypeHolder getAvgWeight() {
 		//ResultSet res = dba.getAvgWeight();
-		Date time = new Date();
-		
-		Random rand = new Random();
-		return new MyTypeHolder(rand.nextInt(1000));
+		Date now = new Date();
+		return new MyTypeHolder(dba.getAvgWeight(now.getTime()));
 	}
 	
 	/**
@@ -41,8 +39,8 @@ public class Controller {
 	 * @param toTimeDate
 	 * @return average weight within specified time frame
 	 */
-	public int getAvgWeight(int fromTimeDate, int toTimeDate){		
-		return dba.getAvgWeight(fromTimeDate, toTimeDate);
+	public int getAvgWeight(long fromTimeDate){		
+		return dba.getAvgWeight(fromTimeDate);
 	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
@@ -119,8 +117,8 @@ public class Controller {
 		return null;
 	}
 	private MyTypeHolder getSlaughterAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		Date date = new Date();
+		return new MyTypeHolder(dba.getSlaughterAmount(date.getTime()-3600000, date.getTime()));
 	}
 	/**
 	 * @return

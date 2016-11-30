@@ -31,6 +31,44 @@ public class DatabaseAccess {
 
 	}
 	
+	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
+		
+		PreparedStatement statement = null;
+		String query = "SELECT value FROM slaughteramount WHERE satimestamp BETWEEN ? AND ?";
+		ResultSet result = null;
+		int amount = 0;
+		
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setLong(1, fromTimeStamp);
+			statement.setLong(2, toTimeStamp);
+			result = statement.executeQuery();
+			con.commit();
+			while (result.next()) {
+				amount += result.getInt("value");
+			}
+			amount = amount / result.getFetchSize();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.getStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(false);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.getStackTrace();
+			}
+		}
+		if (amount == 0) {
+			System.out.println("Database error: Nothing found");
+		}
+		return amount;
+	}
+		
 	
 	public Boolean getOrganic(long now){
 		PreparedStatement statement = null;
@@ -78,9 +116,9 @@ public class DatabaseAccess {
 	 * @param toTimeDate the end time of the desired average weight
 	 * @return the result as a multi dimensional array (ResultSet)
 	 */
-	public int getAvgWeight(int fromTimeDate, int toTimeDate) {
+	public int getAvgWeight(long now) {
 		PreparedStatement statement = null;
-		String query = "SELECT avgweight FROM batch WHERE (fromdate = ? AND todate = ?)";
+		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT timetablenight.id as nightid, timetableday.id as dayid, avgweight, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT timetablenight.id as nightid, timetableday.id as dayid, avgweight, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
 		ResultSet result = null;
 		Connection con = null;
 		int avgweight = 0;
@@ -89,8 +127,7 @@ public class DatabaseAccess {
 			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
-			statement.setLong(1, fromTimeDate);
-			statement.setLong(2, toTimeDate);
+			statement.setLong(1, now);
 			result = statement.executeQuery();
 			con.commit();
 			avgweight = result.getInt("avgweight");
@@ -297,5 +334,41 @@ public class DatabaseAccess {
 		}
 		return startTime;
 	}
+	
+	public int getCurrentTeamId(long currentTime){
+		
+		PreparedStatement statement = null;
+		
+		
+		String query = "DECLARE @time BIGINT = 1480479800000; SELECT team, id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp) ";
+		ResultSet result = null;
+		int teamId = 0;
+		
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(true);
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			result.next();
+			teamId = result.getInt("starttimestamp");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.getInstance().closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return teamId;
+	}
+	}	
+		return 0;
+		
+	}
+	
 
 }
