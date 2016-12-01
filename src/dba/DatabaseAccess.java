@@ -126,14 +126,23 @@ public class DatabaseAccess {
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			con.commit();
-			avgweight = result.getInt("avgweight");
+			System.out.println(result);
+			while (result.next()) {
+				System.out.println(result.getInt("avgweight"));
+			}/*
+			if(result.isBeforeFirst()){
+				avgweight = result.getInt("avgweight");
+			}else{
+				System.out.println();
+			}
+			*/
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				dbSinCon.getDBcon();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
