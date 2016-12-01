@@ -445,7 +445,7 @@ public class DatabaseAccess {
 	 * @param teamId current team working.
 	 * @return the sum of all rows of slaughteramount matching the given teamid.
 	 */
-	public int	totalExpected(int teamId) {
+	public int	getTotalExpected(int teamId) {
 		PreparedStatement statement = null;
 		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
 		ResultSet result = null;

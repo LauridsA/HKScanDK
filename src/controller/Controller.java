@@ -103,9 +103,11 @@ public class Controller {
 		int speed = getSpeed().getInteger();
 		return new MyTypeHolder(dayExpectedInt / speed); 
 	}
+	
+	// TODO
 	private MyTypeHolder totalExpected() {
 		// TODO Auto-generated method stub
-		return null;
+		return new MyTypeHolder(dba.getTotalExpected(teamId));
 	}
 	private MyTypeHolder expectedFinish() {
 		// TODO Auto-generated method stub
