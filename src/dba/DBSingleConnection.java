@@ -46,7 +46,7 @@ public class DBSingleConnection {
 	
 	
 	
-	public void closeConnection() {
+	public synchronized void closeConnection() {
 		try {
 			con.close();
 			inuse = false;
@@ -57,7 +57,7 @@ public class DBSingleConnection {
 		}
 	}
 	
-	public Connection getDBcon()
+	public synchronized Connection getDBcon()
 	{
 		while (inuse) {
 			try {
@@ -69,7 +69,7 @@ public class DBSingleConnection {
 		}
 		inuse = true;
 		openConnection();
-		notifyAll();
+		//notifyAll();
 		return con;
 		
 	}
