@@ -28,7 +28,7 @@ public class DBSingleConnection {
 			//System.out.println("Driver find the driver");
 		} catch (Exception e) {
 			System.out.println("Driver not found");
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			
 		}
 		
@@ -70,7 +70,7 @@ public class DBSingleConnection {
 		}
 		inuse = true;
 		openConnection();
-		//notifyAll();
+		notifyAll();
 		return con;
 		
 	}
