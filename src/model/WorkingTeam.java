@@ -2,10 +2,18 @@ package model;
 
 public class WorkingTeam {
 
-	private int teamId;
+	private static WorkingTeam instance;
+	private static int teamId = 0;
 
-	public WorkingTeam(int teamId) {
-		this.teamId = teamId;
+	private WorkingTeam() {
+		// empty constructor. TeamID to be retrieved later, maybe?
+	}
+	
+	public static WorkingTeam getInstance() {
+		if(instance == null) {
+			instance = new WorkingTeam(); // TODO how do we retrieve current working team from the DB?
+		}
+		return instance;
 	}
 
 	public int getTeamId() {
@@ -13,7 +21,7 @@ public class WorkingTeam {
 	}
 
 	public void setTeamId(int teamId) {
-		this.teamId = teamId;
+		WorkingTeam.teamId = teamId;
 	}
 	
 }

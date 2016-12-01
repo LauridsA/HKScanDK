@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.FieldTypes;
+import model.WorkingTeam;
 
 public class DatabaseAccess {
 	private DBSingleConnection dbSinCon;
@@ -338,6 +339,11 @@ public class DatabaseAccess {
 		return startTime;
 	}
 	
+	/**
+	 * @param currentTime Current unix timestamp.
+	 * @return TeamID of currently working team, retrieved from database at given timestamp.
+	 * Sets the retrieved teamID for the UI class WorkingTeam at call.
+	 */
 	public int getCurrentTeamId(long currentTime){
 		
 		PreparedStatement statement = null;
