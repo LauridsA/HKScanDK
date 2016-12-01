@@ -129,6 +129,7 @@ public class DatabaseAccess {
 			avgweight = result.getInt("avgweight");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -209,6 +210,7 @@ public class DatabaseAccess {
 			con.commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -290,6 +292,7 @@ public class DatabaseAccess {
 			res = result.getInt("refreshrate");
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -297,6 +300,7 @@ public class DatabaseAccess {
 				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		if (res == 0) {
@@ -322,6 +326,7 @@ public class DatabaseAccess {
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -329,6 +334,7 @@ public class DatabaseAccess {
 				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return startTime;
@@ -357,12 +363,14 @@ public class DatabaseAccess {
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
 				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return teamId;
@@ -386,6 +394,7 @@ public class DatabaseAccess {
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -393,6 +402,7 @@ public class DatabaseAccess {
 				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return expectedAmount;
