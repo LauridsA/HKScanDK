@@ -374,6 +374,76 @@ public class DatabaseAccess {
 		return teamId;
 	}
 	
+	public int slaughterAmountNight(long now) {
+		PreparedStatement statement = null;
+		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
+		ResultSet result = null;
+		int amountNight = 0;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setLong(1, now);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()) {
+				result.next(); // Correct? Halp...
+				amountNight = result.getInt("currentamount");
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.getInstance().closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return amountNight;
+	}
+	
+	public int slaughterAmountDay(long now) {
+		PreparedStatement statement = null;
+		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' ORDER BY starttimestamp DESC)";
+		ResultSet result = null;
+		int amountDay = 0;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setLong(1, now);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()) {
+				result.next(); // Correct? Halp...
+				amountDay = result.getInt("currentamount");
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.getInstance().closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return amountDay;
+	}
+	
+	/**
+	 * @param teamId current team working.
+	 * @return the sum of all rows of slaughteramount matching the given teamid.
+	 */
 	public int	totalExpected(int teamId) {
 		PreparedStatement statement = null;
 		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
