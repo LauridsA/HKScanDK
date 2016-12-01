@@ -1,9 +1,6 @@
 package controller;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.Random;
 
 import dba.DBSingleConnection;
 import dba.DatabaseAccess;
@@ -29,7 +26,6 @@ public class Controller {
 		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));
 	}
 	public MyTypeHolder getAvgWeight() {
-		//ResultSet res = dba.getAvgWeight();
 		return new MyTypeHolder(dba.getAvgWeight());
 	}
 	
@@ -80,7 +76,7 @@ public class Controller {
 	private MyTypeHolder getWorkingTeam() {
 		Date time = new Date();
 		WorkingTeam.getInstance().setTeamId(dba.getCurrentTeamId(time.getTime()));
-		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId()); // isn't actually null
+		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId());
 	}
 
 	private MyTypeHolder dayExpected() {
