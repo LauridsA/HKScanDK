@@ -26,6 +26,7 @@ public class DBConnection {
 		} catch (Exception e) {
 			System.out.println("Driver not found");
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 			
 		}
 		
@@ -37,6 +38,7 @@ public class DBConnection {
 		} catch (Exception e) {
 			System.out.println("Con problem");
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -50,6 +52,7 @@ public class DBConnection {
 			//System.out.println("con closed");
 		} catch (Exception e) {
 			System.out.println("error");
+			e.printStackTrace();
 		}
 	}
 	
