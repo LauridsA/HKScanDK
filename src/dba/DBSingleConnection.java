@@ -51,6 +51,7 @@ public class DBSingleConnection {
 			con.close();
 			inuse = false;
 			System.out.println("everyone wake up");
+			notifyAll();
 		} catch (Exception e) {
 			System.out.println("error");
 			e.printStackTrace();
