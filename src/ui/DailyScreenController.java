@@ -83,7 +83,9 @@ public class DailyScreenController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				MyTypeHolder value = (MyTypeHolder)event.getSource().getValue();
-				label.setText(value.toString());				
+				if(label != null) {
+					label.setText(value.toString());
+				}
 			}
 		});
     	speedWorker.start(); 
@@ -93,6 +95,7 @@ public class DailyScreenController {
      * Start the controller
      */
     public void initialize(){
+    	startWorker(FieldTypes.TEAMID, null);
     	startWorker(FieldTypes.SPEED, speedLabel);
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     	startWorker(FieldTypes.ORGANIC, organicField);

@@ -73,9 +73,17 @@ public class Controller {
 			return getProductionStop();
 		case DAILYMESSAGES:
 			return getDailyMessages();
+		case TEAMID:
+			return getWorkingTeam();
 		default:
 			return new MyTypeHolder("fejl");
 		}
+	}
+
+	private MyTypeHolder getWorkingTeam() {
+		Date time = new Date();
+		dba.getCurrentTeamId(time.getTime());
+		return null;
 	}
 
 	private MyTypeHolder dayExpected() {
