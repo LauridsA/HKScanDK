@@ -31,6 +31,11 @@ public class DatabaseAccess {
 
 	}
 	
+	/**
+	 * @param fromTimeStamp start of shift
+	 * @param toTimeStamp 
+	 * @return
+	 */
 	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
 		
 		PreparedStatement statement = null;
@@ -132,7 +137,7 @@ public class DatabaseAccess {
 			}
 		}
 		if (result == null) {
-			System.out.println("Database error: nothing found.");
+			System.out.println("Database error: AvgWeight not found.");
 		}
 		return avgweight;
 	}
@@ -377,7 +382,6 @@ public class DatabaseAccess {
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(true);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, timeStamp);
 			result = statement.executeQuery();
@@ -398,6 +402,36 @@ public class DatabaseAccess {
 			}
 		}
 		return expectedAmount;
+	}
+	
+	public int	dayExpected() {
+		PreparedStatement statement = null;
+		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
+		ResultSet result = null;
+		int dayExpected = 0;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			con.setAutoCommit(true);
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			while (result.next()) {
+				dayExpected = result.getInt("totalamount");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				DBConnection.getInstance().closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return dayExpected;
 	}
 	
 
