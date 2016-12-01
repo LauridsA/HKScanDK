@@ -9,6 +9,7 @@ import dba.DBSingleConnection;
 import dba.DatabaseAccess;
 import model.FieldTypes;
 import model.MyTypeHolder;
+import model.WorkingTeam;
 
 public class Controller {
 	private DatabaseAccess dba = new DatabaseAccess();
@@ -82,7 +83,7 @@ public class Controller {
 
 	private MyTypeHolder getWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentTeamId(time.getTime());
+		WorkingTeam.getInstance().setTeamId(dba.getCurrentTeamId(time.getTime()));
 		return null;
 	}
 
