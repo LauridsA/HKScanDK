@@ -30,8 +30,7 @@ public class Controller {
 	}
 	public MyTypeHolder getAvgWeight() {
 		//ResultSet res = dba.getAvgWeight();
-		Date now = new Date();
-		return new MyTypeHolder(dba.getAvgWeight(now.getTime()));
+		return new MyTypeHolder(dba.getAvgWeight());
 	}
 	
 	/**
@@ -40,9 +39,6 @@ public class Controller {
 	 * @param toTimeDate
 	 * @return average weight within specified time frame
 	 */
-	public int getAvgWeight(long fromTimeDate){		
-		return dba.getAvgWeight(fromTimeDate);
-	}
 	
 	public MyTypeHolder getValue(FieldTypes fieldType){
 		switch (fieldType) {

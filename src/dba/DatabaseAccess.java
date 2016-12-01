@@ -281,23 +281,24 @@ public class DatabaseAccess {
 			statement = con.prepareStatement(query);
 			statement.setString(1, sqlType);
 			result = statement.executeQuery();
-			result.next();
-			res = result.getInt("refreshrate");
+			if(result.isBeforeFirst()) {
+				result.next();
+				res = result.getInt("refreshrate");
+			} else {
+				res = 10;
+			}
+			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance();
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
-		}
-		if (res == 0) {
-			res = 10;
 		}
 		return res;
 	}
@@ -323,8 +324,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance();
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -391,8 +391,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance();
-				DBConnection.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();

@@ -45,7 +45,7 @@ public class DBConnection {
 	
 	
 	
-	public static void closeConnection() {
+	public void closeConnection() {
 		try {
 			con.close();
 			instance = null;
