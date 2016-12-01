@@ -374,7 +374,7 @@ public class DatabaseAccess {
 		return teamId;
 	}
 	
-	public int slaughterAmountNight(long now) {
+	public int getSlaughterAmountNight(long now) {
 		PreparedStatement statement = null;
 		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
 		ResultSet result = null;
@@ -387,7 +387,7 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				result.next(); // Correct? Halp...
+				result.next();
 				amountNight = result.getInt("currentamount");
 			}
 			
@@ -407,20 +407,21 @@ public class DatabaseAccess {
 		return amountNight;
 	}
 	
-	public int slaughterAmountDay(long now) {
+	// TODO needs to display 0 if the night team is working...
+	public int getSlaughterAmountDay(long now) {
 		PreparedStatement statement = null;
 		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' ORDER BY starttimestamp DESC)";
 		ResultSet result = null;
 		int amountDay = 0;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				result.next(); // Correct? Halp...
+				result.next();
 				amountDay = result.getInt("currentamount");
 			}
 			
@@ -431,7 +432,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -451,7 +452,7 @@ public class DatabaseAccess {
 		int expectedAmount = 0;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, teamId);
 			result = statement.executeQuery();
@@ -468,7 +469,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -476,37 +477,5 @@ public class DatabaseAccess {
 		}
 		return expectedAmount;
 	}
-	
-	// DONT FUCKING USE THIS
-//	public int	dayExpected() {
-//		PreparedStatement statement = null;
-//		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
-//		ResultSet result = null;
-//		int dayExpected = 0;
-//		Connection con = null;
-//		try {
-//			con = DBConnection.getInstance().getDBcon();
-//			con.setAutoCommit(true);
-//			statement = con.prepareStatement(query);
-//			result = statement.executeQuery();
-//			while (result.next()) {
-//				dayExpected = result.getInt("totalamount");
-//			}
-//			
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				con.setAutoCommit(true);
-//				DBConnection.getInstance().closeConnection();
-//			} catch (SQLException e) {
-//				System.out.println(e.getMessage());
-//				e.printStackTrace();
-//			}
-//		}
-//		return dayExpected;
-//	}
-	
 
 }

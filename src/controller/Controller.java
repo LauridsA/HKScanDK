@@ -45,9 +45,9 @@ public class Controller {
 		case ORGANIC: 
 			return getOrganic();
 		case SLAUGTHERAMOUNTNIGHT:
-			return getSlaughterAmount();
+			return getSlaughterAmountNight();
 		case SLAUGTHERAMOUNTDAY:
-			return getSlaughterAmount();
+			return getSlaughterAmountDay();
 		case STOPNIGHT:
 			return getNoStop();
 		case STOPDAY:
@@ -71,6 +71,16 @@ public class Controller {
 		default:
 			return new MyTypeHolder("fejl");
 		}
+	}
+
+	private MyTypeHolder getSlaughterAmountDay() {
+		Date time = new Date();
+		return new MyTypeHolder(dba.getSlaughterAmountDay(time.getTime()));
+	}
+
+	private MyTypeHolder getSlaughterAmountNight() {
+		Date time = new Date();
+		return new MyTypeHolder(dba.getSlaughterAmountNight(time.getTime()));
 	}
 
 	private MyTypeHolder getWorkingTeam() {
