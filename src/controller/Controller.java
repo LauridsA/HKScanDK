@@ -84,7 +84,7 @@ public class Controller {
 	private MyTypeHolder getWorkingTeam() {
 		Date time = new Date();
 		WorkingTeam.getInstance().setTeamId(dba.getCurrentTeamId(time.getTime()));
-		return null;
+		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId()); // isn't actually null
 	}
 
 	private MyTypeHolder dayExpected() {
@@ -133,9 +133,9 @@ public class Controller {
 	 * @return
 	 */
 	public MyTypeHolder getOrganic() {
-		Date date = new Date();		
-		return new MyTypeHolder(dba.getOrganic(date.getTime()));
+		return new MyTypeHolder(dba.getOrganic(WorkingTeam.getInstance().getTeamId()));
 	}
+	
 	public int getRefreshRate(FieldTypes type) {
 		return dba.getRefreshRate(type);
 	}
