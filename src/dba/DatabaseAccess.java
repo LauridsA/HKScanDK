@@ -1,5 +1,6 @@
 package dba;
 
+import java.awt.event.TextEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,9 +67,9 @@ public class DatabaseAccess {
 	}
 		
 	
-	public Boolean getOrganic(long now){
+	public Boolean getOrganic(int teamid){
 		PreparedStatement statement = null;
-		String query = "DECLARE @time BIGINT = ?; IF EXISTS (SELECT id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)) SELECT timetablenight.id as nightid, timetableday.id as dayid, organic, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE (timetableday.starttimestamp < @time AND @time < timetableday.endtimestamp) OR (timetablenight.starttimestamp < @time AND @time < timetablenight.endtimestamp) ELSE SELECT timetablenight.id as nightid, timetableday.id as dayid, organic, timetablenight.starttimestamp as nightstarttimestamp, timetablenight.endtimestamp as nightendtimestamp, timetableday.starttimestamp as daystarttimestamp, timetableday.endtimestamp as dayendtimestamp FROM batch JOIN teamtimetable AS timetableday ON timetableday.id = batch.teamdaytimetableid JOIN teamtimetable AS timetablenight ON timetablenight.id = batch.teamnighttimetableid WHERE timetableday.starttimestamp > @time OR timetablenight.starttimestamp > @time";
+		String query = "DECLARE @teamid INT = ?; SELECT organic FROM batch WHERE (teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AND organic = 1";
 		ResultSet result = null;
 		Connection con = null;
 		Boolean organic = false;
@@ -77,21 +78,13 @@ public class DatabaseAccess {
 			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
-			statement.setLong(1, now);
+			statement.setLong(1, teamid);
 			result = statement.executeQuery();
 			con.commit();
-			
-			
-			while (result.next()) {
-				
-				System.out.println(getTime(result.getLong("daystarttimestamp")));
-				//System.out.print(result.getBoolean("organic") + "\tnigth " +  result.getInt("nightid") + " " + result.getLong("nightstarttimestamp") + " " + result.getLong("nightendtimestamp"));
-				//System.out.print(" day " + result.getInt("dayid") + " " + result.getLong("daystarttimestamp") + " " + result.getLong("dayendtimestamp"));
-				//System.out.println(" now: " + now);
-				//new Date(result.getLong("daystarttimestamp"));
-				if(result.getBoolean("organic")){
-					organic = true;
-				}
+			if(!result.isBeforeFirst()) {
+				organic = false;
+			} else {
+				organic = true;
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -275,8 +268,10 @@ public class DatabaseAccess {
 		case DAILYMESSAGES:
 			sqlType = "dailymessages";
 			break;
+		case TEAMID:
+			sqlType = "teamid";
+			break;
 		default:
-			// TODO throw exception
 			return 5;
 		}
 		String query = "SELECT refreshrate FROM information WHERE informationname = ?";
@@ -352,7 +347,7 @@ public class DatabaseAccess {
 		int teamId = 0;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(true);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, currentTime);
@@ -365,8 +360,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance();
-				DBConnection.closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
