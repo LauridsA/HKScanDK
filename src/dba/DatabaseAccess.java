@@ -374,20 +374,23 @@ public class DatabaseAccess {
 		return teamId;
 	}
 	
-	public int	totalExpected(long timeStamp, int teamId) {
+	public int	totalExpected(int teamId) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @time BIGINT = ?; SELECT value FROM batch JOIN teamtimetable ON teamtimetable.teamdaytimetableid = batch.teamdaytimetableid WHERE (starttimestamp < @time AND @time < endtimestamp)";
+		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
 		ResultSet result = null;
 		int expectedAmount = 0;
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
-			statement.setLong(1, timeStamp);
+			statement.setInt(1, teamId);
 			result = statement.executeQuery();
-			while (result.next()) {
-				expectedAmount += result.getInt("value");
+			
+			if(result.isBeforeFirst()) {
+				result.next(); // Correct? Halp...
+				expectedAmount = result.getInt("totalamount");
 			}
+			
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -404,35 +407,36 @@ public class DatabaseAccess {
 		return expectedAmount;
 	}
 	
-	public int	dayExpected() {
-		PreparedStatement statement = null;
-		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
-		ResultSet result = null;
-		int dayExpected = 0;
-		Connection con = null;
-		try {
-			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(true);
-			statement = con.prepareStatement(query);
-			result = statement.executeQuery();
-			while (result.next()) {
-				dayExpected = result.getInt("totalamount");
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		return dayExpected;
-	}
+	// DONT FUCKING USE THIS
+//	public int	dayExpected() {
+//		PreparedStatement statement = null;
+//		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
+//		ResultSet result = null;
+//		int dayExpected = 0;
+//		Connection con = null;
+//		try {
+//			con = DBConnection.getInstance().getDBcon();
+//			con.setAutoCommit(true);
+//			statement = con.prepareStatement(query);
+//			result = statement.executeQuery();
+//			while (result.next()) {
+//				dayExpected = result.getInt("totalamount");
+//			}
+//			
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				con.setAutoCommit(true);
+//				DBConnection.getInstance().closeConnection();
+//			} catch (SQLException e) {
+//				System.out.println(e.getMessage());
+//				e.printStackTrace();
+//			}
+//		}
+//		return dayExpected;
+//	}
 	
 
 }
