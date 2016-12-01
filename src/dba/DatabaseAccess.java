@@ -179,7 +179,7 @@ public class DatabaseAccess {
 			}
 		}
 		if (speed == 0) {
-			System.out.println("Database error: Nothing found");
+			System.out.println("Database error: Speed not found");
 		}
 		return speed;
 	}
@@ -301,7 +301,6 @@ public class DatabaseAccess {
 		if (res == 0) {
 			res = 10;
 		}
-		System.out.println(res);
 		return res;
 	}
 
