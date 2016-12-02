@@ -475,7 +475,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountDay(long now) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' ORDER BY starttimestamp DESC)";
+		String query = "DECLARE @now BIGINT = ?; SELECT sum(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT teamtimetable.id  FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now)";
 		ResultSet result = null;
 		int amountDay = 0;
 		Connection con = null;

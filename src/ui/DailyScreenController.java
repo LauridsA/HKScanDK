@@ -100,9 +100,9 @@ public class DailyScreenController {
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     	startWorker(FieldTypes.ORGANIC, organicField);
     	startWorker(FieldTypes.SLAUGTHERAMOUNTDAY, slaugtherAmountDayField);
+    	startWorker(FieldTypes.SLAUGTHERAMOUNTNIGHT, slaugtherAmountNightField);
     	//startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
     }
-    
     /**
      * The worker who is going to run every so often based on the time given on setup.<br>
      * <p>To specify how often the {@link ScheduledService} should run use {@link ScheduledService#setPeriod(Duration)}. <br>
