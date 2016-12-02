@@ -95,7 +95,7 @@ public class DailyScreenController {
      * Start the controller
      */
     public void initialize(){
-    	startWorker(FieldTypes.TEAMID, null);
+    	startWorker(FieldTypes.WORKINGTEAM, null);
     	startWorker(FieldTypes.SPEED, speedLabel);
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     	startWorker(FieldTypes.ORGANIC, organicField);
