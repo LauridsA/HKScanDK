@@ -23,8 +23,9 @@ public class DatabaseAccess {
 	}
 
 	/**
-	 * @param time
-	 * @return pretty time
+	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
+	 * @param Unix Timestamp
+	 * @return Time in a good format
 	 */
 	private String getTime(Long time) {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -34,10 +35,12 @@ public class DatabaseAccess {
 	}
 	
 	/**
+	 * 
 	 * @param fromTimeStamp start of shift
-	 * @param toTimeStamp 
+	 * @param toTimeStamp current time
 	 * @return
 	 */
+	/*
 	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
 		
 		PreparedStatement statement = null;
@@ -71,9 +74,13 @@ public class DatabaseAccess {
 			}
 		}
 		return amount;
-	}
+	}*/
 		
 	
+	/**
+	 * @param WorkingTeam id of the current working team
+	 * @return True, if any of the days' batches are organic
+	 */
 	public Boolean getOrganic(int teamid){
 		PreparedStatement statement = null;
 		String query = "DECLARE @teamid INT = ?; SELECT organic FROM batch WHERE (teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AND organic = 1";
@@ -111,7 +118,7 @@ public class DatabaseAccess {
 	/**
 	 * @param fromTimeDate the start time of the desired average weight
 	 * @param toTimeDate the end time of the desired average weight
-	 * @return the result as a multi dimensional array (ResultSet)
+	 * @return the average weight as an int
 	 */
 	public int getAvgWeight() {
 		PreparedStatement statement = null;
@@ -307,6 +314,10 @@ public class DatabaseAccess {
 		return res;
 	}
 
+	/** 
+	 * @return
+	 */
+	/*
 	public long getTeamNightStart() {
 		PreparedStatement statement = null;
 		String query = "SELECT starttimestamp FROM teamtimetable WHERE team = '2'";
@@ -335,7 +346,7 @@ public class DatabaseAccess {
 			}
 		}
 		return startTime;
-	}
+	}*/
 	
 	/**
 	 * @param currentTime Current unix timestamp.
@@ -374,9 +385,12 @@ public class DatabaseAccess {
 			}
 		}
 		WorkingTeam.getInstance().setEverything(teamId, teamTimeTableId, startTime, endTime);
-		//return teamId;
 	}
 	
+	/** TODO
+	 * @param now
+	 * @return
+	 */
 	public int getSlaughterAmountNight(long now) {
 		PreparedStatement statement = null;
 		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
