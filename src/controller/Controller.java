@@ -13,29 +13,26 @@ public class Controller {
 	
 		
 		
+	/**
+	 * Constructor used for SingleDBConnection instantiation
+	 * @param dbSinCon
+	 */
 	public Controller(DBSingleConnection dbSinCon) {
 		dba = new DatabaseAccess(dbSinCon);	
 	}
 	
+	/**
+	 * Constructor used for singleton DBConnection instantiation
+	 */
 	public Controller() {
 		dba = new DatabaseAccess();
 	}
 	
-	public MyTypeHolder getSpeed() {
-		Date date = new Date();
-		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));
-	}
-	public MyTypeHolder getAvgWeight() {
-		return new MyTypeHolder(dba.getAvgWeight());
-	}
-	
 	/**
-	 * calculates average from a resultset from DB
-	 * @param fromTimeDate
-	 * @param toTimeDate
-	 * @return average weight within specified time frame
+	 * Primary method for retrieving values; Chooses the proper method.
+	 * @param fieldType
+	 * @return {@link MyTypeHolder}(Int/Bool/String)
 	 */
-	
 	public MyTypeHolder getValue(FieldTypes fieldType){
 		switch (fieldType) {
 		case SPEED:
@@ -49,9 +46,17 @@ public class Controller {
 		case SLAUGTHERAMOUNTDAY:
 			return getSlaughterAmountDay();
 		case STOPNIGHT:
+<<<<<<< Upstream, based on branch 'master' of https://github.com/LauridsA/HKScanDK.git
 			return getNoStopDay();
-		case STOPDAY:
+=======
 			return getNoStopNight();
+>>>>>>> e18d962 lul
+		case STOPDAY:
+<<<<<<< Upstream, based on branch 'master' of https://github.com/LauridsA/HKScanDK.git
+			return getNoStopNight();
+=======
+			return getNoStopDay();
+>>>>>>> e18d962 lul
 		case DAYEXPECTED:
 			return dayExpected();
 		case TOTALEXPECTED:
@@ -73,6 +78,21 @@ public class Controller {
 		default:
 			return new MyTypeHolder("fejl");
 		}
+	}
+	
+	/**
+	 * Works
+	 * @return the speed as MyTypeHolder(int) for the last hour
+	 */
+	public MyTypeHolder getSpeed() {
+		Date date = new Date();
+		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));
+	}
+	/**
+	 * @return
+	 */
+	public MyTypeHolder getAvgWeight() {
+		return new MyTypeHolder(dba.getAvgWeight());
 	}
 
 	private MyTypeHolder getSlaughterAmountDay() {
