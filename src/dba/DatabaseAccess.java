@@ -22,13 +22,15 @@ public class DatabaseAccess {
 		// TODO Auto-generated constructor stub
 	}
 
-
+	/**
+	 * @param time
+	 * @return pretty time
+	 */
 	private String getTime(Long time) {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
 		//dt.setTimeZone(new Ti);
 		return dt.format(new Date(time));
 		//dt.fot
-
 	}
 	
 	/**
@@ -191,7 +193,7 @@ public class DatabaseAccess {
 	 * @param field the enumerate value of the desired resultset value.
 	 * @return ResultSet returns the resultset within the specified timeframe and of the specified enumerate value.
 	 */
-	public ResultSet getResultSetValue(long fromTimeStamp, long toTimeStamp, FieldTypes field){
+	/*public ResultSet getResultSetValue(long fromTimeStamp, long toTimeStamp, FieldTypes field){
 		PreparedStatement statement = null;
 		String query = "SELECT value FROM ? WHERE (fromdate = ? AND todate = ?)";
 		ResultSet result = null;		
@@ -219,7 +221,7 @@ public class DatabaseAccess {
 			}
 		}
 		return result;
-	}
+	}*/
 	
 	/**
 	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return
@@ -253,9 +255,6 @@ public class DatabaseAccess {
 			// TODO what goes here?
 			sqlType = "";
 			break;
-		case TOTALEXPECTED:
-			sqlType = "batch";
-			break;
 		case EXPECTEDFINISH:
 			sqlType = "";
 			// TODO what goes here?
@@ -269,7 +268,7 @@ public class DatabaseAccess {
 		case DAILYMESSAGES:
 			sqlType = "dailymessages";
 			break;
-		case TEAMID:
+		case WORKINGTEAM:
 			sqlType = "teamid";
 			break;
 		default:
@@ -462,7 +461,7 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				result.next(); // Correct? Halp...
+				result.next();
 				expectedAmount = result.getInt("totalamount");
 			}
 			
