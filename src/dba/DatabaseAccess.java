@@ -174,6 +174,7 @@ public class DatabaseAccess {
 			con.commit();
 			while (result.next()) {
 				speed += result.getInt("value");
+				System.out.println(speed);
 			}
 			speed = speed / result.getFetchSize();
 		} catch (Exception e) {
