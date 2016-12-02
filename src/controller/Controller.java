@@ -13,17 +13,10 @@ public class Controller {
 	
 		
 		
-	/**
-	 * Constructor used for SingleDBConnection instantiation
-	 * @param dbSinCon
-	 */
 	public Controller(DBSingleConnection dbSinCon) {
 		dba = new DatabaseAccess(dbSinCon);	
 	}
 	
-	/**
-	 * Constructor used for singleton DBConnection instantiation
-	 */
 	public Controller() {
 		dba = new DatabaseAccess();
 	}
@@ -46,17 +39,9 @@ public class Controller {
 		case SLAUGTHERAMOUNTDAY:
 			return getSlaughterAmountDay();
 		case STOPNIGHT:
-<<<<<<< Upstream, based on branch 'master' of https://github.com/LauridsA/HKScanDK.git
-			return getNoStopDay();
-=======
 			return getNoStopNight();
->>>>>>> e18d962 lul
 		case STOPDAY:
-<<<<<<< Upstream, based on branch 'master' of https://github.com/LauridsA/HKScanDK.git
-			return getNoStopNight();
-=======
 			return getNoStopDay();
->>>>>>> e18d962 lul
 		case DAYEXPECTED:
 			return dayExpected();
 		case TOTALEXPECTED:
