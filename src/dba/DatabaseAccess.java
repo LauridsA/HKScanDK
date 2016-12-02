@@ -370,12 +370,12 @@ public class DatabaseAccess {
 			statement.setLong(1, time);
 			result = statement.executeQuery();
 			
-			if(!result.isBeforeFirst()){
+			if(result.isBeforeFirst()){
 				result.next();
 				teamTimeTableId = result.getInt("id");
 				startTime = result.getLong("starttimestamp");
 				endTime = result.getLong("endtimestamp");
-				teamId = result.getInt("teamid");
+				teamId = result.getInt("team");
 			}
 			
 		} catch (Exception e) {

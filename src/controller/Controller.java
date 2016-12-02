@@ -103,7 +103,7 @@ public class Controller {
 	 */
 	private MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentWorkingTeam(1485403200);
+		dba.getCurrentWorkingTeam(1485403200000L);
 		return null;
 	}
 

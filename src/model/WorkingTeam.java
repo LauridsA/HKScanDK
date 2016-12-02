@@ -62,5 +62,10 @@ public class WorkingTeam {
 	public static void setInstance(WorkingTeam instance) {
 		WorkingTeam.instance = instance;
 	}
+
+	@Override
+	public String toString() {
+		return "WorkingTeam [getTeamId()=" + getTeamId() + "]";
+	}
 	
 }
