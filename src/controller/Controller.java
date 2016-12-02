@@ -104,10 +104,10 @@ public class Controller {
 		return new MyTypeHolder(dayExpectedInt / speed); 
 	}
 	
-	// TODO
+	// TODO probably don't use teamId...
 	private MyTypeHolder totalExpected() {
 		// TODO Auto-generated method stub
-		return new MyTypeHolder(dba.getTotalExpected(teamId));
+		return new MyTypeHolder(dba.getTotalExpected(WorkingTeam.getInstance().getTeamId()));
 	}
 	private MyTypeHolder expectedFinish() {
 		// TODO Auto-generated method stub
