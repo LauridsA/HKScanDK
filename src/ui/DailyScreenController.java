@@ -99,6 +99,7 @@ public class DailyScreenController {
     	startWorker(FieldTypes.SPEED, speedLabel);
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     	startWorker(FieldTypes.ORGANIC, organicField);
+    	startWorker(FieldTypes.SLAUGTHERAMOUNTDAY, slaugtherAmountDayField);
     	//startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
     }
     

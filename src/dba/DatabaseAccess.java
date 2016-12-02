@@ -157,7 +157,7 @@ public class DatabaseAccess {
 	 * @param toTimeStamp the end time of the desired speed
 	 * @return speed as an integer number
 	 */
-	public int getSpeed(long fromTimeStamp, long toTimeStamp) {
+	public int getAvgSpeed(long fromTimeStamp, long toTimeStamp) {
 		PreparedStatement statement = null;
 		String query = "SELECT value FROM speed WHERE stimestamp BETWEEN ? AND ?";
 		ResultSet result = null;
@@ -174,9 +174,45 @@ public class DatabaseAccess {
 			con.commit();
 			while (result.next()) {
 				speed += result.getInt("value");
-				System.out.println(speed);
 			}
 			speed = speed / result.getFetchSize();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(false);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		if (speed == 0) {
+			System.out.println("Database error: Speed not found");
+		}
+		return speed;
+	}
+	
+	public int getCurrentSpeed() {
+		PreparedStatement statement = null;
+		String query = "SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC";
+		ResultSet result = null;
+		int speed = 0;
+		
+		Connection con = null;
+		try {
+			con = dbSinCon.getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			con.commit();
+			if(result.isBeforeFirst()) {
+				result.next();
+				speed = result.getInt("value");
+			} else {
+				speed = 0;
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

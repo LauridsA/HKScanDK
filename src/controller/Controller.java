@@ -68,8 +68,7 @@ public class Controller {
 	 * @return the speed as MyTypeHolder(int) for the last hour from DB
 	 */
 	public MyTypeHolder getSpeed() {
-		Date date = new Date();
-		return new MyTypeHolder(dba.getSpeed(date.getTime()-3600000, date.getTime()));
+		return new MyTypeHolder(dba.getCurrentSpeed());
 	}
 	/**
 	 * Retrieves the average weight from the DB and returns it as an int 
