@@ -578,4 +578,40 @@ public class DatabaseAccess {
 		return totalslaughteredcurrent;
 	}
 	
+	/**
+	 * used by both day and night threads. They figure out wether they should work by checking if it is their working team currently working.
+	 * @param teamId
+	 * @return noOfStops as an int
+	 */
+	public int getNoStopDayAndNight(int teamId){
+		String query = "SELECT * FROM productionstop WHERE teamtimetableid = ?;";
+		int noOfStops = 0;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()) {
+				noOfStops = result.getFetchSize();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return noOfStops;
+	}
+	
 }
