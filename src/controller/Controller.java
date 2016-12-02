@@ -85,7 +85,7 @@ public class Controller {
 
 	private MyTypeHolder getWorkingTeam() {
 		Date time = new Date();
-		WorkingTeam.getInstance().setTeamId(dba.getCurrentTeamId(time.getTime()));
+		WorkingTeam.getInstance().setTeamId(dba.getWorkingTeam(time.getTime()));
 		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId());
 	}
 
