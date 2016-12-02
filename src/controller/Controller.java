@@ -117,7 +117,7 @@ public class Controller {
 	}
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
-	 * @return dayExpected / getSpeed as an Integer
+	 * @return dayExpected / getSpeed as an Integer TODO
 	 */
 	private MyTypeHolder expectedPerHour() {
 		MyTypeHolder dayExpected = dayExpected();
@@ -128,7 +128,7 @@ public class Controller {
 
 	/**
 	 * Calculates the expected end time for the day team based on remaining amounts and speed.
-	 * @return the expected end time for the day team as unix time
+	 * @return the expected end time for the day team as unix time TODO
 	 */
 	private MyTypeHolder expectedFinish() {
 		MyTypeHolder slaughterAmount = getTotalCurrentSlaughterAmount();
@@ -141,7 +141,7 @@ public class Controller {
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
 	 */
 	private MyTypeHolder getTotalCurrentSlaughterAmount() {
-		
+		//TODO
 		return null;
 	}
 	/**
@@ -157,7 +157,7 @@ public class Controller {
 	 * @return total amount to be slaughtered for the day as an int
 	 */
 	private MyTypeHolder getTotalSlaughterAmount() {
-		return new MyTypeHolder(dba.getTotalExpected(WorkingTeam.getInstance().getTeamId()));
+		return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
 	}
 	/**
 	 * Retrieves the active daily messages objects

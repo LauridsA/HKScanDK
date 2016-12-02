@@ -474,9 +474,9 @@ public class DatabaseAccess {
 	 * @param teamId for specific team
 	 * @return the sum of all rows of slaughteramount matching the given teamtableid.
 	 */
-	public int	getTotalExpected(int teamId) {
+	public int	totalSlaughterAmount(int teamId) {
 		PreparedStatement statement = null;
-		String query = "SELECT SUM(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamdaytimetableid = ?)";
+		String query = "DECLARE @team int = ?; SELECT SUM(value) AS totalvalue FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team;";
 		ResultSet result = null;
 		int expectedAmount = 0;
 		Connection con = null;
@@ -507,5 +507,35 @@ public class DatabaseAccess {
 		return expectedAmount;
 	}
 	
+	public int getTotalCurrentSlaughterAmount(int teamId){
+		PreparedStatement statement = null;
+		String query = "DECLARE @team int = ?; DECLARE @something int = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); DECLARE @something2 int = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = @something2 OR teamtimetableid = @something;";
+		ResultSet result = null;
+		int totalslaughteredcurrent = 0;
+		Connection con = null;
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()) {
+				result.next();
+				totalslaughteredcurrent = result.getInt("totalamount");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return totalslaughteredcurrent;
+	}
 	
 }
