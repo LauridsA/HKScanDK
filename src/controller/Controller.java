@@ -87,7 +87,7 @@ public class Controller {
 
 	private MyTypeHolder getWorkingTeam() {
 		Date time = new Date();
-		WorkingTeam.getInstance().setTeamId(dba.getCurrentTeamId(time.getTime()));
+		WorkingTeam.getInstance().setTeamId(dba.getWorkingTeam(time.getTime()));
 		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId());
 	}
 
@@ -106,10 +106,10 @@ public class Controller {
 		return new MyTypeHolder(dayExpectedInt / speed); 
 	}
 	
-	// TODO
+	// TODO probably don't use teamId...
 	private MyTypeHolder totalExpected() {
 		// TODO Auto-generated method stub
-		return new MyTypeHolder(dba.getTotalExpected(teamId));
+		return new MyTypeHolder(dba.getTotalExpected(WorkingTeam.getInstance().getTeamId()));
 	}
 	private MyTypeHolder expectedFinish() {
 		MyTypeHolder slaughterAmount = getTotalCurrentSlaughterAmount();

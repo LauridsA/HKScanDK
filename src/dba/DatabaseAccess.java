@@ -343,12 +343,15 @@ public class DatabaseAccess {
 	 * @return TeamID of currently working team, retrieved from database at given timestamp.
 	 * Sets the retrieved teamID for the UI class WorkingTeam at call.
 	 */
-	public int getCurrentTeamId(long currentTime){
+	public void getWorkingTeam(long currentTime){
 		
 		PreparedStatement statement = null;
 		String query = "DECLARE @time BIGINT = ?; SELECT team, id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)";
 		ResultSet result = null;
 		int teamId = 0;
+		int teamTimeTableId = 0;
+		long startTime = 0;
+		long endTime = 0;
 		Connection con = null;
 		try {
 			con = dbSinCon.getDBcon();
@@ -371,7 +374,8 @@ public class DatabaseAccess {
 				e.printStackTrace();
 			}
 		}
-		return teamId;
+		WorkingTeam.getInstance().setEverything(teamId, teamTimeTableId, startTime, endTime);
+		//return teamId;
 	}
 	
 	public int getSlaughterAmountNight(long now) {
