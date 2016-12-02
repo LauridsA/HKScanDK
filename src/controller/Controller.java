@@ -49,9 +49,9 @@ public class Controller {
 		case SLAUGTHERAMOUNTDAY:
 			return getSlaughterAmountDay();
 		case STOPNIGHT:
-			return getNoStop();
+			return getNoStopDay();
 		case STOPDAY:
-			return getNoStop();
+			return getNoStopNight();
 		case DAYEXPECTED:
 			return dayExpected();
 		case TOTALEXPECTED:
@@ -61,11 +61,13 @@ public class Controller {
 		case EXPECTEDPERHOUR:
 			return expectedPerHour();
 		case TOTALSLAUGTHERAMOUNT:
-			return totalSlaughterAmount();
+			return getTotalSlaughterAmount();
 		case PRODUCTIONSTOPS:
 			return getProductionStop();
 		case DAILYMESSAGES:
 			return getDailyMessages();
+		case CURRENTSLAUGHTERAMOUNT:
+			return getTotalCurrentSlaughterAmount();
 		case TEAMID:
 			return getWorkingTeam();
 		default:
@@ -110,14 +112,20 @@ public class Controller {
 		return new MyTypeHolder(dba.getTotalExpected(teamId));
 	}
 	private MyTypeHolder expectedFinish() {
-		// TODO Auto-generated method stub
-		return null;
+		MyTypeHolder slaughterAmount = getTotalCurrentSlaughterAmount();
+		int slaughterAmountInt = slaughterAmount.getInteger();
+		int speed = getSpeed().getInteger();
+		return new MyTypeHolder(slaughterAmountInt  / speed);
 	}
-	private MyTypeHolder totalSlaughterAmount() {
-		// TODO Auto-generated method stub
+	private MyTypeHolder getTotalCurrentSlaughterAmount() {
+		
 		return null;
 	}
 	private MyTypeHolder getProductionStop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder getTotalSlaughterAmount() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -125,7 +133,11 @@ public class Controller {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	private MyTypeHolder getNoStop() {
+	private MyTypeHolder getNoStopDay() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	private MyTypeHolder getNoStopNight() {
 		// TODO Auto-generated method stub
 		return null;
 	}
