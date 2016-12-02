@@ -39,9 +39,9 @@ public class Controller {
 		case SLAUGTHERAMOUNTDAY:
 			return getCurrentSlaughterAmountDay();
 		case STOPNIGHT:
-			return getNoStopDayAndNight();
+			return getNoStopNight();
 		case STOPDAY:
-			return getNoStopDayAndNight();
+			return getNoStopDay();
 		case DAYEXPECTED:
 			return dayExpected();
 		case EXPECTEDFINISH:
@@ -170,19 +170,19 @@ public class Controller {
 	 * Retrieves the amount of production stops for the working day, along with their stop time for the day team
 	 * @return amount of production stop and their respective stop time
 	 */
-	private MyTypeHolder getNoStopDayAndNight() {
-		int myresult = dba.getNoStopDayAndNight(WorkingTeam.getInstance().getTeamId());
+	private MyTypeHolder getNoStopDay() {
+		int myresult = dba.getNoStopDay(WorkingTeam.getInstance().getTeamId());
 		return new MyTypeHolder(myresult);
 	}
 	/**
 	 * Retrieves the amount of production stops for the working day, along with their stop time for the night team
 	 * @return amount of production stop and their respective stop time
 	 */
-	/*
+	
 	private MyTypeHolder getNoStopNight() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
+		int myresult = dba.getNoStopNight(WorkingTeam.getInstance().getTeamId());
+		return new MyTypeHolder(myresult);
+	}
 	/**
 	 * Retrieves all batches for the working day and evaluates wether any of them is organic.
 	 * @return returns true, if any of the batches for the working day is organic

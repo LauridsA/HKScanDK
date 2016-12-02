@@ -579,12 +579,11 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * used by both day and night threads. They figure out wether they should work by checking if it is their working team currently working.
 	 * @param teamId
-	 * @return noOfStops as an int
+	 * @return noOfStops as an int for night team
 	 */
-	public int getNoStopDayAndNight(int teamId){
-		String query = "SELECT * FROM productionstop WHERE teamtimetableid = ?;";
+	public int getNoStopNight(int teamId){
+		String query = "DECLARE @now BIGINT = ?; SELECT *  FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC);";
 		int noOfStops = 0;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -613,5 +612,42 @@ public class DatabaseAccess {
 		}
 		return noOfStops;
 	}
+	
+	
+	/**
+	 * @param teamId
+	 * @return number of stops as int for day team
+	 */
+	public int getNoStopDay(int teamId){
+		String query = "DECLARE @now BIGINT = ?; SELECT * FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now);";
+		int noOfStops = 0;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()) {
+				noOfStops = result.getFetchSize();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return noOfStops;
+	}
+	
 	
 }
