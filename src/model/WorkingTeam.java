@@ -4,6 +4,8 @@ public class WorkingTeam {
 
 	private static WorkingTeam instance;
 	private static int teamId = 0;
+	private static int teamtimetableid = 0;
+	
 
 	private WorkingTeam() {
 		// empty constructor. TeamID to be retrieved later, maybe?
@@ -22,6 +24,14 @@ public class WorkingTeam {
 
 	public void setTeamId(int teamId) {
 		WorkingTeam.teamId = teamId;
+	}
+
+	public static int getTeamtimetableid() {
+		return teamtimetableid;
+	}
+
+	public static void setTeamtimetableid(int teamtimetableid) {
+		WorkingTeam.teamtimetableid = teamtimetableid;
 	}
 	
 }
