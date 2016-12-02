@@ -57,7 +57,7 @@ public class Controller {
 		case CURRENTSLAUGHTERAMOUNT:
 			return getTotalCurrentSlaughterAmount();
 		case WORKINGTEAM:
-			return getWorkingTeam();
+			return getCurrentWorkingTeam();
 		default:
 			return new MyTypeHolder("fejl");
 		}
@@ -101,10 +101,10 @@ public class Controller {
 	 * Updates the local machine to save who is the current working team (day or night, from team timetable)
 	 * @return WorkingTeam object
 	 */
-	private MyTypeHolder getWorkingTeam() {
+	private MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		WorkingTeam.getInstance().setTeamId(dba.getWorkingTeam(time.getTime()));
-		return new MyTypeHolder(WorkingTeam.getInstance().getTeamId());
+		dba.getCurrentWorkingTeam(time.getTime());
+		return null;
 	}
 
 	/**

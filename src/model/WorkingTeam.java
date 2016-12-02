@@ -10,12 +10,12 @@ public class WorkingTeam {
 	
 
 	private WorkingTeam() {
-		// empty constructor. TeamID to be retrieved later, maybe?
+		// Empty constructor
 	}
 	
 	public static WorkingTeam getInstance() {
 		if(instance == null) {
-			instance = new WorkingTeam(); // TODO how do we retrieve current working team from the DB?
+			instance = new WorkingTeam();
 		}
 		return instance;
 	}

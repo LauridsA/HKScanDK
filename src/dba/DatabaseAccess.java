@@ -350,28 +350,32 @@ public class DatabaseAccess {
 	}*/
 	
 	/**
-	 * @param currentTime Current unix timestamp.
-	 * @return TeamID of currently working team, retrieved from database at given timestamp.
-	 * Sets the retrieved teamID for the UI class WorkingTeam at call.
+	 * Retrieves and sets teamId, teamTimeTableId, startTime, and endTime for class WorkingTeam at given timestamp
+	 * @param time unix timestamp.
 	 */
-	public void getWorkingTeam(long currentTime){
+	public void getCurrentWorkingTeam(long time){
 		
 		PreparedStatement statement = null;
-		String query = "DECLARE @time BIGINT = ?; SELECT team, id FROM teamtimetable WHERE (starttimestamp < @time AND @time < endtimestamp)";
-		ResultSet result = null;
-		int teamId = 0;
+		String query = "SELECT TOP 1 id, starttimestamp, endtimestamp, team FROM teamtimetable WHERE ? BETWEEN starttimestamp AND endtimestamp";
+		ResultSet result = null;		
 		int teamTimeTableId = 0;
 		long startTime = 0;
 		long endTime = 0;
+		int teamId = 0;
 		Connection con = null;
 		try {
 			con = dbSinCon.getDBcon();
-			con.setAutoCommit(true);
 			statement = con.prepareStatement(query);
-			statement.setLong(1, currentTime);
+			statement.setLong(1, time);
 			result = statement.executeQuery();
-			result.next();
-			teamId = result.getInt("team");
+			
+			if(!result.isBeforeFirst()){
+				result.next();
+				teamTimeTableId = result.getInt("id");
+				startTime = result.getLong("starttimestamp");
+				endTime = result.getLong("endtimestamp");
+				teamId = result.getInt("teamid");
+			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
