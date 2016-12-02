@@ -99,11 +99,11 @@ public class Controller {
 
 	/**
 	 * Updates the local machine to save who is the current working team (day or night, from team timetable)
-	 * @return WorkingTeam object
+	 * @return null
 	 */
 	private MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentWorkingTeam(time.getTime());
+		dba.getCurrentWorkingTeam(1485403200);
 		return null;
 	}
 
