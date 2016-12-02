@@ -141,8 +141,8 @@ public class Controller {
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
 	 */
 	private MyTypeHolder getTotalCurrentSlaughterAmount() {
-		//TODO
-		return null;
+		int myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
+		return new MyTypeHolder(myresult);
 	}
 	/**
 	 * retrieves the currently non-expired production stop messages
