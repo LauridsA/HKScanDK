@@ -507,6 +507,10 @@ public class DatabaseAccess {
 		return expectedAmount;
 	}
 	
+	/**
+	 * @param teamId
+	 * @return int: the total slaughtered chickens so far for the working day
+	 */
 	public int getTotalCurrentSlaughterAmount(int teamId){
 		PreparedStatement statement = null;
 		String query = "DECLARE @team int = ?; DECLARE @something int = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); DECLARE @something2 int = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = @something2 OR teamtimetableid = @something;";
