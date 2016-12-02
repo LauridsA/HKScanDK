@@ -116,6 +116,7 @@ public class DatabaseAccess {
 	}
 
 	/**
+	 * 
 	 * @param fromTimeDate the start time of the desired average weight
 	 * @param toTimeDate the end time of the desired average weight
 	 * @return the average weight as an int
@@ -315,7 +316,7 @@ public class DatabaseAccess {
 	}
 
 	/** 
-	 * @return
+	 * @return 
 	 */
 	/*
 	public long getTeamNightStart() {
@@ -387,9 +388,10 @@ public class DatabaseAccess {
 		WorkingTeam.getInstance().setEverything(teamId, teamTimeTableId, startTime, endTime);
 	}
 	
-	/** TODO
-	 * @param now
-	 * @return
+	/** 
+	 * Retrieves the current slaughtered amount of the night shift.
+	 * @param now Specifices the current time in UNIX Timestamp
+	 * @return int of slaughtered night amount
 	 */
 	public int getSlaughterAmountNight(long now) {
 		PreparedStatement statement = null;
@@ -424,7 +426,12 @@ public class DatabaseAccess {
 		return amountNight;
 	}
 	
-	// TODO needs to display 0 if the night team is working...
+	
+	/**
+	 * Will display 0 if the night team is working...
+	 * @param now Specifices the current time in UNIX Timestamp 
+	 * @return int of slaughtered day amount
+	 */
 	public int getSlaughterAmountDay(long now) {
 		PreparedStatement statement = null;
 		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' ORDER BY starttimestamp DESC)";
@@ -459,8 +466,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param teamId current team working.
-	 * @return the sum of all rows of slaughteramount matching the given teamid.
+	 * @param teamId for specific team
+	 * @return the sum of all rows of slaughteramount matching the given teamtableid.
 	 */
 	public int	getTotalExpected(int teamId) {
 		PreparedStatement statement = null;
