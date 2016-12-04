@@ -513,7 +513,7 @@ public class DatabaseAccess {
 	 */
 	public int	totalSlaughterAmount(int teamId) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @team int = ?; SELECT SUM(value) AS totalvalue FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team;";
+		String query = "DECLARE @team int = ?; SELECT SUM(value) AS totalamount FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team;";
 		ResultSet result = null;
 		int expectedAmount = 0;
 		Connection con = null;
@@ -550,7 +550,7 @@ public class DatabaseAccess {
 	 */
 	public int getTotalCurrentSlaughterAmount(int teamId){
 		PreparedStatement statement = null;
-		String query = "DECLARE @team int = ?; DECLARE @something int = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); DECLARE @something2 int = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team); SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = @something2 OR teamtimetableid = @something;";
+		String query = "SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		ResultSet result = null;
 		int totalslaughteredcurrent = 0;
 		Connection con = null;
@@ -650,5 +650,32 @@ public class DatabaseAccess {
 		return noOfStops;
 	}
 	
-	
+	public int dayExpected(int teamId){
+		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.team = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); SELECT sum(value) - @NightTeamAmount AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		Connection con = null;
+		int expected = 0;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			if(result.isBeforeFirst()) {
+				expected = result.getInt("result");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				dbSinCon.closeConnection();
+		} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				}
+		}
+		return expected;
+	}
 }

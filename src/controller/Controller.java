@@ -100,10 +100,12 @@ public class Controller {
 	 * Updates the local machine to save who is the current working team (day or night, from team timetable)
 	 * @return null
 	 */
-	private MyTypeHolder getCurrentWorkingTeam() {
+	@SuppressWarnings("static-access")
+	public MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentWorkingTeam(1485403200000L);
-		return null;
+		dba.getCurrentWorkingTeam(time.getTime());
+//		WorkingTeam.getInstance();
+		return new MyTypeHolder(WorkingTeam.getInstance().getTeamTimeTableId());
 	}
 
 	/**
@@ -111,8 +113,7 @@ public class Controller {
 	 * @return the expected production for the day team as an int
 	 */
 	private MyTypeHolder dayExpected() {
-		// TODO Auto-generated method stub
-		return new MyTypeHolder(10);
+		return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamId()));
 	}
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
@@ -139,7 +140,7 @@ public class Controller {
 	 * retrieves the total slaughtered chickens for the working day as a single query
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
 	 */
-	private MyTypeHolder getTotalCurrentSlaughterAmount() {
+	public MyTypeHolder getTotalCurrentSlaughterAmount() {
 		int myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
 		return new MyTypeHolder(myresult);
 	}
@@ -155,7 +156,7 @@ public class Controller {
 	 * Retrieves the total amount to be slaughtered for the working day
 	 * @return total amount to be slaughtered for the day as an int
 	 */
-	private MyTypeHolder getTotalSlaughterAmount() {
+	public MyTypeHolder getTotalSlaughterAmount() {
 		return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
 	}
 	/**
