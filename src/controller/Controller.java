@@ -117,13 +117,10 @@ public class Controller {
 	}
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
-	 * @return dayExpected / getSpeed as an Integer TODO
+	 * @return dayExpected / getSpeed as an Integer
 	 */
 	private MyTypeHolder expectedPerHour() {
-		MyTypeHolder dayExpected = dayExpected();
-		int dayExpectedInt  = dayExpected.getInteger();
-		int speed = getSpeed().getInteger();
-		return new MyTypeHolder(dayExpectedInt / speed); 
+		return new MyTypeHolder(dba.expectedPerHour(WorkingTeam.getInstance().getTeamId())); 
 	}
 
 	/**

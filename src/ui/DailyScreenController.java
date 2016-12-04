@@ -101,7 +101,15 @@ public class DailyScreenController {
     	startWorker(FieldTypes.ORGANIC, organicField);
     	startWorker(FieldTypes.SLAUGTHERAMOUNTDAY, slaugtherAmountDayField);
     	startWorker(FieldTypes.SLAUGTHERAMOUNTNIGHT, slaugtherAmountNightField);
-    	//startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
+    	startWorker(FieldTypes.EXPECTEDPERHOUR, expectedPerHourField);
+    	startWorker(FieldTypes.DAYEXPECTED, dayExpectedField);
+    	startWorker(FieldTypes.STOPDAY, stopDayField);
+    	startWorker(FieldTypes.STOPNIGHT, stopNightField);
+    	startWorker(FieldTypes.CURRENTSLAUGHTERAMOUNT, totalSlaugtherAmountField);
+    	startWorker(FieldTypes.TOTALSLAUGTHERAMOUNT, planedSlaugtherAmountField);
+    	//startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
+    	//startWorker(FieldTypes.DAILYMESSAGES, dailyMsgScrollPane);
+    	//startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopsPane);
     }
     /**
      * The worker who is going to run every so often based on the time given on setup.<br>

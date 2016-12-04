@@ -31,8 +31,8 @@ public class CtrTest {
 
 	@Test
 	public void getSpeedTest() {
-		int now = 1479731288;
-		int before = now - 3600;
+//		int now = 1479731288;
+//		int before = now - 3600;
 //		int speed = ctr.getSpeed(before, now);
 		
 //		assertEquals(speed, 13000);
@@ -41,8 +41,8 @@ public class CtrTest {
 	
 	
 	public void getAvgWeightTest(){
-		int now = 1479731288;
-		int before = now - 3600;
+//		int now = 1479731288;
+//		int before = now - 3600;
 		
 //		int testVar = ctr.getAvgWeight(before, now);
 		
