@@ -226,6 +226,7 @@ public class DatabaseAccess {
 			}
 		}
 		if (speed == 0) {
+			//This might be changed later, as the speed can be 0 without database errors
 			System.out.println("Database error: Speed not found");
 		}
 		return speed;
