@@ -669,9 +669,8 @@ public class DatabaseAccess {
 			e.printStackTrace();
 		} finally{
 			try {
-				con.setAutoCommit(true);
 				dbSinCon.closeConnection();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 				}
