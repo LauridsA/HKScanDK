@@ -103,7 +103,7 @@ public class Controller {
 	@SuppressWarnings("static-access")
 	public MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentWorkingTeam(1486008000000L);
+		dba.getCurrentWorkingTeam(time.getTime());
 //		WorkingTeam.getInstance();
 		return new MyTypeHolder(WorkingTeam.getInstance().getTeamTimeTableId());
 	}
