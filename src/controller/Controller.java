@@ -120,10 +120,7 @@ public class Controller {
 	 * @return dayExpected / getSpeed as an Integer
 	 */
 	private MyTypeHolder expectedPerHour() {
-		MyTypeHolder dayExpected = dayExpected();
-		int dayExpectedInt  = dayExpected.getInteger();
-		int speed = getSpeed().getInteger();
-		return new MyTypeHolder(dayExpectedInt / speed); 
+		return new MyTypeHolder(dba.expectedPerHour(WorkingTeam.getInstance().getTeamId())); 
 	}
 
 	/**
