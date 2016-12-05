@@ -441,7 +441,7 @@ public class DatabaseAccess {
 		int amountNight = 0;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setLong(1, now);
 			result = statement.executeQuery();
@@ -458,7 +458,7 @@ public class DatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
+				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -549,7 +549,7 @@ public class DatabaseAccess {
 	 */
 	public int getTotalCurrentSlaughterAmount(int teamId){
 		PreparedStatement statement = null;
-		String query = "SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		ResultSet result = null;
 		int totalslaughteredcurrent = 0;
 		Connection con = null;
@@ -562,6 +562,8 @@ public class DatabaseAccess {
 			if(result.isBeforeFirst()) {
 				result.next();
 				totalslaughteredcurrent = result.getInt("totalamount");
+			} else{
+				System.out.println("FACK OFF");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -661,7 +663,10 @@ public class DatabaseAccess {
 			statement = con.prepareStatement(query);
 			statement.setInt(1, teamId);
 			result = statement.executeQuery();
-			if(result.isBeforeFirst()) {
+			if(!result.isBeforeFirst()) {
+				//do nothing
+			} else {
+				result.next();
 				expected = result.getInt("result");
 			}
 			
