@@ -100,10 +100,12 @@ public class Controller {
 	 * Updates the local machine to save who is the current working team (day or night, from team timetable)
 	 * @return null
 	 */
+	@SuppressWarnings("static-access")
 	private MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
-		dba.getCurrentWorkingTeam(1485403200000L);
-		return null;
+		dba.getCurrentWorkingTeam(1486008000000L);
+//		WorkingTeam.getInstance();
+		return new MyTypeHolder(WorkingTeam.getInstance().getTeamTimeTableId());
 	}
 
 	/**
