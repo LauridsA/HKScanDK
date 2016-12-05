@@ -113,8 +113,7 @@ public class Controller {
 	 * @return the expected production for the day team as an int
 	 */
 	private MyTypeHolder dayExpected() {
-		// TODO Auto-generated method stub
-		return new MyTypeHolder(10);
+		return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamId()));
 	}
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
