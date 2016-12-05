@@ -101,7 +101,7 @@ public class Controller {
 	 * @return null
 	 */
 	@SuppressWarnings("static-access")
-	private MyTypeHolder getCurrentWorkingTeam() {
+	public MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
 		dba.getCurrentWorkingTeam(1486008000000L);
 //		WorkingTeam.getInstance();
@@ -141,7 +141,7 @@ public class Controller {
 	 * retrieves the total slaughtered chickens for the working day as a single query
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
 	 */
-	private MyTypeHolder getTotalCurrentSlaughterAmount() {
+	public MyTypeHolder getTotalCurrentSlaughterAmount() {
 		int myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
 		return new MyTypeHolder(myresult);
 	}
@@ -157,7 +157,7 @@ public class Controller {
 	 * Retrieves the total amount to be slaughtered for the working day
 	 * @return total amount to be slaughtered for the day as an int
 	 */
-	private MyTypeHolder getTotalSlaughterAmount() {
+	public MyTypeHolder getTotalSlaughterAmount() {
 		return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
 	}
 	/**
