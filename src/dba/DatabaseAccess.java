@@ -41,41 +41,41 @@ public class DatabaseAccess {
 	 * @param toTimeStamp current time
 	 * @return
 	 */
-	/*
-	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
-		
-		PreparedStatement statement = null;
-		String query = "SELECT value FROM slaughteramount WHERE satimestamp BETWEEN ? AND ?";
-		ResultSet result = null;
-		int amount = 0;
-		
-		Connection con = null;
-		try {
-			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
-			statement = con.prepareStatement(query);
-			statement.setLong(1, fromTimeStamp);
-			statement.setLong(2, toTimeStamp);
-			result = statement.executeQuery();
-			con.commit();
-			while (result.next()) {
-				amount += result.getInt("value");
-			}
-			amount = amount / result.getFetchSize();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				con.setAutoCommit(false);
-				dbSinCon.closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		return amount;
-	}*/
+	
+//	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
+//		
+//		PreparedStatement statement = null;
+//		String query = "SELECT value FROM slaughteramount WHERE satimestamp BETWEEN ? AND ?";
+//		ResultSet result = null;
+//		int amount = 0;
+//		
+//		Connection con = null;
+//		try {
+//			con = DBConnection.getInstance().getDBcon();
+//			con.setAutoCommit(false);
+//			statement = con.prepareStatement(query);
+//			statement.setLong(1, fromTimeStamp);
+//			statement.setLong(2, toTimeStamp);
+//			result = statement.executeQuery();
+//			con.commit();
+//			while (result.next()) {
+//				amount += result.getInt("value");
+//			}
+//			amount = amount / result.getFetchSize();
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				con.setAutoCommit(false);
+//				dbSinCon.closeConnection();
+//			} catch (SQLException e) {
+//				System.out.println(e.getMessage());
+//				e.printStackTrace();
+//			}
+//		}
+//		return amount;
+//	}
 		
 	
 	/**

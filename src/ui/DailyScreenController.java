@@ -21,7 +21,7 @@ import model.MyTypeHolder;
  */
 public class DailyScreenController {
 	
-	Controller ctr = new Controller();
+	private Controller ctr = new Controller();
 
     @FXML
     private Label expectedFinishTimeField;
