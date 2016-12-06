@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import model.FieldTypes;
 import model.WorkingTeam;
@@ -713,4 +715,34 @@ public class DatabaseAccess {
 		}
 		return expected;
 	}
+	
+	public Map<Integer, Integer> expectedFinish(int teamId) {
+		String query = "DECLARE @teamid INT = ?; SELECT beforebatch.organic, sum(ISNULL((beforebatch.value - afterbatch.value), beforebatch.value)) as result FROM (SELECT id, value, organic FROM batch WHERE teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AS beforebatch  LEFT JOIN (SELECT slaughteramount.batchid, sum(slaughteramount.value) AS value FROM slaughteramount JOIN batch ON slaughteramount.batchid = batch.id WHERE batch.teamdaytimetableid = @teamid OR batch.teamnighttimetableid = @teamid GROUP BY slaughteramount.batchid) AS afterbatch  ON beforebatch.id = afterbatch.batchid GROUP BY beforebatch.organic;";
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		Connection con = null;
+		Map<Integer, Integer> total = new HashMap<Integer, Integer>();
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			while (result.next()) {
+				total.put(result.getInt("organic"), result.getInt("result"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				dbSinCon.closeConnection();
+		} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				}
+		}
+		return total;
+	}
+	
 }

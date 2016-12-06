@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Date;
+import java.util.Map;
 
 import dba.DBSingleConnection;
 import dba.DatabaseAccess;
@@ -128,10 +129,19 @@ public class Controller {
 	 * @return the expected end time for the day team as unix time TODO
 	 */
 	private MyTypeHolder expectedFinish() {
-		MyTypeHolder slaughterAmount = getTotalCurrentSlaughterAmount();
-		int slaughterAmountInt = slaughterAmount.getInteger();
-		int speed = getSpeed().getInteger();
-		return new MyTypeHolder(slaughterAmountInt  / speed);
+		Date date = new Date();
+		int totalTime = 0;
+		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
+		for (Map.Entry<Integer, Integer> entry : map.entrySet()){
+			if (entry.getKey() == 1) {
+				totalTime += entry.getValue() / 217;
+			} else{
+				totalTime += entry.getValue() / 83;
+			}
+		}
+		
+		return new MyTypeHolder(totalTime);
+		
 	}
 	/**
 	 * retrieves the total slaughtered chickens for the working day as a single query

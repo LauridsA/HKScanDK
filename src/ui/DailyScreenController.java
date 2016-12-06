@@ -107,7 +107,7 @@ public class DailyScreenController {
     	startWorker(FieldTypes.STOPNIGHT, stopNightField);
     	startWorker(FieldTypes.CURRENTSLAUGHTERAMOUNT, totalSlaugtherAmountField);
     	startWorker(FieldTypes.TOTALSLAUGTHERAMOUNT, planedSlaugtherAmountField);
-    	//startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
+    	startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
     	//startWorker(FieldTypes.DAILYMESSAGES, dailyMsgScrollPane);
     	//startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopsPane);
     }
