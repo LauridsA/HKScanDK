@@ -1,7 +1,10 @@
 package ui;
 	
+import java.util.Map;
+
 import dba.DBSingleConnection;
 import javafx.application.Application;
+import javafx.application.Application.Parameters;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -18,10 +21,18 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		initStage();
-		initScene();
-		primaryStage.setMaximized(false);
-		primaryStage.setFullScreen(false);
+		Parameters parameters = getParameters();
+		Map<String, String> namedParameters = parameters.getNamed();
+		if(namedParameters.containsKey("administrator")){
+			 initAdministratorStage();
+			 initAdministratorScene();
+		}else{
+			initStage();
+			initScene();
+			
+			primaryStage.setMaximized(false);
+			primaryStage.setFullScreen(false);
+		}	
 		/*
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/ui/Main.fxml"));
@@ -35,6 +46,17 @@ public class Main extends Application {
 		*/
 	}
 	
+	private void initAdministratorScene() {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("Administration.fxml"));
+		
+	}
+
+	private void initAdministratorStage() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
