@@ -1,49 +1,54 @@
 package model;
 
-import java.sql.Timestamp;
-
 public class ProductionStop {
-	private String message;
-	private int length;
-	private String team;
-	private Timestamp timestamp;
+	private Long stopTime;
+	private int stopLength;
+	private String stopDescription;
+	private int teamTimeTableId;
 	
-	public ProductionStop(String message, int length, Timestamp timestamp, String team){
-		this.message = message;
-		this.length = length;
-		this.team = team;
-		this.timestamp = timestamp;
+	public ProductionStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId){
+		this.stopTime = stopTime;
+		this.stopLength = stopLength;
+		this.stopDescription = stopDescription;
+		this.teamTimeTableId = teamTimeTableId;
 	}
-	
-	public String getMessage() {
-		return message;
+
+	public Long getStopTime() {
+		return stopTime;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	public void setStopTime(Long stopTime) {
+		this.stopTime = stopTime;
 	}
-	public int getLength() {
-		return length;
+
+	public int getStopLength() {
+		return stopLength;
 	}
-	public void setLength(int length) {
-		this.length = length;
+
+	public void setStopLength(int stopLength) {
+		this.stopLength = stopLength;
 	}
-	public String getTeam() {
-		return team;
+
+	public String getStopDescription() {
+		return stopDescription;
 	}
-	public void setTeam(String team) {
-		this.team = team;
+
+	public void setStopDescription(String stopDescription) {
+		this.stopDescription = stopDescription;
 	}
-	public Timestamp getTimestamp() {
-		return timestamp;
+
+	public int getTeamTimeTableId() {
+		return teamTimeTableId;
 	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
+
+	public void setTeamTimeTableId(int teamTimeTableId) {
+		this.teamTimeTableId = teamTimeTableId;
 	}
 
 	@Override
 	public String toString() {
-		return "ProductionStop [message=" + message + ", length=" + length + ", team=" + team + ", timestamp="
-				+ timestamp + "]";
+		return "ProductionStop [stopTime=" + stopTime + ", stopLength=" + stopLength + ", stopDescription="
+				+ stopDescription + ", teamTimeTableId=" + teamTimeTableId + "]";
 	}
 	
 	
