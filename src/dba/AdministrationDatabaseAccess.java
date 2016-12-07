@@ -2,7 +2,11 @@ package dba;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import model.DailyMessages;
 
 public class AdministrationDatabaseAccess {
 	private DBSingleConnection dbSinCon;
@@ -86,6 +90,7 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(2, newTimeStamp);
 			statement.setLong(3, newExpire);
 			statement.setLong(4, newShowDate);
+			statement.executeUpdate();
 			con.commit();
 			
 		} catch (Exception e) {
@@ -108,4 +113,74 @@ public class AdministrationDatabaseAccess {
 		}
 		
 	}
+	
+	public void deleteDailyMessage(int id) {
+		PreparedStatement statement = null;
+		String query = "DELETE FROM dailymessages WHERE id = ?;";
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+			con.commit();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			try {
+				con.rollback();
+				System.out.println("Database Error: DailyMessage not found.");
+			} catch (SQLException e1) {
+				System.out.println(e1.getMessage());
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public ArrayList<DailyMessages> getAllMessages() {
+		PreparedStatement statement = null;
+		String query = "SELECT dmessage, dtimestamp, expire, showdate FROM dailymessages;";
+		ResultSet result = null;
+		ArrayList<DailyMessages> messageList = new ArrayList<>();
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()){
+				while(result.next()){
+					String message = result.getString("dmessage");
+					Long timestamp = result.getLong("dtimestamp");
+					Long expire = result.getLong("expire");
+					Long showDate = result.getLong("showdate");
+					
+					DailyMessages dm = new DailyMessages(message, timestamp, expire, showDate);
+					messageList.add(dm);
+				}
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Database Error: Found nothing.");
+			System.out.println(e.getMessage());
+		} finally {
+			dbSinCon.closeConnection();
+		}
+		
+		return messageList;
+	}
+	
+	
 }
