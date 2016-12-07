@@ -62,6 +62,16 @@ public class AdministrationDatabaseAccess {
 		
 	}
 	
+	/**
+	 * Used to update an existing dailyMessage. <br>
+	 * Takes parameters from UI and inserts them into the dailymessages table in the database at specified id.<br>
+	 * If none of the fields are changed it simply re-inserts the old data.
+	 * @param id the id from UI used to find the dailyMessage in the dailymessages table
+	 * @param newMessage the new string to display
+	 * @param newTimeStamp new Unix time stamp to use
+	 * @param newExpire new expiration date
+	 * @param newShowDate new time to display the message
+	 */
 	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) {
 		PreparedStatement statement = null;
 		String query = "UPDATE dailymessages SET dmessage=?, dtimestamp=?, expire=?, showdate=? WHERE id = ?;";
