@@ -2,14 +2,18 @@ package dba;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import model.DailyMessages;
 
 public class AdministrationDatabaseAccess {
 	private DBSingleConnection dbSinCon;
+	
+	public AdministrationDatabaseAccess(DBSingleConnection dbSinCon) {
+		this.dbSinCon = dbSinCon;
+	}
+	
+	public AdministrationDatabaseAccess() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	/**
 	 * Takes parameters from UI and inserts them into the dailymessages table in the database. <br> 
@@ -21,37 +25,31 @@ public class AdministrationDatabaseAccess {
 	 * @return DailyMessages
 	 * @throws Exception
 	 */
-	public DailyMessages createDailyMessage(String message, Long timestamp, Long expire, Long showDate) throws Exception {
+	public void createDailyMessage(String message, Long timestamp, Long expire, Long showDate) {
 		PreparedStatement statement = null;
 		String query = "INSERT INTO dailymessages(dmessage, dtimestamp, expire, showdate) VALUES (?, ?, ?, ?);";
-		DailyMessages dailyMessage = null;
-		ResultSet result;
 		
 		Connection con = null;
 		try {
 			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
-			statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			statement = con.prepareStatement(query);
 			statement.setString(1, message);
 			statement.setLong(2, timestamp);
 			statement.setLong(3, expire);
 			statement.setLong(4, showDate);
-			int exe = statement.executeUpdate();
+			statement.executeUpdate();
 			con.commit();
-			
-			if(exe > 0){
-				result = statement.getGeneratedKeys();
-				if(result.next()){
-					 dailyMessage = new DailyMessages(message, timestamp, expire, showDate);
-					 System.out.println("DailyMessage created.");
-				}
-			}
-			
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			con.rollback();
-			throw new Exception("Database Error: DailyMessage not created.");
+			try {
+				con.rollback();
+				System.out.println("Database Error: DailyMessage not created.");
+			} catch (SQLException e1) {
+				System.out.println(e1.getMessage());
+				e1.printStackTrace();
+			}
 		} finally {
 			try {
 				con.setAutoCommit(true);
@@ -62,7 +60,42 @@ public class AdministrationDatabaseAccess {
 			}
 		}
 		
-		return dailyMessage;
 	}
-
+	
+	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) {
+		PreparedStatement statement = null;
+		String query = "UPDATE dailymessages SET dmessage=?, dtimestamp=?, expire=?, showdate=? WHERE id = ?;";
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			con.setAutoCommit(false);
+			statement = con.prepareStatement(query);
+			statement.setInt(5, id);
+			statement.setString(1, newMessage);
+			statement.setLong(2, newTimeStamp);
+			statement.setLong(3, newExpire);
+			statement.setLong(4, newShowDate);
+			con.commit();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			try {
+				con.rollback();
+				System.out.println("Database Error: DailyMessage not found.");
+			} catch (SQLException e1) {
+				System.out.println(e1.getMessage());
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+	}
 }
