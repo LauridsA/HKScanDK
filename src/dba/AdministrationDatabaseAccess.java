@@ -3,6 +3,7 @@ package dba;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import model.DailyMessages;
@@ -52,13 +53,12 @@ public class AdministrationDatabaseAccess {
 			con.rollback();
 			throw new Exception("Database Error: DailyMessage not created.");
 		} finally {
-			if(con != null){
-				try {
-					con.setAutoCommit(true);
-					dbSinCon.closeConnection();
-				} catch (Exception F){
-					System.out.println(F.getMessage());
-				}
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e){					
+				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		
