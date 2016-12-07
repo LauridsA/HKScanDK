@@ -2,19 +2,21 @@ package model;
 
 public class DailyMessages {
 	private String message;
-	private int startTimeStamp;
-	private int endTimeStamp;
+	private Long timestamp;
+	private Long expire;
+	private Long showDate;
 	
-	public DailyMessages(String message, int startTimeStamp, int endTimeStamp){
+	public DailyMessages(String message, Long timestamp, Long expire, Long showDate){
 		this.message = message;
-		this.startTimeStamp = startTimeStamp;
-		this.endTimeStamp = endTimeStamp;
+		this.timestamp = timestamp;
+		this.expire = expire;
+		this.showDate = showDate;
 	}
 
 	@Override
 	public String toString() {
-		return "DailyMessages [message=" + message + ", startTimeStamp=" + startTimeStamp + ", endTimeStamp="
-				+ endTimeStamp + "]";
+		return "DailyMessages [message=" + message + ", timestamp=" + timestamp + ", expire="
+				+ expire + "showDate=" + showDate + "]";
 	}
 
 	public String getMessage() {
@@ -25,19 +27,27 @@ public class DailyMessages {
 		this.message = message;
 	}
 
-	public int getStartTimeStamp() {
-		return startTimeStamp;
+	public Long getTimeStamp() {
+		return timestamp;
 	}
 
-	public void setStartTimeStamp(int startTimeStamp) {
-		this.startTimeStamp = startTimeStamp;
+	public void setTimeStamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
-	public int getEndTimeStamp() {
-		return endTimeStamp;
+	public Long getExpire() {
+		return expire;
 	}
 
-	public void setEndTimeStamp(int endTimeStamp) {
-		this.endTimeStamp = endTimeStamp;
+	public void setExpire(Long expire) {
+		this.expire = expire;
+	}
+
+	public Long getShowDate() {
+		return showDate;
+	}
+
+	public void setShowDate(Long showDate) {
+		this.showDate = showDate;
 	}
 }

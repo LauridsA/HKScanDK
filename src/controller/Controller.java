@@ -126,10 +126,9 @@ public class Controller {
 
 	/**
 	 * Calculates the expected end time for the day team based on remaining amounts and speed.
-	 * @return the expected end time for the day team as unix time TODO
+	 * @return the expected end time for the day team as Unix time.
 	 */
 	private MyTypeHolder expectedFinish() {
-		Date date = new Date();
 		int totalTime = 0;
 		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()){
