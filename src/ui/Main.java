@@ -50,10 +50,10 @@ public class Main extends Application {
 	private void initAdministratorStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("/uiAdministration/.fxml"));
+			loader.setLocation(Main.class.getResource("/uiAdministration/Main.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			//scene.getStylesheets().add(getClass().getResource("/ui/application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("/uiAdministration/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {
@@ -65,11 +65,11 @@ public class Main extends Application {
 	private void initAdministratorScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("/uiAdministration/DailyScreen.fxml"));
+			loader.setLocation(Main.class.getResource("/uiAdministration/Administration.fxml"));
 			anchorPane = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(anchorPane);
-			((DailyScreenController) loader.getController()).setDatabaseController(dbsincon);
+			//((DailyScreenController) loader.getController()).setDatabaseController(dbsincon);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,7 +86,7 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("/uiScreen/Main.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("/uiScreen/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {

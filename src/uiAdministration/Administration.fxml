@@ -8,62 +8,73 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane prefHeight="1024.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Daglige Beskeder">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </ScrollPane>
-                     </center>
-                     <bottom>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <right>
-                              <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Opret" />
-                                    <Button mnemonicParsing="false" text="Button" />
-                                 </children>
-                              </FlowPane>
-                           </right>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiAdministration.AdministrationController">
+   <children>
+      <BorderPane prefHeight="1024.0" prefWidth="1024.0">
+         <center>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab text="Daglige Beskeder">
+                     <content>
+                        <AnchorPane>
+                           <children>
+                              <Label fx:id="testLabel" text="testLabel" />
+                              <BorderPane prefHeight="995.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <AnchorPane>
+                                       <children>
+                                          <ScrollPane fx:id="dailyMessagePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <bottom>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                 </bottom>
+                                 <right>
+                                    <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="createDailyMessageButton" mnemonicParsing="false" text="Opret" />
+                                          <Button mnemonicParsing="false" text="Button" />
+                                       </children>
+                                    </FlowPane>
+                                 </right>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </Tab>
+                  <Tab text="Produktionsstop">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <bottom>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <right>
+                                    <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Opret" />
+                                          <Button mnemonicParsing="false" text="Button" />
+                                       </children>
+                                    </FlowPane>
+                                 </right>
+                              </BorderPane>
+                           </bottom>
+                           <center>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                 </content>
+                              </ScrollPane>
+                           </center>
                         </BorderPane>
-                     </bottom>
-                  </BorderPane>
-               </content>
-          </Tab>
-            <Tab text="Produktionsstop">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <bottom>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <right>
-                              <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Opret" />
-                                    <Button mnemonicParsing="false" text="Button" />
-                                 </children>
-                              </FlowPane>
-                           </right>
-                        </BorderPane>
-                     </bottom>
-                     <center>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                           </content>
-                        </ScrollPane>
-                     </center>
-                  </BorderPane>
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </center>
-</BorderPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
