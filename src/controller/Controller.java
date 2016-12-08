@@ -178,7 +178,8 @@ public class Controller {
 	 * @return amount of production stop and their respective stop time
 	 */
 	private MyTypeHolder getNoStopDay() {
-		int myresult = dba.getNoStopDay(WorkingTeam.getInstance().getTeamId());
+		Date time = new Date();
+		int myresult = dba.getNoStopDay(time.getTime());
 		return new MyTypeHolder(myresult);
 	}
 	/**
@@ -187,7 +188,8 @@ public class Controller {
 	 */
 	
 	private MyTypeHolder getNoStopNight() {
-		int myresult = dba.getNoStopNight(WorkingTeam.getInstance().getTeamId());
+		Date time = new Date();
+		int myresult = dba.getNoStopNight(time.getTime());
 		return new MyTypeHolder(myresult);
 	}
 	/**

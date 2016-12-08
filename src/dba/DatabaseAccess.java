@@ -558,12 +558,13 @@ public class DatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			statement = con.prepareStatement(query);
+			statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				noOfStops = result.getFetchSize();
+				result.last();
+				noOfStops = result.getRow();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -594,12 +595,13 @@ public class DatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			statement = con.prepareStatement(query);
+			statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				noOfStops = result.getFetchSize();
+				result.last();
+				noOfStops = result.getRow();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

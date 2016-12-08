@@ -98,11 +98,11 @@ public class DailyScreenTests {
 		MyTypeHolder testRes = ctrt.expectedFinish();
 		int testResInt = testRes.getInteger();
 		System.out.println("expectedfinish: " + testResInt);
-		assertEquals(9, (long)testResInt);
+		assertEquals(232, (long)testResInt);
 	}
 	
 	/**
-	 * SQL might be broken. seems to take teamid rather than teamtimetableid.
+	 * SQL might be broken. seems to take teamid rather than teamtimetableid. only accepts 1, no other number (???)
 	 */
 	@Test
 	public void testExpectedPerHour(){
@@ -114,59 +114,104 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * SQL seems to be broken.
+	 * SQL seems to be broken. only accepts 1, no other number (????)
 	 */
 	@Test
 	public void testDayExpected(){
-		MyTypeHolder testRes = ctrt.dayExpected();
+		MyTypeHolder testRes = ctrt.dayExpected(2);
 		int testResInt = testRes.getInteger();
 		System.out.println("dayexpected: " + testResInt);
 		assertEquals(848, testResInt);
 	}
 	
 	/**
-	 * appears to work
+	 * appears to work but has teamid instead of teamtimetable???
 	 */
 	@Test
 	public void testGetTotalSlaughterAmount(){
-		MyTypeHolder result = ctrt.getTotalSlaughterAmount();
+		MyTypeHolder result = ctrt.getTotalSlaughterAmount(2);
 		int resultInt = result.getInteger();
 		System.out.println("total SA : " + resultInt);
 		assertEquals(131984, resultInt);
+		
+		
 		ctrt.getCurrentWorkingTeam(times().get(1));
-		MyTypeHolder testRes1 = ctrt.dayExpected();
+		MyTypeHolder testRes1 = ctrt.getTotalSlaughterAmount(54);
 		int testResInt1 = testRes1.getInteger();
-		assertEquals(123137, testResInt1);
+		assertEquals(136596, testResInt1);
+		
 		ctrt.getCurrentWorkingTeam(times().get(2));
-		MyTypeHolder testRes2 = ctrt.dayExpected();
+		MyTypeHolder testRes2 = ctrt.getTotalSlaughterAmount(64);
 		int testResInt2 = testRes2.getInteger();
 		assertEquals(128513, testResInt2);
+		
 	}
 	
 	/**
-	 * appears to work
+	 * appears to work but has teamid instead of teamtimetable???
 	 */
 	@Test
 	public void testGetTotalCurrentSlaughterAmount(){
-		MyTypeHolder result = ctrt.getTotalCurrentSlaughterAmount();
+		MyTypeHolder result = ctrt.getTotalCurrentSlaughterAmount(2);
 		int resultInt = result.getInteger();
 		System.out.println("total current SA : " + resultInt);
 		assertEquals(131136, resultInt);
-		ctrt.getCurrentWorkingTeam(times().get(1));
-		MyTypeHolder testRes1 = ctrt.dayExpected();
+		
+		MyTypeHolder testRes1 = ctrt.getTotalCurrentSlaughterAmount(54);
 		int testResInt1 = testRes1.getInteger();
-		assertEquals(122576, testResInt1);
-		ctrt.getCurrentWorkingTeam(times().get(2));
-		MyTypeHolder testRes2 = ctrt.dayExpected();
+		assertEquals(135680, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.getTotalCurrentSlaughterAmount(64);
 		int testResInt2 = testRes2.getInteger();
 		assertEquals(127624, testResInt2);
+		
 	}
 	
 	public ArrayList<Long> times(){
 		ArrayList<Long> times = new ArrayList<>();
-		times.add(1480305900000L);
-		times.add(1483475550000L);
-		times.add(1484020990000L);
+		times.add(1480305900000L); //2
+		times.add(1483475550000L); //54
+		times.add(1483993910000L); //64
 		return times;
+	}
+	
+	/**
+	 * passed!
+	 */
+	@Test
+	public void testGetNoStopDay(){
+		
+		MyTypeHolder result = ctrt.getNoStopDay(1480305900000L);
+		int resultInt = result.getInteger();
+		System.out.println("WHAT : " +resultInt);
+		assertEquals(4, resultInt);
+		
+		MyTypeHolder testRes1 = ctrt.getNoStopDay(1483475550000L);
+		int testResInt1 = testRes1.getInteger();
+		assertEquals(0, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.getNoStopDay(1483993910000L);
+		int testResInt2 = testRes2.getInteger();
+		assertEquals(0, testResInt2);
+	}
+	
+	/**
+	 * passed!
+	 */
+	@Test
+	public void TestGetCurrentSlaughterAmountDay(){
+		MyTypeHolder result = ctrt.getCurrentSlaughterAmountDay(1480305900000L);
+		int resultInt = result.getInteger();
+		System.out.println("WHAT : " +resultInt);
+		assertEquals(63796, resultInt);
+		
+		MyTypeHolder testRes1 = ctrt.getCurrentSlaughterAmountNight(1483475550000L);
+		int testResInt1 = testRes1.getInteger();
+		assertEquals(56056, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.getCurrentSlaughterAmountNight(1483993910000L);
+		int testResInt2 = testRes2.getInteger();
+		assertEquals(95612, testResInt2);
+		
 	}
 }
