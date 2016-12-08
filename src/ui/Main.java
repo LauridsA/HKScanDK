@@ -49,6 +49,7 @@ public class Main extends Application {
 	private void initAdministratorScene() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("Administration.fxml"));
+		/*rootLayout = (BorderPane) */
 		
 	}
 
