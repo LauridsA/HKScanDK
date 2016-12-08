@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import uiScreen.DailyScreenController;
 
 
 public class Main extends Application {
@@ -45,16 +46,33 @@ public class Main extends Application {
 		}
 		*/
 	}
-	
-	private void initAdministratorScene() {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("Administration.fxml"));
-		/*rootLayout = (BorderPane) */
-		
-	}
 
 	private void initAdministratorStage() {
-		// TODO Auto-generated method stub
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource(".fxml"));
+			rootLayout = (BorderPane) loader.load();
+			Scene scene = new Scene(rootLayout);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void initAdministratorScene() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("DailyScreen.fxml"));
+			anchorPane = (AnchorPane) loader.load();
+			
+			rootLayout.setCenter(anchorPane);
+			((DailyScreenController) loader.getController()).setDatabaseController(dbsincon);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -65,7 +83,7 @@ public class Main extends Application {
 	private void initStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("Main.fxml"));
+			loader.setLocation(Main.class.getResource("screenUI/Main.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -80,7 +98,7 @@ public class Main extends Application {
 	private void initScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("DailyScreen.fxml"));
+			loader.setLocation(Main.class.getResource("screenUI/DailyScreen.fxml"));
 			anchorPane = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(anchorPane);
