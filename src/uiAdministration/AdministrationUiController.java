@@ -30,24 +30,13 @@ public class AdministrationUiController {
     
    
     public void initialize(){
-    	//createDailyMessageButton.setOnAction(e -> CreateDailyMessage(e));d
-    	//testLabel.setText("test123");
-    	
-    	//Label label = new Label("test456");
-    	//vboxList.getChildren().add(label);ads
-    	
-    	
-		
-    	
     	initProductionStops();
-    	
     }
     
     private void initProductionStops() {
     	ArrayList<ProductionStop> arr = aCtr.getAllStops();
     	int totalpages = arr.size()/10;
     	pageList.setPageCount(totalpages);
-
     	pageList.setPageFactory(new Callback<Integer, Node>() {
 			
 			@Override
@@ -55,11 +44,6 @@ public class AdministrationUiController {
 					return createPage(pages, arr);
 			}
 		});
-    	
-    	/*
-    	createProductuonStop.setOnAction(e->CreateDailyMessage(e));
-   		*/
-
 	}
     
     public VBox createPage(int pages, ArrayList<ProductionStop> arr){
@@ -83,32 +67,5 @@ public class AdministrationUiController {
     	
     	
     	return content;
-    }
-    
-    /*
-	private void CreateDailyMessage(ActionEvent e) {
-	
-		
-		
-	 	for (int i = 0; i < 10; i++) {
-	 		
-	 		
-	 		try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(AdministrationController.class.getResource("/uiAdministration/ProductionStop.fxml"));
-				AnchorPane productionStop = (AnchorPane) loader.load();
-				Label label = new Label("test" + i);
-				vboxList.getChildren().add(productionStop);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-				
-		}
-	}*/
-
-
-    
-    
-
+    }  
 }
