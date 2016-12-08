@@ -24,7 +24,7 @@ public class ProductionStopController {
 	
 	
 	public void setFields(ProductionStop element) {
-	   timeField.setText(ctr.getFormattedTime(element.getStopTime(), "HH:mm"));
+	   timeField.setText(ctr.getFormattedTime(element.getStopTime(), "dd-MM-yy HH:mm"));
 	   lengthField.setText(((Integer)element.getStopLength()).toString());
 	   descField.setText(element.getStopDescription());
 
