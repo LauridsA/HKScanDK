@@ -558,12 +558,13 @@ public class DatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			statement = con.prepareStatement(query);
+			statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
-				noOfStops = result.getFetchSize();
+				result.last();
+				noOfStops = result.getRow();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -601,7 +602,6 @@ public class DatabaseAccess {
 			if(result.isBeforeFirst()) {
 				result.last();
 				noOfStops = result.getRow();
-				System.out.println("no of stops DB: " + noOfStops);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
