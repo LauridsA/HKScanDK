@@ -11,34 +11,38 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 
-<BorderPane prefHeight="90.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiAdministration.ProductionStopController">
-   <left>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label fx:id="lengthField" text="length" GridPane.columnIndex="1" />
-            <Label fx:id="timeField" text="time" />
-         </children>
-      </GridPane>
-   </left>
-   <right>
-      <FlowPane alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="220.0" prefWidth="44.0" vgap="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" text="Opdater" />
-            <Button mnemonicParsing="false" text="Slet" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </FlowPane>
-   </right>
-   <center>
-      <TextArea fx:id="descField" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="90.0" prefWidth="889.0">
+         <left>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lengthField" text="length" GridPane.columnIndex="1" />
+                  <Label fx:id="timeField" text="time" />
+               </children>
+            </GridPane>
+         </left>
+         <right>
+            <FlowPane alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="220.0" prefWidth="44.0" vgap="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Opdater" />
+                  <Button mnemonicParsing="false" text="Slet" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </FlowPane>
+         </right>
+         <center>
+            <TextArea fx:id="descField" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

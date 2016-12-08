@@ -2,52 +2,102 @@ package uiAdministration;
 
 
 
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Pagination;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+import javafx.util.Callback;
 
 public class AdministrationController {
-
-
-
 
     @FXML
     private Button createProductuonStop;
 
     @FXML
-    private VBox vboxList;
+    private Pagination pageList;
+    
+    private String[] mylist = new String[500];
     
    
     public void initialize(){
     	//createDailyMessageButton.setOnAction(e -> CreateDailyMessage(e));d
     	//testLabel.setText("test123");
-    	ChangeLabel();
+    	
     	//Label label = new Label("test456");
-    	//vboxList.getChildren().add(label);asd
+    	//vboxList.getChildren().add(label);ads
+    	
+    	
+		
+    	
+    	ChangeLabel();
+    	
     }
     
     private void ChangeLabel() {
+    	for (int i = 0; i < 500; i++) {
+			mylist[i] = "String " + i;
+		}
+    	pageList.setPageCount(25);
+    	
+    	pageList.setPageFactory(new Callback<Integer, Node>() {
+			
+			@Override
+			public Node call(Integer pages) {
+					return createPage(pages);
+			}
+		});
+    	
+    	/*
     	createProductuonStop.setOnAction(e->CreateDailyMessage(e));
-   
+   		*/
 
 	}
     
-    
-	private void CreateDailyMessage(ActionEvent e) {
-		
-	 	for (int i = 0; i < 500; i++) {
-    		Label label = new Label("test" + i);
-			vboxList.getChildren().add(label);
+    public VBox createPage(int pages){
+    	VBox content = new VBox(10);
+    	for (int i = 0; i < 10; i++) {
+    		try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(AdministrationController.class.getResource("/uiAdministration/ProductionStop.fxml"));
+				AnchorPane productionStop = (AnchorPane) loader.load();
+				content.getChildren().add(productionStop);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
-	}
+    	
+    	
+    	return content;
+    }
+    
+    /*
+	private void CreateDailyMessage(ActionEvent e) {
+	
+		
+		
+	 	for (int i = 0; i < 10; i++) {
+	 		
+	 		
+	 		try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(AdministrationController.class.getResource("/uiAdministration/ProductionStop.fxml"));
+				AnchorPane productionStop = (AnchorPane) loader.load();
+				Label label = new Label("test" + i);
+				vboxList.getChildren().add(productionStop);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				
+		}
+	}*/
 
 
     
