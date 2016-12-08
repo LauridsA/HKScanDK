@@ -24,7 +24,11 @@
                         </FlowPane>
                      </bottom>
                      <center>
-                        <Pagination fx:id="pageList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <ScrollPane prefViewportHeight="530.0" prefViewportWidth="948.0">
+                           <content>
+                              <Pagination fx:id="pageList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </content>
+                        </ScrollPane>
                      </center>
                   </BorderPane>
                </content>
