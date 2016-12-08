@@ -12,6 +12,7 @@ import controller.Controller;
 import controller.ControllerTest;
 import dba.DBSingleConnection;
 import dba.DatabaseAccess;
+import model.MyTypeHolder;
 import model.WorkingTeam;
 
 public class DailyScreenTests {
@@ -43,9 +44,15 @@ public class DailyScreenTests {
 
 	@Test
 	public void SpeedTest() {
-		fail("Not yet implemented");
+		MyTypeHolder speed = ctrt.getSpeed();
+		speed.getInteger();
+		
+		assertEquals(speed, 13000);
 	}
 	
+	/**
+	 * Test the working team method. Should pass.
+	 */
 	@SuppressWarnings("static-access")
 	@Test
 	public void testGetWorkingTeam() {
@@ -60,5 +67,4 @@ public class DailyScreenTests {
 		assertEquals(WorkingTeam.getInstance().getEndTime(), endtimestamp);
 		assertEquals(WorkingTeam.getInstance().getTeamTimeTableId(), id);
 	}
-
 }

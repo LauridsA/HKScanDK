@@ -234,43 +234,6 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * might be slightly generic, hopefully
-	 * @param fromTimeStamp the start time of the desired speed
-	 * @param toTimeStamp the end time of the desired speed
-	 * @param field the enumerate value of the desired resultset value.
-	 * @return ResultSet returns the resultset within the specified timeframe and of the specified enumerate value.
-	 */
-	/*public ResultSet getResultSetValue(long fromTimeStamp, long toTimeStamp, FieldTypes field){
-		PreparedStatement statement = null;
-		String query = "SELECT value FROM ? WHERE (fromdate = ? AND todate = ?)";
-		ResultSet result = null;		
-		Connection con = null;
-		
-		try {
-			con = dbSinCon.getDBcon();
-			con.setAutoCommit(false);
-			statement = con.prepareStatement(query);
-			statement.setLong(2, fromTimeStamp);
-			statement.setLong(3, toTimeStamp);
-			statement.setString(1, field.toString());
-			result = statement.executeQuery();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}*/
-	
-	/**
 	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return
 	 * @return refreshrate Returns the refresh rate of the specified field as an integer
 	 */

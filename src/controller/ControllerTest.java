@@ -23,4 +23,8 @@ public class ControllerTest {
 		dba.getCurrentWorkingTeam(mytime);
 		return new MyTypeHolder(WorkingTeam.getInstance().getTeamTimeTableId());
 	}
+	
+	public MyTypeHolder getSpeed() {
+		return new MyTypeHolder(dba.getCurrentSpeed());
+	}
 }
