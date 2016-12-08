@@ -707,5 +707,16 @@ public class DatabaseAccess {
 		}
 		return total;
 	}
+
+	public int getTotalStops() {
+		try {
+		    con = 
+		} catch (Exception e) {
+		    // TODO: handle exception
+		} finally {
+		    // TODO: handle finally clause
+		}
+		return 0;
+	}
 	
 }

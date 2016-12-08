@@ -206,4 +206,8 @@ public class Controller {
 		return dba.getRefreshRate(type);
 	}
 
+	public int getTotalStops() {
+		return dba.getTotalStops();
+	}
+
 }

@@ -4,6 +4,7 @@ package uiAdministration;
 
 import java.io.IOException;
 
+import controller.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,6 +23,7 @@ public class AdministrationController {
     private Pagination pageList;
     
     private String[] mylist = new String[500];
+    private Controller ctr = new Controller();
     
    
     public void initialize(){
@@ -34,15 +36,12 @@ public class AdministrationController {
     	
 		
     	
-    	ChangeLabel();
+    	initProductionStops();
     	
     }
     
-    private void ChangeLabel() {
-    	for (int i = 0; i < 500; i++) {
-			mylist[i] = "String " + i;
-		}
-    	pageList.setPageCount(25);
+    private void initProductionStops() {
+    	pageList.setPageCount(ctr.getTotalStops());
     	
     	pageList.setPageFactory(new Callback<Integer, Node>() {
 			
@@ -60,7 +59,7 @@ public class AdministrationController {
     
     public VBox createPage(int pages){
     	VBox content = new VBox(10);
-    	for (int i = 0; i < 10; i++) {
+    	for (int i = 0; i < 5; i++) {
     		try {
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(AdministrationController.class.getResource("/uiAdministration/ProductionStop.fxml"));
