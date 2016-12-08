@@ -107,4 +107,38 @@ public class ControllerTest {
 	public MyTypeHolder getTotalSlaughterAmount(int id) {
 		return new MyTypeHolder(dba.totalSlaughterAmount(id));
 	}
+	
+	/**
+	 * Retrieves the average weight from the DB and returns it as an int 
+	 * @return the average weight on the current batch
+	 */
+	public MyTypeHolder getAvgWeight() {
+		return new MyTypeHolder(dba.getAvgWeight());
+	}
+	
+	/**
+	 * Retrieves all batches for the working day and evaluates wether any of them is organic.
+	 * @return returns true, if any of the batches for the working day is organic
+	 */
+	public MyTypeHolder getOrganic(int id) {
+		return new MyTypeHolder(dba.getOrganic(id));
+	}
+	
+	/**
+	 * Retrieves the active daily messages objects
+	 * @return DailyMessages object in an array
+	 */
+	public MyTypeHolder getDailyMessages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * retrieves the currently non-expired production stop messages
+	 * @return the object ProductionStop
+	 */
+	public MyTypeHolder getProductionStop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
