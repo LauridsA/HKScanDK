@@ -395,7 +395,7 @@ public class DatabaseAccess {
 	public void getCurrentWorkingTeam(long time){
 		
 		PreparedStatement statement = null;
-		String query = "SELECT TOP 1 id, starttimestamp, endtimestamp, team FROM teamtimetable WHERE ? BETWEEN starttimestamp AND endtimestamp";
+		String query = "SELECT TOP 1 id, starttimestamp, endtimestamp, teamid FROM teamtimetable WHERE ? BETWEEN starttimestamp AND endtimestamp";
 		ResultSet result = null;		
 		int teamTimeTableId = 0;
 		long startTime = 0;
@@ -413,7 +413,7 @@ public class DatabaseAccess {
 				teamTimeTableId = result.getInt("id");
 				startTime = result.getLong("starttimestamp");
 				endTime = result.getLong("endtimestamp");
-				teamId = result.getInt("team");
+				teamId = result.getInt("teamid");
 			}
 			
 		} catch (Exception e) {
@@ -438,7 +438,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountNight(long now) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
+		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
 		ResultSet result = null;
 		int amountNight = 0;
 		Connection con = null;
@@ -477,7 +477,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountDay(long now) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT sum(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT teamtimetable.id  FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now)";
+		String query = "DECLARE @now BIGINT = ?; SELECT sum(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT teamtimetable.id  FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now)";
 		ResultSet result = null;
 		int amountDay = 0;
 		Connection con = null;
@@ -587,7 +587,7 @@ public class DatabaseAccess {
 	 * @return noOfStops as an int for night team
 	 */
 	public int getNoStopNight(int teamId){
-		String query = "DECLARE @now BIGINT = ?; SELECT *  FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC);";
+		String query = "DECLARE @now BIGINT = ?; SELECT *  FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC);";
 		int noOfStops = 0;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -623,7 +623,7 @@ public class DatabaseAccess {
 	 * @return number of stops as int for day team
 	 */
 	public int getNoStopDay(int teamId){
-		String query = "DECLARE @now BIGINT = ?; SELECT * FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.team = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now);";
+		String query = "DECLARE @now BIGINT = ?; SELECT * FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now);";
 		int noOfStops = 0;
 		PreparedStatement statement = null;
 		ResultSet result = null;
@@ -654,7 +654,7 @@ public class DatabaseAccess {
 	}
 	
 	public int dayExpected(int teamId){
-		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.team = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); SELECT sum(value) - @NightTeamAmount AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.teamid = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); SELECT sum(value) - @NightTeamAmount AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
@@ -686,7 +686,7 @@ public class DatabaseAccess {
 	}
 
 	public int expectedPerHour(int teamId) {
-		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.team = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); DECLARE @speed INT = (SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC); SELECT (sum(value) - @NightTeamAmount)/@speed AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.teamid = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); DECLARE @speed INT = (SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC); SELECT (sum(value) - @NightTeamAmount)/@speed AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
