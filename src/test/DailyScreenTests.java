@@ -17,6 +17,7 @@ import model.WorkingTeam;
 
 public class DailyScreenTests {
 	public ControllerTest ctrt = null;
+	public Controller ctr = null;
 	public DatabaseAccess dba = null;
 	public DBSingleConnection dbSinCon = null;
 
@@ -32,7 +33,9 @@ public class DailyScreenTests {
 	public void setUp() throws Exception {
 		dba = new DatabaseAccess();
 		dbSinCon = new DBSingleConnection();
+		ctr = new Controller(dbSinCon);
 		ctrt = new ControllerTest(dbSinCon);
+		ctrt.getCurrentWorkingTeam(1480305900000L);
 	}
 
 	@After
@@ -40,14 +43,27 @@ public class DailyScreenTests {
 		ctrt = null;
 		dba = null;
 		dbSinCon = null;
+		ctr.getCurrentWorkingTeam();
 	}
 
+	/**
+	 * Test to try and get the latest speed entry from DB. Should pass.
+	 */
 	@Test
 	public void SpeedTest() {
 		MyTypeHolder speed = ctrt.getSpeed();
-		speed.getInteger();
-		
-		assertEquals(speed, 13000);
+		int speedint = speed.getInteger();
+		assertEquals(speedint, 13000);
+	}
+	
+	/**
+	 * Test to try and get the latest speed entry from DB. Should fail.
+	 */
+	@Test
+	public void SpeedTestFail() {
+		MyTypeHolder speed = ctrt.getSpeed();
+		int speedint = speed.getInteger();
+		assertEquals(speedint, 13001);
 	}
 	
 	/**
@@ -66,5 +82,47 @@ public class DailyScreenTests {
 		assertEquals(WorkingTeam.getInstance().getStartTime(), starttimestamp);
 		assertEquals(WorkingTeam.getInstance().getEndTime(), endtimestamp);
 		assertEquals(WorkingTeam.getInstance().getTeamTimeTableId(), id);
+	}
+	
+	@Test
+	public void testExpectedFinish(){
+		
+		MyTypeHolder testRes = ctrt.expectedFinish();
+		int testResInt = testRes.getInteger();
+		System.out.println(testResInt);
+		assertEquals(1481198400000L, (long)testResInt);
+	}
+	
+	@Test
+	public void testExpectedPerHour(){
+		
+		MyTypeHolder testRes = ctrt.expectedPerHour();
+		int testResInt = testRes.getInteger();
+		System.out.println(testResInt);
+		assertEquals(1481198400000L, testResInt);
+	}
+	
+	@Test
+	public void testDayExpected(){
+		MyTypeHolder testRes = ctrt.dayExpected();
+		int testResInt = testRes.getInteger();
+		System.out.println(testResInt);
+		assertEquals(848, testResInt);
+	}
+	
+	@Test
+	public void testGetTotalSlaughterAmount(){
+		MyTypeHolder result = ctrt.getTotalSlaughterAmount();
+		int resultint = result.getInteger();
+		System.out.println(resultint);
+		assertEquals(131984, resultint);
+	}
+	
+	@Test
+	public void testGetTotalCurrentSlaughterAmount(){
+		MyTypeHolder result = ctrt.getTotalCurrentSlaughterAmount();
+		int resultint = result.getInteger();
+		System.out.println(resultint);
+		assertEquals(0, resultint);
 	}
 }
