@@ -69,9 +69,18 @@ public class ControllerTest {
 	 * Retrieves the amount of chickens slaughtered by day team from DB
 	 * @return amount of chickens slaughtered as an int by day team
 	 */
-	public MyTypeHolder getCurrentSlaughterAmountDay() {
+	public MyTypeHolder getCurrentSlaughterAmountDay(long time) {
+		return new MyTypeHolder(dba.getSlaughterAmountDay(time));
+	}
+	
+	public MyTypeHolder getCurrentSlaughterAmountNight(long time) {
+		return new MyTypeHolder(dba.getSlaughterAmountNight(time));
+	}
+	
+	public MyTypeHolder getNoStopNight() {
 		Date time = new Date();
-		return new MyTypeHolder(dba.getSlaughterAmountDay(time.getTime()));
+		int myresult = dba.getNoStopNight(time.getTime());
+		return new MyTypeHolder(myresult);
 	}
 	
 	/**

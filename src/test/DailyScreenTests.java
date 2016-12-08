@@ -125,7 +125,7 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * appears to work
+	 * appears to work but has teamid instead of teamtimetable???
 	 */
 	@Test
 	public void testGetTotalSlaughterAmount(){
@@ -148,7 +148,7 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * appears to work
+	 * appears to work but has teamid instead of teamtimetable???
 	 */
 	@Test
 	public void testGetTotalCurrentSlaughterAmount(){
@@ -194,6 +194,18 @@ public class DailyScreenTests {
 	
 	@Test
 	public void TestGetCurrentSlaughterAmountDay(){
-		//do something
+		MyTypeHolder result = ctrt.getCurrentSlaughterAmountDay(1480305900000L);
+		int resultInt = result.getInteger();
+		System.out.println("WHAT : " +resultInt);
+		assertEquals(63796, resultInt);
+		
+		MyTypeHolder testRes1 = ctrt.getCurrentSlaughterAmountNight(1483475550000L);
+		int testResInt1 = testRes1.getInteger();
+		assertEquals(56056, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.getCurrentSlaughterAmountNight(1483993910000L);
+		int testResInt2 = testRes2.getInteger();
+		assertEquals(95612, testResInt2);
+		
 	}
 }
