@@ -83,10 +83,10 @@ public class Main extends Application {
 	private void initStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("screenUI/Main.fxml"));
+			loader.setLocation(Main.class.getResource("/uiScreen/Main.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public class Main extends Application {
 	private void initScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("screenUI/DailyScreen.fxml"));
+			loader.setLocation(Main.class.getResource("/uiScreen/DailyScreen.fxml"));
 			anchorPane = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(anchorPane);
