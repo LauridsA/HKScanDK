@@ -549,7 +549,7 @@ public class DatabaseAccess {
 	 * @param teamId
 	 * @return noOfStops as an int for night team
 	 */
-	public int getNoStopNight(int teamId){
+	public int getNoStopNight(long now){
 		String query = "DECLARE @now BIGINT = ?; SELECT *  FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC);";
 		int noOfStops = 0;
 		PreparedStatement statement = null;
@@ -559,7 +559,7 @@ public class DatabaseAccess {
 		try {
 			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
-			statement.setInt(1, teamId);
+			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
@@ -585,7 +585,7 @@ public class DatabaseAccess {
 	 * @param teamId
 	 * @return number of stops as int for day team
 	 */
-	public int getNoStopDay(int teamId){
+	public int getNoStopDay(long now){
 		String query = "DECLARE @now BIGINT = ?; SELECT * FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now);";
 		int noOfStops = 0;
 		PreparedStatement statement = null;
@@ -595,7 +595,7 @@ public class DatabaseAccess {
 		try {
 			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
-			statement.setInt(1, teamId);
+			statement.setLong(1, now);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()) {
