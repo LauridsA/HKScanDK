@@ -1,4 +1,4 @@
-package ui;
+package uiScreen;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
