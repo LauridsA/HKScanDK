@@ -105,7 +105,6 @@ public class Controller {
 	public MyTypeHolder getCurrentWorkingTeam() {
 		Date time = new Date();
 		dba.getCurrentWorkingTeam(time.getTime());
-//		WorkingTeam.getInstance();
 		return new MyTypeHolder(WorkingTeam.getInstance().getTeamTimeTableId());
 	}
 
@@ -126,9 +125,10 @@ public class Controller {
 
 	/**
 	 * Calculates the expected end time for the day team based on remaining amounts and speed.
-	 * @return the expected end time for the day team as Unix time.
+	 * @return the expected end time for the day team as unix time
 	 */
 	private MyTypeHolder expectedFinish() {
+		Date date = new Date();
 		int totalTime = 0;
 		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()){
