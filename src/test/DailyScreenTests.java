@@ -55,21 +55,15 @@ public class DailyScreenTests {
 	public void SpeedTest() {
 		MyTypeHolder speed = ctrt.getSpeed();
 		int speedint = speed.getInteger();
-		assertEquals(speedint, 13000);
+		assertEquals(13000, speedint);
 	}
 	
-	
-	/**
-	 * Test to try and get the latest speed entry from DB. Should fail.
-	 */
-	/*
 	@Test
-	public void SpeedTestFail() {
-		MyTypeHolder speed = ctrt.getSpeed();
-		int speedint = speed.getInteger();
-		assertEquals(speedint, 13001);
+	public void testAvgWeight(){
+		MyTypeHolder getAvgWeight = ctrt.getAvgWeight();
+		int getAvgWeightInt = getAvgWeight.getInteger();
+		assertEquals(2648, getAvgWeightInt);
 	}
-	*/
 	
 	/**
 	 * Test the working team method. Should pass.
@@ -213,5 +207,39 @@ public class DailyScreenTests {
 		int testResInt2 = testRes2.getInteger();
 		assertEquals(95612, testResInt2);
 		
+	}
+	
+	/**
+	 * future test
+	 */
+	@Test
+	public void testGetDailyMessages() {
+		//TODO
+	}
+	
+	/**
+	 * future test
+	 */
+	@Test
+	public void testGetProductionStops() {
+		//TODO
+	}
+	
+	/**
+	 * passed!
+	 */
+	@Test
+	public void testOrganic() {
+		MyTypeHolder organic = ctrt.getOrganic(2);
+		boolean organicbool = organic.getBool();
+		assertEquals(organicbool, true);
+		
+		MyTypeHolder organic1 = ctrt.getOrganic(54);
+		boolean organicbool1 = organic1.getBool();
+		assertEquals(organicbool1, false);
+		
+		MyTypeHolder organic2 = ctrt.getOrganic(64);
+		boolean organicbool2 = organic2.getBool();
+		assertEquals(organicbool2, false);
 	}
 }
