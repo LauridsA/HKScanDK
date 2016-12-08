@@ -59,7 +59,7 @@ public class ControllerTest {
 	
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
-	 * @return dayExpected / getSpeed as an Integer
+	 * @return number of chickens per hour (to finish on time)
 	 */
 	public MyTypeHolder expectedPerHour() {
 		return new MyTypeHolder(dba.expectedPerHour(WorkingTeam.getInstance().getTeamId())); 
