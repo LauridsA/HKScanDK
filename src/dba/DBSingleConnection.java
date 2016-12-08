@@ -50,7 +50,7 @@ public class DBSingleConnection {
 		try {
 			con.close();
 			inuse = false;
-			System.out.println("everyone wake up");
+			//System.out.println("everyone wake up");
 			notifyAll();
 		} catch (Exception e) {
 			System.out.println("error");
