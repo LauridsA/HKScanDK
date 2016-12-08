@@ -9,12 +9,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controller.Controller;
+import controller.ControllerTest;
 import dba.DBSingleConnection;
 import dba.DatabaseAccess;
 import model.WorkingTeam;
 
 public class DailyScreenTests {
-	public Controller ctr = null;
+	public ControllerTest ctrt = null;
 	public DatabaseAccess dba = null;
 	public DBSingleConnection dbSinCon = null;
 
@@ -30,12 +31,12 @@ public class DailyScreenTests {
 	public void setUp() throws Exception {
 		dba = new DatabaseAccess();
 		dbSinCon = new DBSingleConnection();
-		ctr = new Controller(dbSinCon);
+		ctrt = new ControllerTest(dbSinCon);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		ctr = null;
+		ctrt = null;
 		dba = null;
 		dbSinCon = null;
 	}
@@ -52,7 +53,7 @@ public class DailyScreenTests {
 		long starttimestamp = 1486008000000L;
 		long endtimestamp = 1486036800000L;
 		int id = 97;
-		ctr.getCurrentWorkingTeam();
+		ctrt.getCurrentWorkingTeam(1486036700000L);
 		
 		assertEquals(WorkingTeam.getInstance().getTeamId(), team);
 		assertEquals(WorkingTeam.getInstance().getStartTime(), starttimestamp);
