@@ -326,7 +326,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 			
@@ -346,7 +346,7 @@ public class AdministrationDatabaseAccess {
 			System.out.println("Database Error: Found nothing.");
 			System.out.println(e.getMessage());
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 		return stopList;

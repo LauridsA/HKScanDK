@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -210,6 +211,30 @@ public class Controller {
 
 	public int getTotalStops() {
 		return dba.getTotalStops();
+	}
+	
+	/**
+	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
+	 * @param Unix Timestamp
+	 * @return Time in a good format
+	 */
+	public String getFormattedTime(Long time) {
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+		//dt.setTimeZone(new Ti);
+		return dt.format(new Date(time));
+		//dt.fot
+	}
+	
+	/**
+	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
+	 * @param Unix Timestamp
+	 * @return Time in a good format
+	 */
+	public String getFormattedTime(Long time, String format) {
+		SimpleDateFormat dt = new SimpleDateFormat(format);
+		//dt.setTimeZone(new Ti);
+		return dt.format(new Date(time));
+		//dt.fot
 	}
 
 }
