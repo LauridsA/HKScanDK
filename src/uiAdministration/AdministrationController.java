@@ -41,7 +41,7 @@ public class AdministrationController {
     }
     
     private void initProductionStops() {
-    	pageList.setPageCount(ctr.getTotalStops());
+    	pageList.setPageCount(ctr.getTotalStops()/10);
     	
     	pageList.setPageFactory(new Callback<Integer, Node>() {
 			

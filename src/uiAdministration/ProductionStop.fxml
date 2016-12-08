@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -10,18 +12,17 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="50.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane prefHeight="90.0" prefWidth="889.0">
+      <BorderPane prefHeight="50.0" prefWidth="825.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="150.0" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label fx:id="lengthField" text="length" GridPane.columnIndex="1" />
@@ -30,7 +31,7 @@
             </GridPane>
          </left>
          <right>
-            <FlowPane alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="220.0" prefWidth="44.0" vgap="5.0" BorderPane.alignment="CENTER">
+            <FlowPane alignment="CENTER" maxWidth="125.0" nodeOrientation="RIGHT_TO_LEFT" vgap="5.0" BorderPane.alignment="CENTER">
                <children>
                   <Button mnemonicParsing="false" text="Opdater" />
                   <Button mnemonicParsing="false" text="Slet" />
@@ -41,7 +42,11 @@
             </FlowPane>
          </right>
          <center>
-            <TextArea fx:id="descField" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+            <AnchorPane>
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="500.0" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </children>

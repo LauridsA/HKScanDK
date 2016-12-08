@@ -24,15 +24,7 @@
                         </FlowPane>
                      </bottom>
                      <center>
-                        <ScrollPane prefViewportHeight="530.0" prefViewportWidth="948.0">
-                           <content>
-                              <AnchorPane>
-                                 <children>
-                                    <Pagination fx:id="pageList" prefHeight="45.0" prefWidth="262.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </ScrollPane>
+                        <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </content>

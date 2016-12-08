@@ -711,14 +711,21 @@ public class DatabaseAccess {
 	}
 
 	public int getTotalStops() {
-		try {
-		    con = 
-		} catch (Exception e) {
-		    // TODO: handle exception
-		} finally {
-		    // TODO: handle finally clause
+	    String query = "SELECT count(id) as total FROM productionstop";
+	    int total = 0;
+	    try {
+		Connection con = DBConnection.getInstance().getDBcon(); 
+		PreparedStatement statement = con.prepareStatement(query);
+		ResultSet result = statement.executeQuery();
+		if(result.next()){
+		    total = result.getInt("total");
 		}
-		return 0;
+	    } catch (Exception e) {
+		 e.printStackTrace();
+	    } finally {
+		DBConnection.getInstance().closeConnection();
+	    }
+	    return total;
 	}
 	
 }
