@@ -53,7 +53,7 @@ public class Main extends Application {
 			loader.setLocation(Main.class.getResource("/uiAdministration/Main.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			Scene scene = new Scene(rootLayout);
-			//scene.getStylesheets().add(getClass().getResource("/uiAdministration/application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/uiAdministration/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {

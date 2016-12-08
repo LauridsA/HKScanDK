@@ -22,7 +22,6 @@ public class AdministrationController {
     @FXML
     private Pagination pageList;
     
-    private String[] mylist = new String[500];
     private Controller ctr = new Controller();
     
    
