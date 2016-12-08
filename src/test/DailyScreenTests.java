@@ -175,6 +175,9 @@ public class DailyScreenTests {
 		return times;
 	}
 	
+	/**
+	 * passed!
+	 */
 	@Test
 	public void testGetNoStopDay(){
 		
@@ -192,6 +195,9 @@ public class DailyScreenTests {
 		assertEquals(0, testResInt2);
 	}
 	
+	/**
+	 * passed!
+	 */
 	@Test
 	public void TestGetCurrentSlaughterAmountDay(){
 		MyTypeHolder result = ctrt.getCurrentSlaughterAmountDay(1480305900000L);
