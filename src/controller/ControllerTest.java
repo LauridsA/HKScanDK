@@ -52,8 +52,8 @@ public class ControllerTest {
 	 * Retrieves the amount of production stops for the working day, along with their stop time for the day team
 	 * @return amount of production stop and their respective stop time
 	 */
-	public MyTypeHolder getNoStopDay() {
-		int myresult = dba.getNoStopDay(WorkingTeam.getInstance().getTeamId());
+	public MyTypeHolder getNoStopDay(long now) {
+		int myresult = dba.getNoStopDay(now);
 		return new MyTypeHolder(myresult);
 	}
 	
@@ -78,8 +78,8 @@ public class ControllerTest {
 	 * retrieves the total slaughtered chickens for the working day as a single query
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
 	 */
-	public MyTypeHolder getTotalCurrentSlaughterAmount() {
-		int myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
+	public MyTypeHolder getTotalCurrentSlaughterAmount(int id) {
+		int myresult = dba.getTotalCurrentSlaughterAmount(id);
 		return new MyTypeHolder(myresult);
 	}
 	
@@ -87,15 +87,15 @@ public class ControllerTest {
 	 * the result of getCurrentTotalSlaughterAmount-getCurrentSlaughterAmount from the night team as an int
 	 * @return the expected production for the day team as an int
 	 */
-	public MyTypeHolder dayExpected() {
-		return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamId()));
+	public MyTypeHolder dayExpected(int id) {
+		return new MyTypeHolder(dba.dayExpected(id));
 	}
 	
 	/**
 	 * Retrieves the total amount to be slaughtered for the working day
 	 * @return total amount to be slaughtered for the day as an int
 	 */
-	public MyTypeHolder getTotalSlaughterAmount() {
-		return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
+	public MyTypeHolder getTotalSlaughterAmount(int id) {
+		return new MyTypeHolder(dba.totalSlaughterAmount(id));
 	}
 }
