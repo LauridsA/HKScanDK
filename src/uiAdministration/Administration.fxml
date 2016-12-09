@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,24 +9,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="654.0" prefWidth="948.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiAdministration.AdministrationController">
+<AnchorPane prefHeight="654.0" prefWidth="948.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiAdministration.AdministrationUiController">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
             <Tab text="Produktionsstops">
                <content>
                   <BorderPane>
-                     <bottom>
-                        <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="95.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret" />
-                              <Button mnemonicParsing="false" text="Button" />
-                           </children>
-                        </FlowPane>
-                     </bottom>
                      <center>
-                        <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+                        <ScrollPane fitToWidth="true" prefViewportHeight="590.0" prefViewportWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+                           </content>
+                        </ScrollPane>
                      </center>
+                     <top>
+                        <AnchorPane>
+                           <children>
+                              <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret nyt stop" BorderPane.alignment="CENTER" />
+                           </children>
+                        </AnchorPane>
+                     </top>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </BorderPane>
                </content>
             </Tab>

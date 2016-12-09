@@ -84,7 +84,7 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * Either logic or SQL is broken. Returns remaining minutes until done with day?
+	 * Either logic or SQL is broken. Returns remaining minutes until done with day? TODO
 	 */
 	@Test
 	public void testExpectedFinish(){
@@ -92,34 +92,55 @@ public class DailyScreenTests {
 		MyTypeHolder testRes = ctrt.expectedFinish();
 		int testResInt = testRes.getInteger();
 		System.out.println("expectedfinish: " + testResInt);
-		assertEquals(232, (long)testResInt);
+		assertEquals(595, (long)testResInt);
 	}
 	
 	/**
-	 * SQL might be broken. seems to take teamid rather than teamtimetableid. only accepts 1, no other number (???)
+	 * SQL fixed. Needs proper data for test.
+	 * returns minutes
 	 */
 	@Test
 	public void testExpectedPerHour(){
 		
-		MyTypeHolder testRes = ctrt.expectedPerHour();
+		MyTypeHolder testRes = ctrt.expectedPerHour(111);
 		int testResInt = testRes.getInteger();
 		System.out.println("expectedperhour: " + testResInt);
-		assertEquals(1481198400000L, testResInt);
+		assertEquals(437, testResInt);
+		
+		MyTypeHolder testRes1 = ctrt.expectedPerHour(63);
+		int testResInt1 = testRes1.getInteger();
+		//System.out.println("expectedperhour: " + testResInt1);
+		assertEquals(0, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.expectedPerHour(99);
+		int testResInt2 = testRes2.getInteger();
+		System.out.println("expectedperhour: " + testResInt2);
+		assertEquals(427, testResInt2);
 	}
 	
 	/**
-	 * SQL seems to be broken. only accepts 1, no other number (????)
+	 * SQL fixed
 	 */
 	@Test
 	public void testDayExpected(){
-		MyTypeHolder testRes = ctrt.dayExpected(2);
+		MyTypeHolder testRes = ctrt.dayExpected(91);
 		int testResInt = testRes.getInteger();
 		System.out.println("dayexpected: " + testResInt);
-		assertEquals(848, testResInt);
+		assertEquals(70168, testResInt);
+		
+		MyTypeHolder testRes1 = ctrt.dayExpected(111);
+		int testResInt1 = testRes1.getInteger();
+		System.out.println("dayexpected: " + testResInt1);
+		assertEquals(75311, testResInt1);
+		
+		MyTypeHolder testRes2 = ctrt.dayExpected(73);
+		int testResInt2 = testRes2.getInteger();
+		System.out.println("dayexpected: " + testResInt2);
+		assertEquals(0, testResInt2);
 	}
 	
 	/**
-	 * appears to work but has teamid instead of teamtimetable???
+	 * sql fixed
 	 */
 	@Test
 	public void testGetTotalSlaughterAmount(){
@@ -149,15 +170,15 @@ public class DailyScreenTests {
 		MyTypeHolder result = ctrt.getTotalCurrentSlaughterAmount(2);
 		int resultInt = result.getInteger();
 		System.out.println("total current SA : " + resultInt);
-		assertEquals(131136, resultInt);
+		assertEquals(67858, resultInt);
 		
 		MyTypeHolder testRes1 = ctrt.getTotalCurrentSlaughterAmount(54);
 		int testResInt1 = testRes1.getInteger();
-		assertEquals(135680, testResInt1);
+		assertEquals(70959, testResInt1);
 		
 		MyTypeHolder testRes2 = ctrt.getTotalCurrentSlaughterAmount(64);
 		int testResInt2 = testRes2.getInteger();
-		assertEquals(127624, testResInt2);
+		assertEquals(66619, testResInt2);
 		
 	}
 	
@@ -197,16 +218,15 @@ public class DailyScreenTests {
 		MyTypeHolder result = ctrt.getCurrentSlaughterAmountDay(1480305900000L);
 		int resultInt = result.getInteger();
 		System.out.println("WHAT : " +resultInt);
-		assertEquals(63796, resultInt);
+		assertEquals(5208, resultInt);
 		
 		MyTypeHolder testRes1 = ctrt.getCurrentSlaughterAmountNight(1483475550000L);
 		int testResInt1 = testRes1.getInteger();
-		assertEquals(56056, testResInt1);
+		assertEquals(49105, testResInt1);
 		
 		MyTypeHolder testRes2 = ctrt.getCurrentSlaughterAmountNight(1483993910000L);
 		int testResInt2 = testRes2.getInteger();
-		assertEquals(95612, testResInt2);
-		
+		assertEquals(66619, testResInt2);
 	}
 	
 	/**
