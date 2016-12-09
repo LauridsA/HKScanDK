@@ -477,7 +477,7 @@ public class DatabaseAccess {
 	 */
 	public int	totalSlaughterAmount(int teamId) {
 		PreparedStatement statement = null;
-		String query = "DECLARE @team int = ?; SELECT SUM(value) AS totalamount FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team;";
+		String query = "DECLARE @timetableid int = ?; SELECT SUM(value) AS totalamount FROM batch WHERE teamnighttimetableid = @timetableid OR teamdaytimetableid = @timetableid;";
 		ResultSet result = null;
 		int expectedAmount = 0;
 		Connection con = null;
@@ -659,7 +659,7 @@ public class DatabaseAccess {
 	 * @return
 	 */
 	public int expectedPerHour(int teamId) {
-		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.id = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); DECLARE @speed INT = (SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC); SELECT (sum(value) - @NightTeamAmount)/@speed AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; SELECT SUM((totalval-something)/IIF(total.organic=1,88,217)) AS result FROM (SELECT SUM(slaughteramount.value) as something, batch.organic FROM slaughteramount JOIN batch ON batchid = batch.id WHERE teamtimetableid = @team	GROUP BY organic) AS night JOIN	(SELECT SUM(value) AS totalval, organic FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team GROUP BY organic) AS total ON total.organic = night.organic;";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
