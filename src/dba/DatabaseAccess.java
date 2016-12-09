@@ -686,7 +686,7 @@ public class DatabaseAccess {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
-		Map<Integer, Integer> total = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> total = new HashMap<>();
 		
 		try {
 			con = dbSinCon.getDBcon();
