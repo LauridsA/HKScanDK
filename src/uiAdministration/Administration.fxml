@@ -17,11 +17,11 @@
                <content>
                   <BorderPane>
                      <center>
-                        <AnchorPane>
-                           <children>
+                        <ScrollPane fitToWidth="true" prefViewportHeight="590.0" prefViewportWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
                               <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
-                           </children>
-                        </AnchorPane>
+                           </content>
+                        </ScrollPane>
                      </center>
                      <top>
                         <AnchorPane>
