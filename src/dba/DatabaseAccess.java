@@ -618,8 +618,12 @@ public class DatabaseAccess {
 		return noOfStops;
 	}
 	
+	/**
+	 * @param teamId MUST BE DAY TEAM
+	 * @return
+	 */
 	public int dayExpected(int teamId){
-		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.teamid = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); SELECT sum(value) - @NightTeamAmount AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount  FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.id = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); SELECT sum(value) - @NightTeamAmount AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
@@ -650,6 +654,10 @@ public class DatabaseAccess {
 		return expected;
 	}
 
+	/**
+	 * @param teamId MUST BE DAY TEAM
+	 * @return
+	 */
 	public int expectedPerHour(int teamId) {
 		String query = "DECLARE @team INT = ?; DECLARE @NightTeamAmount INT = (SELECT SUM(value) AS nightamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM teamtimetable JOIN batch ON teamtimetable.id = batch.teamdaytimetableid WHERE teamdaytimetableid = @team)); DECLARE @speed INT = (SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC); SELECT (sum(value) - @NightTeamAmount)/@speed AS result FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
 		PreparedStatement statement = null;

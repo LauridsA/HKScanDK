@@ -96,7 +96,7 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * SQL might be broken. seems to take teamid rather than teamtimetableid. only accepts 1, no other number (???)
+	 * SQL fixed. Needs proper data for test.
 	 */
 	@Test
 	public void testExpectedPerHour(){
