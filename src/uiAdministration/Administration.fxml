@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -15,17 +16,23 @@
             <Tab text="Produktionsstops">
                <content>
                   <BorderPane>
-                     <bottom>
-                        <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="95.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret" />
-                              <Button mnemonicParsing="false" text="Button" />
-                           </children>
-                        </FlowPane>
-                     </bottom>
                      <center>
-                        <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+                        <AnchorPane>
+                           <children>
+                              <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
+                           </children>
+                        </AnchorPane>
                      </center>
+                     <top>
+                        <AnchorPane>
+                           <children>
+                              <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret nyt stop" BorderPane.alignment="CENTER" />
+                           </children>
+                        </AnchorPane>
+                     </top>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </BorderPane>
                </content>
             </Tab>

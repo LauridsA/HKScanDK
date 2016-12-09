@@ -7,13 +7,18 @@ import java.util.ArrayList;
 
 import controller.AdministrationController;
 import controller.Controller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.ProductionStop;
 
@@ -30,6 +35,7 @@ public class AdministrationUiController {
     
    
     public void initialize(){
+	createProductuonStop.setOnAction(e -> createProductuonStop(e));
     	initProductionStops();
     }
     
@@ -67,5 +73,25 @@ public class AdministrationUiController {
     	
     	
     	return content;
-    }  
+    }
+    
+    private Object createProductuonStop(ActionEvent e) {
+	Stage dialog = new Stage();
+	try {
+		Parent root = FXMLLoader.load(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
+		dialog.setScene(new Scene(root));
+		dialog.setTitle("Some title");
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
+		dialog.resizableProperty().set(false);;
+		dialog.showAndWait();
+		
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	return null;
+    }
+    
+    
 }
