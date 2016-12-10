@@ -11,3 +11,11 @@
 .root {
 	
 }  
+
+.failed{
+	-fx-background-color: red;
+}
+
+#failed {
+	-fx-background-color: red;
+}

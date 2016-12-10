@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -37,7 +38,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-	                       		<TextField fx:id="fieldStopTIme" maxWidth="100.0" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="1" />
+	                       		<TextField fx:id="fieldStopTime" maxWidth="100.0" prefHeight="25.0" prefWidth="150.0" GridPane.columnIndex="1" />
 	                            <DatePicker fx:id="fieldStopDate" showWeekNumbers="true" GridPane.columnIndex="2" />
 	                            <Label text="Længde på stop" GridPane.rowIndex="1" />
 	                            <TextField fx:id="fieldStopLength" maxWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -71,4 +72,8 @@
          </padding>
       </BorderPane>
    </children>
+   <stylesheets>
+      <URL value="@modalbox.css" />
+      <URL value="@application.css" />
+   </stylesheets>
 </AnchorPane>
