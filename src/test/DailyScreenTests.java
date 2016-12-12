@@ -96,25 +96,22 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * SQL fixed. Needs proper data for test.
-	 * returns minutes
+	 * Retrieves the expected remaining chickens divided by the remaining hours of work for the day.
+	 * returns chickens/hour
 	 */
 	@Test
 	public void testExpectedPerHour(){
 		
 		MyTypeHolder testRes = ctrt.expectedPerHour(111);
 		int testResInt = testRes.getInteger();
-		System.out.println("expectedperhour: " + testResInt);
 		assertEquals(437, testResInt);
 		
 		MyTypeHolder testRes1 = ctrt.expectedPerHour(63);
 		int testResInt1 = testRes1.getInteger();
-		//System.out.println("expectedperhour: " + testResInt1);
 		assertEquals(0, testResInt1);
 		
 		MyTypeHolder testRes2 = ctrt.expectedPerHour(99);
 		int testResInt2 = testRes2.getInteger();
-		System.out.println("expectedperhour: " + testResInt2);
 		assertEquals(427, testResInt2);
 	}
 	
@@ -140,7 +137,7 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * sql fixed
+	 * SQL fixed
 	 */
 	@Test
 	public void testGetTotalSlaughterAmount(){
@@ -163,7 +160,8 @@ public class DailyScreenTests {
 	}
 	
 	/**
-	 * appears to work but has teamid instead of teamtimetable???
+	 * Returns the total amount that the day and night team have slaughtered so far.
+	 * Return the sum of day team slaughtered + night team slaughtered
 	 */
 	@Test
 	public void testGetTotalCurrentSlaughterAmount(){
