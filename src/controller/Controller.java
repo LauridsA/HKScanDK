@@ -129,7 +129,7 @@ public class Controller {
 	 * @return the expected end time for the day team as unix time
 	 */
 	private MyTypeHolder expectedFinish() {
-		Date date = new Date();
+		
 		int totalTime = 0;
 		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()){
@@ -139,8 +139,9 @@ public class Controller {
 				totalTime += entry.getValue() / 83;
 			}
 		}
-		
-		return new MyTypeHolder(totalTime);
+		Date date = new Date();
+		Long newDate = date.getTime() + (totalTime *60000);
+		return new MyTypeHolder(getFormattedTime(newDate, "HH:mm dd/MM/yy"));
 		
 	}
 	/**
