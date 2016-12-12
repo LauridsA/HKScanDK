@@ -117,7 +117,7 @@ public class DatabaseAccess {
 	}
 
 	/**
-	 * 
+	 * Retrieves the average weight of the current batch from the database.
 	 * @param fromTimeDate the start time of the desired average weight
 	 * @param toTimeDate the end time of the desired average weight
 	 * @return the average weight as an int
