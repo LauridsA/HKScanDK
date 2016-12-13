@@ -151,7 +151,7 @@ public class AdministrationDatabaseAccess {
 	
 	public ArrayList<DailyMessages> getAllMessages() {
 		PreparedStatement statement = null;
-		String query = "SELECT dmessage, dtimestamp, expire, showdate FROM dailymessages;";
+		String query = "SELECT dmessage, dtimestamp, expire, showdate FROM dailymessages SORT BY showdate ASC";
 		ResultSet result = null;
 		ArrayList<DailyMessages> messageList = new ArrayList<>();
 		Connection con = null;
@@ -160,8 +160,6 @@ public class AdministrationDatabaseAccess {
 			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
-			
-			if(result.isBeforeFirst()){
 				while(result.next()){
 					String message = result.getString("dmessage");
 					Long timestamp = result.getLong("dtimestamp");
@@ -171,7 +169,6 @@ public class AdministrationDatabaseAccess {
 					DailyMessages dm = new DailyMessages(message, timestamp, expire, showDate);
 					messageList.add(dm);
 				}
-			}
 			
 		} catch (Exception e) {
 			System.out.println("Database Error: Found nothing.");
@@ -192,11 +189,11 @@ public class AdministrationDatabaseAccess {
 	 */
 	public void createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
 		PreparedStatement statement = null;
-		String query = "SELECT stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop;";
+		String query = "INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, ?)";
 		
 		Connection con = null;
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, stopTime);
@@ -218,7 +215,7 @@ public class AdministrationDatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e){					
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -320,7 +317,7 @@ public class AdministrationDatabaseAccess {
 	 */
 	public ArrayList<ProductionStop> getAllStops() {
 		PreparedStatement statement = null;
-		String query = "SELECT stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop;";
+		String query = "SELECT stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;

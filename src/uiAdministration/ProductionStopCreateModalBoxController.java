@@ -1,9 +1,14 @@
 package uiAdministration;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import controller.AdministrationController;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +47,8 @@ public class ProductionStopCreateModalBoxController {
     private TextField fieldStopLength;
 
 	private Stage stage;
+	
+	private AdministrationController ctr = new AdministrationController();
 	
 	public void initialize() {
 		//stage.setOnCloseRequest(e -> closeModalbox());
@@ -108,6 +115,33 @@ public class ProductionStopCreateModalBoxController {
 		
 		/* ^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ */ 
 	}
+	
+	// TODO virker men der er ingen tjek på om det er korrekte input
+    @FXML
+    void addNewStop(ActionEvent event) {
+    	String stopString = fieldStopTime.getText() + " " + fieldStopDate.getValue();
+    	DateFormat df = new SimpleDateFormat("hh:mm yyy-MM-dd");
+    	long stopTime = 0;
+		try {
+			Date date = df.parse(stopString);
+	    	stopTime = date.getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	
+    	int stopLength = Integer.parseInt(fieldStopLength.getText());
+    	String stopDescription = descBox.getText();
+    	int teamTimeTableId = 9;
+    	
+    	
+    	
+    	ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+    	
+    	Stage stage = (Stage) buttonCreateStop.getScene().getWindow();
+		stage.close();
+    }
 	
 	
 	

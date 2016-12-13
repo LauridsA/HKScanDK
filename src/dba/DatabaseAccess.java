@@ -509,8 +509,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param teamId
-	 * @return int: the total slaughtered chickens so far for the working day
+	 * @param int teamId
+	 * @return the total slaughtered chickens so far for the working day
 	 */
 	public int getTotalCurrentSlaughterAmount(int teamId){
 		PreparedStatement statement = null;

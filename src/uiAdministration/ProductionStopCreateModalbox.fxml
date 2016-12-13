@@ -13,7 +13,7 @@
          <bottom>
             <FlowPane alignment="BOTTOM_RIGHT" columnHalignment="CENTER" hgap="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="buttonCreateStop" mnemonicParsing="false" text="Create" />
+                  <Button fx:id="buttonCreateStop" mnemonicParsing="false" onAction="#addNewStop" text="Create" />
                   <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#closeModalbox" text="Cancel" />
                </children>
                <padding>
