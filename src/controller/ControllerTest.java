@@ -62,7 +62,8 @@ public class ControllerTest {
 	 * @return number of chickens per hour (to finish on time)
 	 */
 	public MyTypeHolder expectedPerHour(int id) {
-		return new MyTypeHolder(dba.expectedPerHour(id)); 
+		Date time = new Date();
+		return new MyTypeHolder(dba.expectedPerHour(id,time.getTime())); 
 	}
 	
 	/**

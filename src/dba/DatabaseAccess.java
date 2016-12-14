@@ -658,8 +658,8 @@ public class DatabaseAccess {
 	 * @param teamId MUST BE DAY TEAM
 	 * @return
 	 */
-	public int expectedPerHour(int teamId) {
-		String query = "DECLARE @team INT = ?; SELECT SUM((totalval-something)/IIF(total.organic=1,88,217)) AS result FROM (SELECT SUM(slaughteramount.value) as something, batch.organic FROM slaughteramount JOIN batch ON batchid = batch.id WHERE teamtimetableid = @team	GROUP BY organic) AS night JOIN	(SELECT SUM(value) AS totalval, organic FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team GROUP BY organic) AS total ON total.organic = night.organic;";
+	public int expectedPerHour(int teamId, long now) {
+		String query = "DECLARE @team INT = ?; DECLARE @now BIGINT = ?; DECLARE @totalval INT = (SELECT SUM(value) AS totalval FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team) SELECT ISNULL((@totalval-(SELECT SUM(slaughteramount.value) AS slaughterval FROM slaughteramount JOIN batch ON batchid = batch.id WHERE slaughteramount.teamtimetableid = @team)), @totalval)/((((SELECT TOP 1 teamtimetable.endtimestamp FROM batch JOIN teamtimetable ON batch.teamdaytimetableid = teamtimetable.id WHERE batch.teamdaytimetableid = @team OR batch.teamnighttimetableid = @team)) - @now)/3600000) AS result;";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
@@ -669,6 +669,7 @@ public class DatabaseAccess {
 			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, teamId);
+			statement.setLong(2, now);
 			result = statement.executeQuery();
 			if(!result.isBeforeFirst()) {
 				//do nothing
