@@ -31,7 +31,7 @@ import model.ProductionStop;
 public class AdministrationUiController {
 
     @FXML
-    private Button createProductuonStop;
+    private Button createProductionStop;
 
     @FXML
     private Pagination pageList;
@@ -41,7 +41,7 @@ public class AdministrationUiController {
     
    
     public void initialize(){
-	createProductuonStop.setOnAction(e -> createProductuonStop(e));
+	createProductionStop.setOnAction(e -> createProductionStop(e));
     	initProductionStops();
     }
     
@@ -81,7 +81,7 @@ public class AdministrationUiController {
     	return content;
     }
     
-    private Object createProductuonStop(ActionEvent e) {
+    private void createProductionStop(ActionEvent e) {
 	Stage dialog = new Stage();
 	try {
 		FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
@@ -101,7 +101,6 @@ public class AdministrationUiController {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
-	return null;
     }
     
     private void closeModalbox(WindowEvent e2) {
