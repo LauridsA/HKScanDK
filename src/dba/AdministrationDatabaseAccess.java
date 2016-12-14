@@ -17,7 +17,7 @@ public class AdministrationDatabaseAccess {
 	}
 	
 	public AdministrationDatabaseAccess() {
-		// TODO Auto-generated constructor stub
+		//empty constructor
 	}
 	
 	/**
