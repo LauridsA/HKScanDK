@@ -92,7 +92,7 @@ public class DailyScreenController {
     }
     
     /**
-     * Start the controller
+     * Start the controller TODO foreach i enumerate
      */
     public void initialize(){
     	startWorker(FieldTypes.WORKINGTEAM, null);
