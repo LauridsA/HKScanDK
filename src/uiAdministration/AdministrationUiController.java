@@ -44,7 +44,7 @@ public class AdministrationUiController {
     
    
     public void initialize(){
-	createProductionStop.setOnAction(e -> createProductionStop(e));
+	//createProductionStop.setOnAction(e -> createProductionStop(e));
     	initProductionStops();
     }
     
@@ -74,7 +74,7 @@ public class AdministrationUiController {
 				ProductionStopController pctr = ((ProductionStopController) loader.getController());
 				System.out.println(arr.get(i));
 				pctr.setFields(arr.get(i));
-				pctr.setParentController(this, productionStop);
+				pctr.setParentController(this, content, productionStop);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -102,11 +102,7 @@ public class AdministrationUiController {
 		dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
 		dialog.resizableProperty().set(false);
 		dialog.showAndWait();
-		
-		reFreshPageContent();
-		
-		//dialog.setOnCloseRequest(e2 -> closeModalbox(e2));
-		
+		reFreshPageContent();		
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -121,29 +117,19 @@ public class AdministrationUiController {
     
     public void reFreshPageContent (){
     	arr = aCtr.getAllStops();
-    	int totalpages = arr.size()/10;
+    	resetPageSize();
+    }
+  
+    public void resetPageSize() {
+		int totalpages = arr.size()/10;
     	pageList.setPageCount(totalpages);
     	pageList.setCurrentPageIndex(0);
-    }
-    
-    private void closeModalbox(WindowEvent e2) {
-		/*Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Luk opret nyt stop");
-		alert.setHeaderText("Alt data vil blive slettet!");
-		alert.setContentText("Luk vinduet?");
-		
-		ButtonType confirmButton = new ButtonType("ja", ButtonData.YES);
-		ButtonType cancelButton = new ButtonType("nej", ButtonData.CANCEL_CLOSE);
-		
-		alert.getButtonTypes().setAll(confirmButton, cancelButton);
+	}
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == confirmButton){
-			//(((Node)e2.getSource()).getScene().getWindow()).close
-		} else {
-		    // ... user chose CANCEL or closed the dialog    
-		}
-		*/
+	public void removeElement(ProductionStop productionStop) {
+		arr.remove(productionStop);
+		resetPageSize();
+
 	}
     
     

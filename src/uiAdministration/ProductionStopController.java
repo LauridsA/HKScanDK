@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import model.ProductionStop;
 
 
@@ -32,7 +33,9 @@ public class ProductionStopController {
 
 	private AdministrationUiController administrationUiController;
 
-	private AnchorPane productionStop2;	
+	private ProductionStop productionStop2;
+
+	private AnchorPane productionStop3;	
 	
 	public void setFields(ProductionStop element) {
 		this.productionStop = element;
@@ -45,7 +48,8 @@ public class ProductionStopController {
     @FXML
     void removeStop(ActionEvent event) {
     	aCtr.deleteStop(productionStop.getId());
-    	administrationUiController.reFreshPageContent();
+    	//administrationUiController.reFreshPageContent();
+    	administrationUiController.removeElement(productionStop, pro);
     }
 	
 	@Override
@@ -53,9 +57,10 @@ public class ProductionStopController {
 	    return "Time : " + timeField + " , Length: " + lengthField + " ,desc" + descField;
 	}
 
-	public void setParentController(AdministrationUiController administrationUiController, AnchorPane productionStop2) {
+	public void setParentController(AdministrationUiController administrationUiController2, VBox content, AnchorPane productionStop3) {
 		this.administrationUiController = administrationUiController;
-		this.productionStop2 = productionStop2;
+		this.productionStop3 = productionStop3;
+		this.vbox 
 	}
 	
 
