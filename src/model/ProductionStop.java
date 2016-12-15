@@ -1,16 +1,18 @@
 package model;
 
 public class ProductionStop {
+	private int id;
 	private Long stopTime;
 	private int stopLength;
 	private String stopDescription;
 	private int teamTimeTableId;
 	
-	public ProductionStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId){
+	public ProductionStop(int id, Long stopTime, int stopLength, String stopDescription, int teamTimeTableId){
 		this.stopTime = stopTime;
 		this.stopLength = stopLength;
 		this.stopDescription = stopDescription;
 		this.teamTimeTableId = teamTimeTableId;
+		this.id = id;
 	}
 
 	public Long getStopTime() {
@@ -43,6 +45,13 @@ public class ProductionStop {
 
 	public void setTeamTimeTableId(int teamTimeTableId) {
 		this.teamTimeTableId = teamTimeTableId;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return this.id;
 	}
 
 	@Override

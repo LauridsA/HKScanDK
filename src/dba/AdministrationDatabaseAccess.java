@@ -283,7 +283,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
@@ -302,7 +302,7 @@ public class AdministrationDatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
@@ -317,7 +317,7 @@ public class AdministrationDatabaseAccess {
 	 */
 	public ArrayList<ProductionStop> getAllStops() {
 		PreparedStatement statement = null;
-		String query = "SELECT stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
+		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;
@@ -329,12 +329,13 @@ public class AdministrationDatabaseAccess {
 			
 			if(result.isBeforeFirst()){
 				while(result.next()){
+					int id = result.getInt("id");
 					Long st = result.getLong("stoptime");
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
 					int ttti = result.getInt("teamtimetableid");
 					
-					ProductionStop ps = new ProductionStop(st, sl, sd, ttti);
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti);
 					stopList.add(ps);
 				}
 			}

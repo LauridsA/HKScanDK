@@ -4,7 +4,6 @@ package uiAdministration;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import controller.AdministrationController;
 import controller.Controller;
@@ -14,12 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Pagination;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -36,8 +32,15 @@ public class AdministrationUiController {
     @FXML
     private Pagination pageList;
     
+    @FXML
+    private Button refreshButton;
+    
     private Controller ctr = new Controller();
     private AdministrationController aCtr = new AdministrationController();
+
+	private int perPage = 10;
+	
+	private ArrayList<ProductionStop> arr;
     
    
     public void initialize(){
@@ -46,7 +49,7 @@ public class AdministrationUiController {
     }
     
     private void initProductionStops() {
-    	ArrayList<ProductionStop> arr = aCtr.getAllStops();
+    	arr = aCtr.getAllStops();
     	int totalpages = arr.size()/10;
     	pageList.setPageCount(totalpages);
     	pageList.setPageFactory(new Callback<Integer, Node>() {
@@ -58,7 +61,8 @@ public class AdministrationUiController {
 		});
 	}
     
-    public VBox createPage(int pages, ArrayList<ProductionStop> arr){
+    public Node createPage(int pages, ArrayList<ProductionStop> arr){
+    	ScrollPane sPane = new ScrollPane();
     	VBox content = new VBox(10);
     	int startValue = pages * 10;
     	for (int i = startValue; i < startValue + 10; i++) {
@@ -70,6 +74,7 @@ public class AdministrationUiController {
 				ProductionStopController pctr = ((ProductionStopController) loader.getController());
 				System.out.println(arr.get(i));
 				pctr.setFields(arr.get(i));
+				pctr.setParentController(this, productionStop);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -77,9 +82,12 @@ public class AdministrationUiController {
 			
 		}
     	
-    	
-    	return content;
+    	sPane.setContent(content);
+    	sPane.setFitToWidth(true); 
+    	sPane.setFitToWidth(true);
+    	return sPane;
     }
+    
     
     private Object createProductuonStop(ActionEvent e) {
 	Stage dialog = new Stage();
@@ -95,13 +103,28 @@ public class AdministrationUiController {
 		dialog.resizableProperty().set(false);
 		dialog.showAndWait();
 		
-		dialog.setOnCloseRequest(e2 -> closeModalbox(e2));
+		reFreshPageContent();
+		
+		//dialog.setOnCloseRequest(e2 -> closeModalbox(e2));
 		
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	return null;
+    }
+    
+    @FXML
+    private void reDrawPages(ActionEvent event) {
+    	reFreshPageContent();
+    }
+    
+    
+    public void reFreshPageContent (){
+    	arr = aCtr.getAllStops();
+    	int totalpages = arr.size()/10;
+    	pageList.setPageCount(totalpages);
+    	pageList.setCurrentPageIndex(0);
     }
     
     private void closeModalbox(WindowEvent e2) {

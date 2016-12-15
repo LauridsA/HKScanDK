@@ -17,17 +17,23 @@
                <content>
                   <BorderPane>
                      <center>
-                        <ScrollPane fitToWidth="true" prefViewportHeight="590.0" prefViewportWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <content>
-                              <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
-                           </content>
-                        </ScrollPane>
+                        <Pagination fx:id="pageList" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER" />
                      </center>
                      <top>
                         <AnchorPane>
                            <children>
-                              <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret nyt stop" BorderPane.alignment="CENTER" />
+                              <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <left>
+                                    <Button fx:id="createProductuonStop" mnemonicParsing="false" text="Opret nyt stop" BorderPane.alignment="CENTER" />
+                                 </left>
+                                 <right>
+                                    <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#reDrawPages" text="Hent nye stop" BorderPane.alignment="CENTER" />
+                                 </right>
+                              </BorderPane>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
                         </AnchorPane>
                      </top>
                      <padding>
