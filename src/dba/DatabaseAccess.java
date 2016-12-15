@@ -22,18 +22,6 @@ public class DatabaseAccess {
 	public DatabaseAccess() {
 		// TODO Auto-generated constructor stub
 	}
-
-	/**
-	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
-	 * @param Unix Timestamp
-	 * @return Time in a good format
-	 */
-	private String getTime(Long time) {
-		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-		//dt.setTimeZone(new Ti);
-		return dt.format(new Date(time));
-		//dt.fot
-	}
 	
 	/**
 	 * 
