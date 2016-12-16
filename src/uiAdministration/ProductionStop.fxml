@@ -33,7 +33,7 @@
          <right>
             <FlowPane alignment="CENTER" maxWidth="125.0" nodeOrientation="RIGHT_TO_LEFT" vgap="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Opdater" />
+                  <Button mnemonicParsing="false" onAction="#updateStop" text="Opdater" />
                   <Button mnemonicParsing="false" onAction="#removeStop" text="Slet" />
                </children>
                <padding>

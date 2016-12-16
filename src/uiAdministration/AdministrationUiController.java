@@ -44,7 +44,7 @@ public class AdministrationUiController {
     
    
     public void initialize(){
-	//createProductionStop.setOnAction(e -> createProductionStop(e));
+    	createProductionStop.setOnAction(e -> createProductionStop(e));
     	initProductionStops();
     }
     
@@ -84,30 +84,50 @@ public class AdministrationUiController {
     	
     	sPane.setContent(content);
     	sPane.setFitToWidth(true); 
-    	sPane.setFitToWidth(true);
     	return sPane;
     }
     
     
     private void createProductionStop(ActionEvent e) {
-	Stage dialog = new Stage();
-	try {
-		FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
-		Parent root = (Parent) loader.load();
-		ProductionStopCreateModalBoxController pctr = loader.getController();
-		pctr.setStage(dialog);
-		dialog.setScene(new Scene(root));
-		dialog.setTitle("Some title");
-		dialog.initModality(Modality.WINDOW_MODAL);
-		dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
-		dialog.resizableProperty().set(false);
-		dialog.showAndWait();
-		reFreshPageContent();		
-	} catch (IOException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+		Stage dialog = new Stage();
+		try {
+			FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
+			Parent root = (Parent) loader.load();
+			ProductionStopCreateModalBoxController pctr = loader.getController();
+			pctr.setStage(dialog);
+			dialog.setScene(new Scene(root));
+			dialog.setTitle("Some title");
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
+			dialog.resizableProperty().set(false);
+			dialog.showAndWait();
+			reFreshPageContent();		
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
+    
+    public void updateProductionStop(ActionEvent e, ProductionStop productionStop) {
+  		Stage dialog = new Stage();
+  		try {
+  			FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
+  			Parent root = (Parent) loader.load();
+  			ProductionStopCreateModalBoxController pctr = loader.getController();
+  			pctr.setStage(dialog);
+  			pctr.initUpdate(productionStop);
+  			dialog.setScene(new Scene(root));
+  			dialog.setTitle("Some title");
+  			dialog.initModality(Modality.WINDOW_MODAL);
+  			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
+  			dialog.resizableProperty().set(false);
+  			dialog.showAndWait();
+  			reFreshPageContent();		
+  		} catch (IOException e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
+      }
     
     @FXML
     private void reDrawPages(ActionEvent event) {

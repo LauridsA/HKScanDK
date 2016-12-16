@@ -240,7 +240,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
@@ -263,7 +263,7 @@ public class AdministrationDatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();

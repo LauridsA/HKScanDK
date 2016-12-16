@@ -1,7 +1,9 @@
 package uiAdministration;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.lang.model.element.Element;
 
@@ -9,9 +11,20 @@ import controller.AdministrationController;
 import controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.ProductionStop;
 
 
@@ -25,7 +38,7 @@ public class ProductionStopController {
 	
 	@FXML
 	private Label descField;
-	
+		
 	private ProductionStop productionStop;
 	
 	Controller ctr = new Controller();
@@ -33,35 +46,58 @@ public class ProductionStopController {
 
 	private AdministrationUiController administrationUiController;
 
-	private ProductionStop productionStop2;
+	private AnchorPane productionStop3;
 
-	private AnchorPane productionStop3;	
+	private VBox vbox;	
 	
 	public void setFields(ProductionStop element) {
 		this.productionStop = element;
 		timeField.setText(ctr.getFormattedTime(element.getStopTime(), "dd-MM-yy HH:mm"));
 		lengthField.setText(((Integer)element.getStopLength()).toString());
 		descField.setText(element.getStopDescription());
+		
 
 	}
 	
     @FXML
-    void removeStop(ActionEvent event) {
-    	aCtr.deleteStop(productionStop.getId());
-    	//administrationUiController.reFreshPageContent();
-    	administrationUiController.removeElement(productionStop, pro);
+    private void removeStop(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Slet produktionsstop");
+		alert.setHeaderText(null);
+		alert.setContentText("Vil du slette produktionsstoppet fra " + ctr.getFormattedTime(productionStop.getStopTime(), "HH:mm dd-MM-yyyy"));
+		
+		ButtonType confirmButton = new ButtonType("ja", ButtonData.YES);
+		ButtonType cancelButton = new ButtonType("nej", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(confirmButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == confirmButton){
+			aCtr.deleteStop(productionStop.getId());
+	    	vbox.getChildren().remove(productionStop3);
+		} else {
+		    // ... user chose CANCEL or closed the dialog    
+		}
+    	
     }
+    
+
+    @FXML
+    private void updateStop(ActionEvent event) {
+    	administrationUiController.updateProductionStop(event, productionStop);
+    }
+    
 	
 	@Override
 	public String toString() {
 	    return "Time : " + timeField + " , Length: " + lengthField + " ,desc" + descField;
 	}
 
-	public void setParentController(AdministrationUiController administrationUiController2, VBox content, AnchorPane productionStop3) {
+	public void setParentController(AdministrationUiController administrationUiController, VBox content, AnchorPane productionStop3) {
 		this.administrationUiController = administrationUiController;
 		this.productionStop3 = productionStop3;
-		this.vbox 
-	}
+		this.vbox = content;
+}
 	
 
 }
