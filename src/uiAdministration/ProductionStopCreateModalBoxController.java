@@ -64,12 +64,6 @@ public class ProductionStopCreateModalBoxController {
 	private ProductionStop productionStop;
 	
 	public void initialize() {
-		//stage.setOnCloseRequest(e -> closeModalbox());
-		//Stage stage = (Stage) root.getScene().getWindow();
-		//System.out.println(stage.getTitle());
-		/*stage.setOnCloseRequest(e -> closeModalbox());*/
-		//fieldStopTime.focusedProperty().addListener((arg0, oldValue, newValue) -> checkTime(arg0, oldValue, newValue));
-		//fieldStopDate.focusedProperty().addListener((arg0, oldValue, newValue) -> checkDate(arg0, oldValue, newValue));
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
 				change.getControlNewText().length() <= 250 ? change : null));
 		fieldStopDate.setValue(LocalDate.now());

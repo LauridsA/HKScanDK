@@ -96,7 +96,7 @@ public class AdministrationUiController {
 			ProductionStopCreateModalBoxController pctr = loader.getController();
 			pctr.setStage(dialog);
 			dialog.setScene(new Scene(root));
-			dialog.setTitle("Some title");
+			dialog.setTitle("Opret produktions stop");
 			dialog.initModality(Modality.WINDOW_MODAL);
 			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
 			dialog.resizableProperty().set(false);
@@ -117,7 +117,7 @@ public class AdministrationUiController {
   			pctr.setStage(dialog);
   			pctr.initUpdate(productionStop);
   			dialog.setScene(new Scene(root));
-  			dialog.setTitle("Some title");
+  			dialog.setTitle("Updater produktions stop");
   			dialog.initModality(Modality.WINDOW_MODAL);
   			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
   			dialog.resizableProperty().set(false);
