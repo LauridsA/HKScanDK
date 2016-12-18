@@ -4,7 +4,6 @@ import java.util.Map;
 
 import dba.DBSingleConnection;
 import javafx.application.Application;
-import javafx.application.Application.Parameters;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +18,9 @@ public class Main extends Application {
 	private AnchorPane anchorPane;
 	private DBSingleConnection dbsincon = new DBSingleConnection();
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -34,19 +36,14 @@ public class Main extends Application {
 			primaryStage.setMaximized(false);
 			primaryStage.setFullScreen(false);
 		}	
-		/*
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/ui/Main.fxml"));
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		
 	}
 
+	/**
+	 * Initializes the administration part of the UI<br>
+	 * Creates the javaFX stage used to hold the scene<br>
+	 * Done through runtime argument: --administrator=1
+	 */
 	private void initAdministratorStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -62,6 +59,11 @@ public class Main extends Application {
 		
 	}
 	
+	/**
+	 * Initializes the administration part of the UI<br>
+	 * This part sets the scene on to the stage<br>
+	 * Done through runtime argument: --administrator=1
+	 */
 	private void initAdministratorScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -76,10 +78,20 @@ public class Main extends Application {
 		
 	}
 
+	/**
+	 * Main entry point for the program<br>
+	 * Passes parameters to launch the correct UI
+	 * @param args leave blank for dailyScreen <br>
+	 * or use <i>--administrator=1</i> to initialize adminUI
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
+	/**
+	 * Initializes the dailyScreen part of the UI<br>
+	 * Creates the javaFX stage used to hold the scene
+	 */
 	private void initStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -95,6 +107,10 @@ public class Main extends Application {
 		
 	}
 	
+	/**
+	 * Initializes the dailyScreen part of the UI<br>
+	 * Creates and sets the scene to the javaFX stage
+	 */
 	private void initScene() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -107,6 +123,5 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
 	
 }

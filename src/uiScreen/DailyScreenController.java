@@ -17,7 +17,6 @@ import model.MyTypeHolder;
 
 /**
  * Controller for DailyMessages.fxml
- *
  */
 public class DailyScreenController {
 	
@@ -116,8 +115,6 @@ public class DailyScreenController {
      * <p>To specify how often the {@link ScheduledService} should run use {@link ScheduledService#setPeriod(Duration)}. <br>
      * Use {@link ScheduledService#setOnSucceeded(EventHandler)} to handle the event when the task is done.<br> 
      * Use {@link ScheduledService#start()} to start the {@link ScheduledService}.
-     * 
-     *
      */
     private static class Worker extends ScheduledService<MyTypeHolder> {
     	private Controller ctr = new Controller();
@@ -162,5 +159,4 @@ public class DailyScreenController {
 		return dbSinCon;
 	}
     
-
 }
