@@ -186,7 +186,7 @@ public class ProductionStopCreateModalBoxController {
         		//aUC.resetPage();
         		
         	}else{
-        		ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
         		aUC.insertNewProductionStopToArray(productionStop);
         	}
         	

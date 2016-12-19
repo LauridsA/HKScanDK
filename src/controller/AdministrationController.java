@@ -69,9 +69,10 @@ public class AdministrationController {
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param TeamTimeTableId ID of timetable working at the time of stop.
+	 * @return 
 	 */
-	public void createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
-		dba.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
+		return dba.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
 	}
 	
 	/**
