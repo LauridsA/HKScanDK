@@ -115,6 +115,10 @@ public class AdministrationDatabaseAccess {
 		
 	}
 	
+	/**
+	 * Used to delete a daily message from the dailymessages table in the database.
+	 * @param id the id from UI used to find the dailyMessage in the dailymessages table.
+	 */
 	public void deleteDailyMessage(int id) {
 		PreparedStatement statement = null;
 		String query = "DELETE FROM dailymessages WHERE id = ?;";
@@ -149,6 +153,10 @@ public class AdministrationDatabaseAccess {
 		
 	}
 	
+	/**
+	 * Used to get all daily messages currently in the database, ordered by display date ascendingly.<br>
+	 * @return an arrayList of dailyMessages to be used and displayed in UI.
+	 */
 	public ArrayList<DailyMessages> getAllMessages() {
 		PreparedStatement statement = null;
 		String query = "SELECT dmessage, dtimestamp, expire, showdate FROM dailymessages SORT BY showdate ASC";
@@ -313,7 +321,7 @@ public class AdministrationDatabaseAccess {
 	
 	/**
 	 * Used to retrieve all ProductioStops from database.
-	 * @return all DailyMessages from the productionstop table as ArrayList
+	 * @return all DailyMessages from the productionstop table as ArrayList.
 	 */
 	public ArrayList<ProductionStop> getAllStops() {
 		PreparedStatement statement = null;
