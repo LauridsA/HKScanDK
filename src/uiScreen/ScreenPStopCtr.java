@@ -39,6 +39,11 @@ public class ScreenPStopCtr {
 		this.productionStopPane = productionStop;
 		this.vbox = content;
 	}
+	
+	@Override
+	public String toString() {
+	    return "Time : " + timeField + " , Length: " + lengthField + " ,desc" + descField;
+	}
 
 	public DailyScreenController getdCtr() {
 		return dCtr;

@@ -1,7 +1,5 @@
 package uiScreen;
 
-
-
 import java.io.IOException;
 
 import controller.Controller;
@@ -19,8 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import model.FieldTypes;
 import model.MyTypeHolder;
-import uiAdministration.AdministrationUiController;
-import uiAdministration.ProductionStopController;
 
 /**
  * Controller for DailyMessages.fxml
@@ -69,19 +65,32 @@ public class DailyScreenController {
     private ScrollPane dailyMsgScrollPane;
     
     @FXML
-    private ScrollPane productionStopPane;
-    
-    @FXML
-    private Label productionStopsPane;
+    private ScrollPane productionStopsPane;
 
 	private DBSingleConnection dbSinCon = new DBSingleConnection();
     
-    /**
+	/**
      * Method for starting a worker.<br>
-     * This worker will update a label from the UI based on a refresRate and fieldType.
-     * 
+     * @param fieldType The {@link FieldTypes} value which should be pulled.
+     */
+	public void startWorker(FieldTypes fieldType) {
+		Worker speedWorker = new Worker(fieldType, dbSinCon);
+    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// Empty for now...
+			}
+		});
+    	speedWorker.start(); 
+	}
+	
+	/**
+     * Method for starting a worker.<br>
+     * This worker will update a label from the UI based on a refresh rate and fieldType.
      * @param fieldType The {@link FieldTypes} value which should be pulled
-     * @param label The ui {@link Label} which should be updated.
+     * @param label The UI {@link Label} which should be updated.
      */
     public void startWorker(FieldTypes fieldType, Label label){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
@@ -99,6 +108,12 @@ public class DailyScreenController {
     	speedWorker.start(); 
     }
     
+    /**
+     * Method for starting a worker.<br>
+     * This worker will update a scroll pane from the UI based on a refresh rate and fieldType.
+     * @param fieldType The {@link FieldTypes} value which should be pulled.
+     * @param scrollpane The UI {@link ScrollPane} which should be updated.
+     */
     public void startWorker(FieldTypes fieldType, ScrollPane scrollPane){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
     	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
@@ -108,7 +123,7 @@ public class DailyScreenController {
 			public void handle(WorkerStateEvent event) {
 				MyTypeHolder value = (MyTypeHolder)event.getSource().getValue();
 				if(scrollPane != null) {
-				    	VBox content = new VBox(10);
+				    	VBox content = new VBox();
 				    	for (int i = 0; i < value.getpList().size(); i++) {
 				    		try {
 								FXMLLoader loader = new FXMLLoader();
@@ -125,8 +140,8 @@ public class DailyScreenController {
 							
 						}
 				    	scrollPane.setContent(content);
+				    	scrollPane.setFitToHeight(true);
 				    	scrollPane.setFitToWidth(true); 
-				
 				}
 			}
 		});
@@ -137,7 +152,7 @@ public class DailyScreenController {
      * Start the controller
      */
     public void initialize(){
-    	startWorker(FieldTypes.WORKINGTEAM, null);
+    	startWorker(FieldTypes.WORKINGTEAM);
     	startWorker(FieldTypes.SPEED, speedLabel);
     	startWorker(FieldTypes.AVGWEIGHT, avgWeightField);
     	startWorker(FieldTypes.ORGANIC, organicField);
