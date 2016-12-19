@@ -124,7 +124,11 @@ public class Controller {
 	 */
 	private MyTypeHolder expectedPerHour() {
 		Date time = new Date();
-		return new MyTypeHolder(dba.expectedPerHour(WorkingTeam.getInstance().getTeamId(),time.getTime())); 
+		int eke = dba.expectedPerHour(WorkingTeam.getInstance().getTeamId(),time.getTime());
+		if(eke <= 0) {
+			eke = 0;
+		}
+		return new MyTypeHolder(eke);
 	}
 
 	/**

@@ -1,3 +1,4 @@
-.Label {
-	-fx-text-fill: red;
+Label {
+	-fx-text-fill: black;
+	-fx-opacity: 1;
 }

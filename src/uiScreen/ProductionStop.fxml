@@ -37,7 +37,7 @@
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="descField" style="-fx-text-fill: red;" text="Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer " wrapText="true">
+                  <Label fx:id="descField" text="Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer Lummer " wrapText="true">
                      <padding>
                         <Insets left="2.0" />
                      </padding>
