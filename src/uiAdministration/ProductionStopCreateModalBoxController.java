@@ -148,16 +148,16 @@ public class ProductionStopCreateModalBoxController {
 	@FXML
    private void addNewStop(){
     	if(!fieldStopTime.getText().matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
-    		regexModalbox("Tid er forkert. Skal være eks.: 01:00");
+    		regexModalbox("Tid er forkert. Skal være f.eks. 01:00");
     		return;
     	} else if(fieldStopDate.getValue() == null ||fieldStopDate.getValue().toString().matches("^([1-9]|0[1-9]|1[0-9])-([1-9]|0[1-9]|1[1-9])-(2[0-9]{3})$")) {
-	 		regexModalbox("Dato er forkert. Skal være eks.: 01-01-2001");
+	 		regexModalbox("Dato er forkert. Skal være f.eks. 01-01-2001");
     		return;
     		
     		
     	} else if(!fieldStopLength.getText().matches("^(10[0-8][0-9]|[0-9]{3}|[0-9]{2}|[0-9])$")) {
     		//throw new Exception("Stoplængde er forkert. Skal være eks.: 10 og max 1090");
-    		regexModalbox("Stoplængde er forkert. Skal være eks.: 10 og max 1080");
+    		regexModalbox("Stoplængde er forkert. Skal være mellem 10 og 1089");
     		return;
     	} else {
     		String stopString = fieldStopTime.getText() + " " + fieldStopDate.getValue();
