@@ -4,6 +4,8 @@ package uiAdministration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import controller.AdministrationController;
 import controller.Controller;
@@ -49,7 +51,7 @@ public class AdministrationUiController {
     
     private void initProductionStops() {
     	arr = aCtr.getAllStops();
-    	int totalpages = arr.size()/10;
+    	int totalpages = (int) Math.ceil(arr.size()/10D);
     	pageList.setPageCount(totalpages);
     	pageList.setPageFactory(new Callback<Integer, Node>() {
 			
@@ -64,14 +66,18 @@ public class AdministrationUiController {
     	ScrollPane sPane = new ScrollPane();
     	VBox content = new VBox(10);
     	int startValue = pages * 10;
-    	for (int i = startValue; i < startValue + 10; i++) {
+    	int endValue = startValue + 10;
+    	if(arr.size() < endValue){
+    	endValue = arr.size();
+    	}
+    	for (int i = startValue; i < endValue; i++) {
     		try {
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(AdministrationUiController.class.getResource("/uiAdministration/ProductionStop.fxml"));
 				AnchorPane productionStop = (AnchorPane) loader.load();
 				content.getChildren().add(productionStop);
 				ProductionStopController pctr = ((ProductionStopController) loader.getController());
-				System.out.println(arr.get(i));
+				System.out.println(i + " " + arr.get(i));
 				pctr.setFields(arr.get(i));
 				pctr.setParentController(this, content, productionStop);
 			} catch (IOException e1) {
@@ -139,7 +145,7 @@ public class AdministrationUiController {
     }
   
     public void resetPage() {
-		int totalpages = arr.size()/10;
+    	int totalpages = (int) Math.ceil(arr.size()/10D);
     	pageList.setPageCount(totalpages);
     	pageList.setCurrentPageIndex(0);
 	}
@@ -152,6 +158,15 @@ public class AdministrationUiController {
 	
 	public void insertNewProductionStopToArray(ProductionStop productionStop) {
 		arr.add(productionStop);
+		Collections.sort(arr, new Comparator<ProductionStop>() {
+
+			@Override
+			public int compare(ProductionStop o1, ProductionStop o2) {
+				return o2.getStopTime().compareTo(o1.getStopTime());
+			}
+		});
+		
+		
 		resetPage();
 	}
     

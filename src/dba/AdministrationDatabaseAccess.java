@@ -161,12 +161,11 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			statement = con.prepareStatement(query);
+			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
 			statement.setLong(1, stopTime);
 			statement.setInt(2, stopLength);
 			statement.setString(3, stopDescription);
 			statement.setInt(4, teamTimeTableId);
-			statement.executeUpdate();
 			
 			int affectedRows = statement.executeUpdate();
 	
