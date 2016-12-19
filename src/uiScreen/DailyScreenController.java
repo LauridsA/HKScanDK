@@ -2,6 +2,8 @@ package uiScreen;
 
 
 
+import java.io.IOException;
+
 import controller.Controller;
 import dba.DBSingleConnection;
 import javafx.concurrent.ScheduledService;
@@ -9,11 +11,16 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import model.FieldTypes;
 import model.MyTypeHolder;
+import uiAdministration.AdministrationUiController;
+import uiAdministration.ProductionStopController;
 
 /**
  * Controller for DailyMessages.fxml
@@ -63,9 +70,11 @@ public class DailyScreenController {
     
     @FXML
     private ScrollPane productionStopPane;
+    
+    @FXML
+    private Label productionStopsPane;
 
 	private DBSingleConnection dbSinCon = new DBSingleConnection();
-    
     
     /**
      * Method for starting a worker.<br>
@@ -90,8 +99,42 @@ public class DailyScreenController {
     	speedWorker.start(); 
     }
     
+    public void startWorker(FieldTypes fieldType, ScrollPane scrollPane){
+    	Worker speedWorker = new Worker(fieldType, dbSinCon);
+    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			
+			@Override
+			public void handle(WorkerStateEvent event) {
+				MyTypeHolder value = (MyTypeHolder)event.getSource().getValue();
+				if(scrollPane != null) {
+				    	VBox content = new VBox(10);
+				    	for (int i = 0; i < value.getpList().size(); i++) {
+				    		try {
+								FXMLLoader loader = new FXMLLoader();
+								loader.setLocation(DailyScreenController.class.getResource("/uiScreen/ProductionStop.fxml"));
+								AnchorPane productionStop = (AnchorPane) loader.load();
+								content.getChildren().add(productionStop);
+								ScreenPStopCtr pCtr = ((ScreenPStopCtr) loader.getController());
+								DailyScreenController dCtr = new DailyScreenController();
+								pCtr.setFields(value.getpList().get(i));
+								pCtr.setParentController(dCtr, content, productionStop);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+						}
+				    	scrollPane.setContent(content);
+				    	scrollPane.setFitToWidth(true); 
+				
+				}
+			}
+		});
+    	speedWorker.start(); 
+    }
+    
     /**
-     * Start the controller TODO foreach i enumerate
+     * Start the controller
      */
     public void initialize(){
     	startWorker(FieldTypes.WORKINGTEAM, null);
@@ -108,7 +151,7 @@ public class DailyScreenController {
     	startWorker(FieldTypes.TOTALSLAUGTHERAMOUNT, planedSlaugtherAmountField);
     	startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
     	//startWorker(FieldTypes.DAILYMESSAGES, dailyMsgScrollPane);
-    	//startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopsPane);
+    	startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopsPane);
     }
     /**
      * The worker who is going to run every so often based on the time given on setup.<br>
@@ -119,18 +162,14 @@ public class DailyScreenController {
     private static class Worker extends ScheduledService<MyTypeHolder> {
     	private Controller ctr = new Controller();
     	private FieldTypes fieldType;
-    	private DBSingleConnection dbSinCon;
+    	@SuppressWarnings("unused")
+		private DBSingleConnection dbSinCon;
 
 		public Worker(FieldTypes fieldType, DBSingleConnection dbSinCon) {
 			this.fieldType = fieldType;
 			this.dbSinCon = dbSinCon;
 			this.ctr = new Controller(dbSinCon);
 		}
-		
-		/* (non-Javadoc)
-		 * @see javafx.concurrent.Service#createTask()
-		 * 
-		 */
 		
 		/**
 		 * Task which should be executed

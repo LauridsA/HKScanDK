@@ -1,6 +1,7 @@
 package controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -8,12 +9,11 @@ import dba.DBSingleConnection;
 import dba.DatabaseAccess;
 import model.FieldTypes;
 import model.MyTypeHolder;
+import model.ProductionStop;
 import model.WorkingTeam;
 
 public class Controller {
 	private DatabaseAccess dba = new DatabaseAccess();
-	
-		
 		
 	public Controller(DBSingleConnection dbSinCon) {
 		dba = new DatabaseAccess(dbSinCon);	
@@ -72,6 +72,7 @@ public class Controller {
 	public MyTypeHolder getSpeed() {
 		return new MyTypeHolder(dba.getCurrentSpeed());
 	}
+	
 	/**
 	 * Retrieves the average weight from the DB and returns it as an int 
 	 * @return the average weight on the current batch
@@ -116,6 +117,7 @@ public class Controller {
 	private MyTypeHolder dayExpected() {
 		return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamId()));
 	}
+	
 	/**
 	 * Retrieves the result of dayExpected / Speed from the database as a single query
 	 * @return dayExpected / getSpeed as an Integer
@@ -145,6 +147,7 @@ public class Controller {
 		return new MyTypeHolder(getFormattedTime(newDate, "HH:mm dd/MM/yy"));
 		
 	}
+	
 	/**
 	 * retrieves the total slaughtered chickens for the working day as a single query
 	 * @return the current total slaughtered chickens for the working day <b>so far</b> as an int
@@ -153,72 +156,81 @@ public class Controller {
 		int myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
 		return new MyTypeHolder(myresult);
 	}
+	
 	/**
 	 * retrieves the currently non-expired production stop messages
 	 * @return the object ProductionStop
 	 */
 	private MyTypeHolder getProductionStop() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<ProductionStop> result = dba.getAllStops();
+		return new MyTypeHolder(result);
 	}
+	
 	/**
-	 * Retrieves the total amount to be slaughtered for the working day
-	 * @return total amount to be slaughtered for the day as an int
+	 * Retrieves the total amount to be slaughtered for the working day.
+	 * @return total amount to be slaughtered for the day as an integer.
 	 */
 	public MyTypeHolder getTotalSlaughterAmount() {
 		return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
 	}
+	
 	/**
-	 * Retrieves the active daily messages objects
-	 * @return DailyMessages object in an array
+	 * Retrieves the active daily messages objects.
+	 * @return DailyMessages object in an array.
 	 */
 	private MyTypeHolder getDailyMessages() {
-		// TODO Auto-generated method stub
+		// TODO About the same as getProductionstop. Boilerplate HO!
 		return null;
 	}
+	
 	/**
-	 * Retrieves the amount of production stops for the working day, along with their stop time for the day team
-	 * @return amount of production stop and their respective stop time
+	 * Retrieves the amount of production stops for the working day, along with their stop time for the day team.
+	 * @return amount of production stop and their respective stop time.
 	 */
 	private MyTypeHolder getNoStopDay() {
 		Date time = new Date();
 		int myresult = dba.getNoStopDay(time.getTime());
 		return new MyTypeHolder(myresult);
 	}
-	/**
-	 * Retrieves the amount of production stops for the working day, along with their stop time for the night team
-	 * @return amount of production stop and their respective stop time
-	 */
 	
+	/**
+	 * Retrieves the amount of production stops for the working day, along with their stop time for the night team.
+	 * @return amount of production stop and their respective stop time.
+	 */
 	private MyTypeHolder getNoStopNight() {
 		Date time = new Date();
 		int myresult = dba.getNoStopNight(time.getTime());
 		return new MyTypeHolder(myresult);
 	}
+	
 	/**
-	 * Retrieves all batches for the working day and evaluates wether any of them is organic.
-	 * @return returns true, if any of the batches for the working day is organic
+	 * Retrieves all batches for the working day and evaluates whether any of them is organic.
+	 * @return returns true, if any of the batches for the working day is organic.
 	 */
 	public MyTypeHolder getOrganic() {
 		return new MyTypeHolder(dba.getOrganic(WorkingTeam.getInstance().getTeamId()));
 	}
 	
 	/**
-	 * @param type The type of the refresh rate to be retrieved (From {@link FieldTypes})
-	 * @return returns the refresh rate of the given type, 10 if it isn't found
+	 * @param type The type of the refresh rate to be retrieved (From {@link FieldTypes}).
+	 * @return returns the refresh rate of the given type, 10 if it isn't found.
 	 */
 	public int getRefreshRate(FieldTypes type) {
 		return dba.getRefreshRate(type);
 	}
 
+	/**
+	 * Retrieves an integer representing the total amount of production stops.
+	 * @return total amount of stops
+	 */
 	public int getTotalStops() {
 		return dba.getTotalStops();
 	}
 	
 	/**
-	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
-	 * @param Unix Timestamp
-	 * @return Time in a good format
+	 * Can be called in the case where we want time to be displayed (from Unix to good looking).
+	 * @param Unix time stamp.
+	 * @return Time in a good format.
 	 */
 	public String getFormattedTime(Long time) {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -228,15 +240,13 @@ public class Controller {
 	}
 	
 	/**
-	 * Can be called in the case where we want time to be displayed (from Unix to good looking)
-	 * @param Unix Timestamp
-	 * @return Time in a good format
+	 * Can be called in the case where we want time to be displayed (from Unix to good looking).
+	 * @param Unix time stamp.
+	 * @return Time in a good format.
 	 */
 	public String getFormattedTime(Long time, String format) {
 		SimpleDateFormat dt = new SimpleDateFormat(format);
-		//dt.setTimeZone(new Ti);
 		return dt.format(new Date(time));
-		//dt.fot
 	}
 
 }

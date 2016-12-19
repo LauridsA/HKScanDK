@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 /**
  * MyTypeHolder is used for returning values to the UI.
  * When using one of the setting methods or constructors the class will also set what type it is.
@@ -10,21 +12,19 @@ public class MyTypeHolder {
 	private Integer integer;
 	private String string;
 	private boolean bool;
+	private List<ProductionStop> pList;
+	private List<DailyMessages> dList;
 	private FieldType type;
 	
-	
 	/**
-	 * Enum for determening what type the MyTypeHolder is.
-	 *
+	 * Enumeration for determining what type the MyTypeHolder is.
 	 */
 	public enum FieldType {
-		INTEGER, STRING, BOOL
+		INTEGER, STRING, BOOL, PLIST, DLIST
 	}
 	
-
-	
 	/**
-	 * Constructor for setting integer
+	 * Constructor for setting integer.
 	 * @param integer
 	 */
 	public MyTypeHolder(int integer) {
@@ -32,7 +32,7 @@ public class MyTypeHolder {
 	}
 	
 	/**
-	 * Constuctor for setting String
+	 * Constructor for setting String.
 	 * @param string
 	 */
 	public MyTypeHolder(String string) {
@@ -40,7 +40,7 @@ public class MyTypeHolder {
 	}
 	
 	/**
-	 * Constructor for setting booleans
+	 * Constructor for setting booleans.
 	 * @param bool
 	 */
 	public MyTypeHolder(boolean bool) {
@@ -48,8 +48,16 @@ public class MyTypeHolder {
 	}
 	
 	/**
+	 * Constructor for setting production stop list.
+	 * @param pList
+	 */
+	public MyTypeHolder(List<ProductionStop> pList) {
+		setpList(pList);
+	}
+	
+	/**
 	 * Setter for integer
-	 * Will also set the type of MyTypeHolder with an enum
+	 * Will also set the type of MyTypeHolder with an enumeration.
 	 * @param integer
 	 */
 	public void setInteger(int integer) {
@@ -59,7 +67,7 @@ public class MyTypeHolder {
 	
 	/**
 	 * Setter for String
-	 * Will also set the type of MyTypeHolder with an enum
+	 * Will also set the type of MyTypeHolder with an enumeration.
 	 * @param string
 	 */
 	public void setString(String string) {
@@ -70,7 +78,7 @@ public class MyTypeHolder {
 	
 	/**
 	 * Setter for boolean
-	 * Will also set the type of MyTypeHolder with an enum
+	 * Will also set the type of MyTypeHolder with an enumeration.
 	 * @param bool
 	 */
 	public void setBool(boolean bool) {
@@ -117,11 +125,37 @@ public class MyTypeHolder {
 		case BOOL:
 			string = getBool().toString();
 			break;
+		case PLIST:
+			// Should print for each instead. Quick fix.
+			string = getpList().toString();
+			break;
+		case DLIST:
+			// Should print for each instead. Quick fix.
+			string = getdList().toString();
+			break;
 		default:
-			string = "Fejl";
+			string = "Failed";
 			break;
 		}
 		return string;
+	}
+
+	public List<DailyMessages> getdList() {
+		return dList;
+	}
+
+	public void setdList(List<DailyMessages> dList) {
+		this.dList = dList;
+		setType(FieldType.DLIST);
+	}
+
+	public List<ProductionStop> getpList() {
+		return pList;
+	}
+
+	public void setpList(List<ProductionStop> pList) {
+		this.pList = pList;
+		setType(FieldType.PLIST);
 	}
 
 }

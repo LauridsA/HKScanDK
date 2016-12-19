@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import model.FieldTypes;
+import model.ProductionStop;
 import model.WorkingTeam;
 
 public class DatabaseAccess {
@@ -661,15 +663,54 @@ public class DatabaseAccess {
 		Connection con = DBConnection.getInstance().getDBcon(); 
 		PreparedStatement statement = con.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
-		if(result.next()){
-		    total = result.getInt("total");
-		}
+			if(result.next()){
+			    total = result.getInt("total");
+			}
 	    } catch (Exception e) {
-		 e.printStackTrace();
+	    	e.printStackTrace();
 	    } finally {
-		DBConnection.getInstance().closeConnection();
+	    	DBConnection.getInstance().closeConnection();
 	    }
 	    return total;
+	}
+	
+	/**
+	 * Used to retrieve all ProductioStops from database.
+	 * @return all DailyMessages from the productionstop table as ArrayList.
+	 */
+	public ArrayList<ProductionStop> getAllStops() {
+		PreparedStatement statement = null;
+		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
+		ResultSet result = null;
+		ArrayList<ProductionStop> stopList = new ArrayList<>();
+		Connection con = null;
+		
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			statement = con.prepareStatement(query);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()){
+				while(result.next()){
+					int id = result.getInt("id");
+					Long st = result.getLong("stoptime");
+					int sl = result.getInt("stoplength");
+					String sd = result.getString("stopdescription");
+					int ttti = result.getInt("teamtimetableid");
+					
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti);
+					stopList.add(ps);
+				}
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Database Error: Found nothing.");
+			System.out.println(e.getMessage());
+		} finally {
+			DBConnection.getInstance().closeConnection();
+		}
+		
+		return stopList;
 	}
 	
 }
