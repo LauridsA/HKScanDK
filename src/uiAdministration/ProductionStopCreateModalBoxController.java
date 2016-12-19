@@ -155,9 +155,9 @@ public class ProductionStopCreateModalBoxController {
     		return;
     		
     		
-    	} else if(!fieldStopLength.getText().matches("^(10[0-8][0-9]|[0-9]{3}|[0-9]{2}|[0-9])$")) {
+    	} else if(!fieldStopLength.getText().matches("^(10[0-8][0-9]|[0-9]{3}|[0-9]{2}|[1-9])$")) {
     		//throw new Exception("Stoplængde er forkert. Skal være eks.: 10 og max 1090");
-    		regexModalbox("Stoplængde er forkert. Skal være mellem 0 og 1089");
+    		regexModalbox("Stoplængde er forkert. Skal være mellem 1 og 1089");
     		return;
     	} else {
     		String stopString = fieldStopTime.getText() + " " + fieldStopDate.getValue();
