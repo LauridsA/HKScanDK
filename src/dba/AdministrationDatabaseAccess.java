@@ -126,11 +126,9 @@ public class AdministrationDatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -194,22 +192,37 @@ public class AdministrationDatabaseAccess {
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param TeamTimeTableId ID of timetable working at the time of stop.
+	 * @return 
 	 */
-	public void createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
 		PreparedStatement statement = null;
 		String query = "INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, ?)";
+		int id = 0;
 		
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, stopTime);
 			statement.setInt(2, stopLength);
 			statement.setString(3, stopDescription);
 			statement.setInt(4, teamTimeTableId);
 			statement.executeUpdate();
-			con.commit();
+			int affectedRows = statement.executeUpdate();
+	
+		        if (affectedRows == 0) {
+		            throw new SQLException("Creating user failed, no rows affected.");
+		        }
+	
+		        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                id = generatedKeys.getInt(1);
+		            }
+		            else {
+		                throw new SQLException("Creating user failed, no ID obtained.");
+		            }
+		        }
+			
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -229,6 +242,8 @@ public class AdministrationDatabaseAccess {
 				e.printStackTrace();
 			}
 		}
+
+		return new ProductionStop(id, stopTime, stopLength, stopDescription, teamTimeTableId);
 		
 	}
 	
@@ -277,7 +292,6 @@ public class AdministrationDatabaseAccess {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	/**

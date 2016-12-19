@@ -54,14 +54,11 @@ public class ProductionStopCreateModalBoxController {
     private TextField fieldStopLength;
 
 	private Stage stage;
-	
 	private AdministrationController ctr = new AdministrationController();
-	
 	private Controller Cctr = new Controller(new DBSingleConnection());
-	
 	private boolean updater = false;
-
 	private ProductionStop productionStop;
+	private AdministrationUiController aUC;
 	
 	public void initialize() {
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
@@ -102,10 +99,12 @@ public class ProductionStopCreateModalBoxController {
 
 	/**
 	 * @param stage the stage to set
+	 * @param administrationUiController 
 	 * @return 
 	 */
-	public void setStage(final Stage stage) {
+	public void setStage(final Stage stage, AdministrationUiController administrationUiController) {
 		this.stage = stage;
+		this.aUC = administrationUiController;
 	}
 	
 	private void checkTime(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
@@ -178,12 +177,19 @@ public class ProductionStopCreateModalBoxController {
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
         	int teamTimeTableId = 9;
-        	
-        	
+
+
         	if(updater){
         		ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, teamTimeTableId);
+            	productionStop.setStopDescription(stopDescription);
+        		productionStop.setStopLength(stopLength);
+        		productionStop.setStopTime(stopTime);
+        		productionStop.setTeamTimeTableId(teamTimeTableId);
+        		//aUC.resetPage();
+        		
         	}else{
         		ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		aUC.insertNewProductionStopToArray(productionStop);
         	}
         	
         	Stage stage = (Stage) buttonCreateStop.getScene().getWindow();
