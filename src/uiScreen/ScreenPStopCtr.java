@@ -21,7 +21,6 @@ public class ScreenPStopCtr {
 	private DailyScreenController dailyScreenController;
 	private AnchorPane productionStopPane;
 	private VBox vbox;
-	
 	private ProductionStop productionStop;
 	private DailyScreenController dCtr = new DailyScreenController();
 	private Controller ctr = new Controller();

@@ -65,7 +65,7 @@ public class DailyScreenController {
     private ScrollPane dailyMsgScrollPane;
     
     @FXML
-    private ScrollPane productionStopsPane;
+    private ScrollPane productionStopScrollPane;
 
 	private DBSingleConnection dbSinCon = new DBSingleConnection();
     
@@ -123,7 +123,7 @@ public class DailyScreenController {
 			public void handle(WorkerStateEvent event) {
 				MyTypeHolder value = (MyTypeHolder)event.getSource().getValue();
 				if(scrollPane != null) {
-				    	VBox content = new VBox();
+				    	VBox content = new VBox(10);
 				    	for (int i = 0; i < value.getpList().size(); i++) {
 				    		try {
 								FXMLLoader loader = new FXMLLoader();
@@ -166,7 +166,7 @@ public class DailyScreenController {
     	startWorker(FieldTypes.TOTALSLAUGTHERAMOUNT, planedSlaugtherAmountField);
     	startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
     	//startWorker(FieldTypes.DAILYMESSAGES, dailyMsgScrollPane);
-    	startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopsPane);
+    	startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopScrollPane);
     }
     /**
      * The worker who is going to run every so often based on the time given on setup.<br>
