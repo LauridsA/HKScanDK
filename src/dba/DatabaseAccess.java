@@ -185,52 +185,53 @@ public class DatabaseAccess {
 	
 	/**
 	 * Retrieves a refresh rate value for a given field.
-	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return.
-	 * @return refreshrate Returns the refresh rate of the specified field as an integer.
+	 * @param type Takes the parameter of enumerate FieldTypes, which can determine which refresh rate to return.
+	 * @return Returns the refresh rate of the specified field as an integer.
 	 */
 	public int getRefreshRate(FieldTypes type) {
 		String sqlType;
 		switch (type) {
 		case SPEED:
-			sqlType = "speed";
+			sqlType = "SPEED";
 			break;
 		case AVGWEIGHT:
-			sqlType = "avgweight";
+			sqlType = "AVGWEIGHT";
 			break;
 		case ORGANIC:
-			sqlType = "organic";
+			sqlType = "ORGANIC";
 			break;
 		case SLAUGTHERAMOUNTNIGHT:
-			sqlType = "slaughteramount";
+			sqlType = "SLAUGTHERAMOUNTNIGHT";
 			break;
 		case SLAUGTHERAMOUNTDAY:
-			sqlType = "slaughteramount";
+			sqlType = "SLAUGTHERAMOUNTDAY";
 			break;
 		case STOPNIGHT:
-			sqlType = "productionstop";
+			sqlType = "STOPNIGHT";
 			break;
 		case STOPDAY:
-			sqlType = "productionstop";
+			sqlType = "STOPDAY";
 			break;
 		case DAYEXPECTED:
-			// TODO what goes here?
-			sqlType = "";
+			sqlType = "DAYEXPECTED";
 			break;
 		case EXPECTEDFINISH:
-			sqlType = "";
-			// TODO what goes here?
+			sqlType = "EXPECTEDFINISH";
 			break;
 		case TOTALSLAUGTHERAMOUNT:
-			sqlType = "slaughteramount";
+			sqlType = "TOTALSLAUGTHERAMOUNT";
 			break;
 		case PRODUCTIONSTOPS:
-			sqlType = "productionstop";
+			sqlType = "PRODUCTIONSTOPS";
 			break;
 		case DAILYMESSAGES:
-			sqlType = "dailymessages";
+			sqlType = "DAILYMESSAGES";
 			break;
 		case WORKINGTEAM:
-			sqlType = "teamid";
+			sqlType = "WORKINGTEAM";
+			break;
+		case CURRENTSLAUGHTERAMOUNT:
+			sqlType = "CURRENTSLAUGHTERAMOUNT";
 			break;
 		default:
 			return 5;
