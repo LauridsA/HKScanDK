@@ -56,6 +56,7 @@ public class ProductionStopController {
 		lengthField.setText(((Integer)element.getStopLength()).toString());
 		descField.setText(element.getStopDescription());
 		
+		
 
 	}
 	

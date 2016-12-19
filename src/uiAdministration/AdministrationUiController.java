@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -81,10 +82,9 @@ public class AdministrationUiController {
 			}
 			
 		}
-    	
     	sPane.setContent(content);
-    	sPane.setFitToWidth(true); 
-    	return sPane;
+    	sPane.setFitToWidth(true);
+     	return sPane;
     }
     
     

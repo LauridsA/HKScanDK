@@ -215,6 +215,7 @@ public class AdministrationDatabaseAccess {
 			System.out.println(e.getMessage());
 			try {
 				con.rollback();
+				e.printStackTrace();
 				System.out.println("Database Error: ProductionStop not created.");
 			} catch (SQLException e1) {
 				System.out.println(e1.getMessage());
