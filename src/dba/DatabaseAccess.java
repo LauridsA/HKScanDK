@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,55 +18,13 @@ public class DatabaseAccess {
 	}
 	
 	public DatabaseAccess() {
-		// TODO Auto-generated constructor stub
+		// Empty constructor
 	}
 	
 	/**
-	 * 
-	 * @param fromTimeStamp start of shift
-	 * @param toTimeStamp current time
-	 * @return
-	 */
-	
-//	public int getSlaughterAmount(long fromTimeStamp, long toTimeStamp) {
-//		
-//		PreparedStatement statement = null;
-//		String query = "SELECT value FROM slaughteramount WHERE satimestamp BETWEEN ? AND ?";
-//		ResultSet result = null;
-//		int amount = 0;
-//		
-//		Connection con = null;
-//		try {
-//			con = DBConnection.getInstance().getDBcon();
-//			con.setAutoCommit(false);
-//			statement = con.prepareStatement(query);
-//			statement.setLong(1, fromTimeStamp);
-//			statement.setLong(2, toTimeStamp);
-//			result = statement.executeQuery();
-//			con.commit();
-//			while (result.next()) {
-//				amount += result.getInt("value");
-//			}
-//			amount = amount / result.getFetchSize();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				con.setAutoCommit(false);
-//				dbSinCon.closeConnection();
-//			} catch (SQLException e) {
-//				System.out.println(e.getMessage());
-//				e.printStackTrace();
-//			}
-//		}
-//		return amount;
-//	}
-		
-	
-	/**
-	 * @param WorkingTeam id of the current working team
-	 * @return True, if any of the days' batches are organic
+	 * Used to retrieve whether any of the batches are organic or not, based on current working teamtimetableid.
+	 * @param WorkingTeam id of the current working team.
+	 * @return True, if any of the days' batches are organic.
 	 */
 	public Boolean getOrganic(int teamid){
 		PreparedStatement statement = null;
@@ -142,9 +98,11 @@ public class DatabaseAccess {
 	}
 
 	/**
-	 * @param fromTimeStamp the start time of the desired speed
-	 * @param toTimeStamp the end time of the desired speed
-	 * @return speed as an integer number
+	 * Retrieves the speed value between two given times.<br>
+	 * Mostly an unused relic from an earlier iteration.
+	 * @param fromTimeStamp the start time of the desired speed.
+	 * @param toTimeStamp the end time of the desired speed.
+	 * @return speed as an integer number.
 	 */
 	public int getAvgSpeed(long fromTimeStamp, long toTimeStamp) {
 		PreparedStatement statement = null;
@@ -183,6 +141,10 @@ public class DatabaseAccess {
 		return speed;
 	}
 	
+	/**
+	 * Retrieves the most recent speed value from the database.
+	 * @return current speed as integer.
+	 */
 	public int getCurrentSpeed() {
 		PreparedStatement statement = null;
 		String query = "SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC";
@@ -222,8 +184,9 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return
-	 * @return refreshrate Returns the refresh rate of the specified field as an integer
+	 * Retrieves a refresh rate value for a given field.
+	 * @param type Takes the parameter of enumerate FieldTypes, which can determine whih refreshrate to return.
+	 * @return refreshrate Returns the refresh rate of the specified field as an integer.
 	 */
 	public int getRefreshRate(FieldTypes type) {
 		String sqlType;
@@ -304,44 +267,10 @@ public class DatabaseAccess {
 		}
 		return res;
 	}
-
-	/** 
-	 * @return 
-	 */
-	/*
-	public long getTeamNightStart() {
-		PreparedStatement statement = null;
-		String query = "SELECT starttimestamp FROM teamtimetable WHERE team = '2'";
-		ResultSet result = null;
-		long startTime = 0;
-		
-		Connection con = null;
-		try {
-			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(true);
-			statement = con.prepareStatement(query);
-			result = statement.executeQuery();
-			result.next();
-			startTime = result.getLong("starttimestamp");
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		return startTime;
-	}*/
 	
 	/**
-	 * Retrieves and sets teamId, teamTimeTableId, startTime, and endTime for class WorkingTeam at given timestamp
-	 * @param time unix timestamp.
+	 * Retrieves and sets teamId, teamTimeTableId, startTime, and endTime for class WorkingTeam at given time stamp.
+	 * @param time Unix time stamp.
 	 */
 	public void getCurrentWorkingTeam(long time){
 		
@@ -384,8 +313,8 @@ public class DatabaseAccess {
 	
 	/** 
 	 * Retrieves the current slaughtered amount of the night shift.
-	 * @param now Specifices the current time in UNIX Timestamp
-	 * @return int of slaughtered night amount
+	 * @param now Specifies the current time in UNIX time stamp.
+	 * @return integer of slaughtered night amount.
 	 */
 	public int getSlaughterAmountNight(long now) {
 		PreparedStatement statement = null;
@@ -422,9 +351,10 @@ public class DatabaseAccess {
 	
 	
 	/**
-	 * Will display 0 if the night team is working...
-	 * @param now Specifices the current time in UNIX Timestamp 
-	 * @return int of slaughtered day amount
+	 * Retrieves amount of chickens slaughter by the day team.<br>
+	 * Will display 0 if the night team is working.
+	 * @param now Specifies the current time in UNIX time stamp.
+	 * @return integer of slaughtered day amount.
 	 */
 	public int getSlaughterAmountDay(long now) {
 		PreparedStatement statement = null;
@@ -460,7 +390,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param teamId for specific team
+	 * Retrieves the total amount of chickens to be slaughtered by both the day and night team for the current workshift.
+	 * @param teamId for specific team.
 	 * @return the sum of all rows of slaughteramount matching the given teamtableid.
 	 */
 	public int	totalSlaughterAmount(int teamId) {
@@ -497,8 +428,9 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param int teamId
-	 * @return the total slaughtered chickens so far for the working day
+	 * Retrieves the total amount of chickens slaughter by the current workshift.
+	 * @param int teamId.
+	 * @return the total slaughtered chickens so far for the working day.
 	 */
 	public int getTotalCurrentSlaughterAmount(int teamId){
 		PreparedStatement statement = null;
@@ -534,8 +466,9 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * @param teamId
-	 * @return noOfStops as an int for night team
+	 * Retrieves total number of production stops for the night team of the current workshift.
+	 * @param teamId.
+	 * @return noOfStops as an int for night team.
 	 */
 	public int getNoStopNight(long now){
 		String query = "DECLARE @now BIGINT = ?; SELECT *  FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC);";
@@ -571,8 +504,9 @@ public class DatabaseAccess {
 	
 	
 	/**
-	 * @param teamId
-	 * @return number of stops as int for day team
+	 * Retrieves total number of production stops for the night team of the current workshift.
+	 * @param teamId.
+	 * @return number of stops as int for day team.
 	 */
 	public int getNoStopDay(long now){
 		String query = "DECLARE @now BIGINT = ?; SELECT * FROM productionstop WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now);";
@@ -607,6 +541,7 @@ public class DatabaseAccess {
 	}
 	
 	/**
+	 * Retrieves the amount of chickens the day team must slaughter to meet the goal for the day.
 	 * @param teamId MUST BE DAY TEAM
 	 * @return
 	 */
@@ -643,8 +578,9 @@ public class DatabaseAccess {
 	}
 
 	/**
-	 * @param teamId MUST BE DAY TEAM
-	 * @return
+	 * Calculates and retrieves the amount of chickens expected to be slaughtered per hour.
+	 * @param teamId MUST BE DAY TEAM.
+	 * @return Integer value expected.
 	 */
 	public int expectedPerHour(int teamId, long now) {
 		String query = "DECLARE @team INT = ?; DECLARE @now BIGINT = ?; DECLARE @totalval INT = (SELECT SUM(value) AS totalval FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team) SELECT ISNULL((@totalval-(SELECT SUM(slaughteramount.value) AS slaughterval FROM slaughteramount JOIN batch ON batchid = batch.id WHERE slaughteramount.teamtimetableid = @team)), @totalval)/((((SELECT TOP 1 teamtimetable.endtimestamp FROM batch JOIN teamtimetable ON batch.teamdaytimetableid = teamtimetable.id WHERE batch.teamdaytimetableid = @team OR batch.teamnighttimetableid = @team)) - @now)/3600000) AS result;";
@@ -678,6 +614,12 @@ public class DatabaseAccess {
 		return expected;
 	}
 	
+	/**
+	 * Calculates and retrieves the expected time at which the workshift will be done with the day's batches.
+	 * @param teamId given id of team.
+	 * @return A HashMap of k=Integer, v=Integer.<br>
+	 * The key holds whether or not a result, held by value, is organic or not.
+	 */
 	public Map<Integer, Integer> expectedFinish(int teamId) {
 		String query = "DECLARE @teamid INT = ?; SELECT beforebatch.organic, sum(ISNULL((beforebatch.value - afterbatch.value), beforebatch.value)) as result FROM (SELECT id, value, organic FROM batch WHERE teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AS beforebatch  LEFT JOIN (SELECT slaughteramount.batchid, sum(slaughteramount.value) AS value FROM slaughteramount JOIN batch ON slaughteramount.batchid = batch.id WHERE batch.teamdaytimetableid = @teamid OR batch.teamnighttimetableid = @teamid GROUP BY slaughteramount.batchid) AS afterbatch  ON beforebatch.id = afterbatch.batchid GROUP BY beforebatch.organic;";
 		PreparedStatement statement = null;
@@ -707,6 +649,10 @@ public class DatabaseAccess {
 		return total;
 	}
 
+	/**
+	 * Retrieves the total amount of production stops from the database.
+	 * @return Total amount of production stops as an integer.
+	 */
 	public int getTotalStops() {
 	    String query = "SELECT count(id) as total FROM productionstop";
 	    int total = 0;
