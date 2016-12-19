@@ -64,6 +64,7 @@ public class ProductionStopController {
 		if (result.get() == confirmButton){
 			aCtr.deleteStop(productionStop.getId());
 	    	vbox.getChildren().remove(productionStop3);
+	    	administrationUiController.removeElement(productionStop);
 		} else {
 		    // ... user chose CANCEL or closed the dialog    
 		}
