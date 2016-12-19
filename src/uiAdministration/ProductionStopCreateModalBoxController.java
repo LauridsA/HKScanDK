@@ -11,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
-import org.omg.CORBA.INITIALIZE;
-
 import controller.AdministrationController;
 import controller.Controller;
 import dba.DBSingleConnection;
@@ -188,7 +186,7 @@ public class ProductionStopCreateModalBoxController {
         		//aUC.resetPage();
         		
         	}else{
-        		ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
         		aUC.insertNewProductionStopToArray(productionStop);
         	}
         	
