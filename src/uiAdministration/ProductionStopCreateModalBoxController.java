@@ -11,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
-import org.omg.CORBA.INITIALIZE;
-
 import controller.AdministrationController;
 import controller.Controller;
 import dba.DBSingleConnection;
@@ -54,14 +52,11 @@ public class ProductionStopCreateModalBoxController {
     private TextField fieldStopLength;
 
 	private Stage stage;
-	
 	private AdministrationController ctr = new AdministrationController();
-	
 	private Controller Cctr = new Controller(new DBSingleConnection());
-	
 	private boolean updater = false;
-
 	private ProductionStop productionStop;
+	private AdministrationUiController aUC;
 	
 	public void initialize() {
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
@@ -102,10 +97,12 @@ public class ProductionStopCreateModalBoxController {
 
 	/**
 	 * @param stage the stage to set
+	 * @param administrationUiController 
 	 * @return 
 	 */
-	public void setStage(final Stage stage) {
+	public void setStage(final Stage stage, AdministrationUiController administrationUiController) {
 		this.stage = stage;
+		this.aUC = administrationUiController;
 	}
 	
 	private void checkTime(ObservableValue<? extends Boolean> arg0, Boolean oldValue, Boolean newValue) {
@@ -159,7 +156,7 @@ public class ProductionStopCreateModalBoxController {
     		
     		
     	} else if(!fieldStopLength.getText().matches("^(10[0-8][0-9]|[0-9]{3}|[0-9]{2}|[0-9])$")) {
-    		//throw new Exception("Stoplængde er forkert. Skal være eks.: 10 og max 1080");
+    		//throw new Exception("Stoplængde er forkert. Skal være eks.: 10 og max 1090");
     		regexModalbox("Stoplængde er forkert. Skal være eks.: 10 og max 1080");
     		return;
     	} else {
@@ -178,12 +175,19 @@ public class ProductionStopCreateModalBoxController {
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
         	int teamTimeTableId = 9;
-        	
-        	
+
+
         	if(updater){
         		ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, teamTimeTableId);
+            	productionStop.setStopDescription(stopDescription);
+        		productionStop.setStopLength(stopLength);
+        		productionStop.setStopTime(stopTime);
+        		productionStop.setTeamTimeTableId(teamTimeTableId);
+        		//aUC.resetPage();
+        		
         	}else{
-        		ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		aUC.insertNewProductionStopToArray(productionStop);
         	}
         	
         	Stage stage = (Stage) buttonCreateStop.getScene().getWindow();

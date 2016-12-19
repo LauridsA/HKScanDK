@@ -37,32 +37,18 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		try {
 			con = dbSinCon.getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setString(1, message);
 			statement.setLong(2, timestamp);
 			statement.setLong(3, expire);
 			statement.setLong(4, showDate);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: DailyMessage not created.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
+			System.out.println("Database Error: DailyMessage not created.");
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
-			} catch (SQLException e){					
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			dbSinCon.closeConnection();
 		}
 		
 	}
@@ -84,7 +70,6 @@ public class AdministrationDatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
 			statement.setString(1, newMessage);
@@ -92,25 +77,12 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(3, newExpire);
 			statement.setLong(4, newShowDate);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: DailyMessage not found.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
+			System.out.println("Database Error: DailyMessage not found.");
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			dbSinCon.closeConnection();
 		}
 		
 	}
@@ -126,29 +98,15 @@ public class AdministrationDatabaseAccess {
 		
 		try {
 			con = dbSinCon.getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: DailyMessage not found.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
+			System.out.println("Database Error: DailyMessage not found.");
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			dbSinCon.closeConnection();
 		}
 		
 	}
@@ -177,7 +135,6 @@ public class AdministrationDatabaseAccess {
 					DailyMessages dm = new DailyMessages(message, timestamp, expire, showDate);
 					messageList.add(dm);
 				}
-			
 		} catch (Exception e) {
 			System.out.println("Database Error: Found nothing.");
 			System.out.println(e.getMessage());
@@ -194,41 +151,47 @@ public class AdministrationDatabaseAccess {
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param TeamTimeTableId ID of timetable working at the time of stop.
+	 * @return 
 	 */
-	public void createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
 		PreparedStatement statement = null;
 		String query = "INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, ?)";
+		int id = 0;
 		
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setLong(1, stopTime);
 			statement.setInt(2, stopLength);
 			statement.setString(3, stopDescription);
 			statement.setInt(4, teamTimeTableId);
 			statement.executeUpdate();
-			con.commit();
+			
+			int affectedRows = statement.executeUpdate();
+	
+		        if (affectedRows == 0) {
+		            throw new SQLException("Creating user failed, no rows affected.");
+		        }
+	
+		        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                id = generatedKeys.getInt(1);
+		            }
+		            else {
+		                throw new SQLException("Creating user failed, no ID obtained.");
+		            }
+		        }
+			
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: ProductionStop not created.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e){					
 				System.out.println(e.getMessage());
 				e.printStackTrace();
-			}
+		} finally {
+			DBConnection.getInstance().closeConnection();
 		}
+
+		return new ProductionStop(id, stopTime, stopLength, stopDescription, teamTimeTableId);
 		
 	}
 	
@@ -249,7 +212,6 @@ public class AdministrationDatabaseAccess {
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
 			statement.setLong(1, newStopTime);
@@ -257,27 +219,13 @@ public class AdministrationDatabaseAccess {
 			statement.setString(3, newStopDescription);
 			statement.setLong(4, newTeamTimeTableId);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: ProductionStop not found.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
+			System.out.println("Database Error: ProductionStop not found.");
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			DBConnection.getInstance().closeConnection();
 		}
-		
 	}
 	
 	/**
@@ -292,29 +240,15 @@ public class AdministrationDatabaseAccess {
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
-			con.commit();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			try {
-				con.rollback();
-				System.out.println("Database Error: ProductionStop not found.");
-			} catch (SQLException e1) {
-				System.out.println(e1.getMessage());
-				e1.printStackTrace();
-			}
+			System.out.println("Database Error: ProductionStop not found.");
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
+			DBConnection.getInstance().closeConnection();
 		}
 		
 	}

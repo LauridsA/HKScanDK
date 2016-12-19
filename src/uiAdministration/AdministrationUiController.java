@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import model.ProductionStop;
 
@@ -81,10 +80,9 @@ public class AdministrationUiController {
 			}
 			
 		}
-    	
     	sPane.setContent(content);
-    	sPane.setFitToWidth(true); 
-    	return sPane;
+    	sPane.setFitToWidth(true);
+     	return sPane;
     }
     
     
@@ -94,14 +92,14 @@ public class AdministrationUiController {
 			FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
 			Parent root = (Parent) loader.load();
 			ProductionStopCreateModalBoxController pctr = loader.getController();
-			pctr.setStage(dialog);
+			pctr.setStage(dialog, this);
 			dialog.setScene(new Scene(root));
 			dialog.setTitle("Opret produktions stop");
 			dialog.initModality(Modality.WINDOW_MODAL);
 			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
 			dialog.resizableProperty().set(false);
 			dialog.showAndWait();
-			reFreshPageContent();		
+			//reFreshPageContent();		
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -114,7 +112,7 @@ public class AdministrationUiController {
   			FXMLLoader loader = new FXMLLoader(AdministrationUiController.class.getResource("ProductionStopCreateModalbox.fxml"));
   			Parent root = (Parent) loader.load();
   			ProductionStopCreateModalBoxController pctr = loader.getController();
-  			pctr.setStage(dialog);
+  			pctr.setStage(dialog, this);
   			pctr.initUpdate(productionStop);
   			dialog.setScene(new Scene(root));
   			dialog.setTitle("Updater produktions stop");
@@ -122,7 +120,7 @@ public class AdministrationUiController {
   			dialog.initOwner(((Node)e.getSource()).getScene().getWindow());
   			dialog.resizableProperty().set(false);
   			dialog.showAndWait();
-  			reFreshPageContent();		
+  			//reFreshPageContent();		
   		} catch (IOException e1) {
   			// TODO Auto-generated catch block
   			e1.printStackTrace();
@@ -137,10 +135,10 @@ public class AdministrationUiController {
     
     public void reFreshPageContent (){
     	arr = aCtr.getAllStops();
-    	resetPageSize();
+    	resetPage();
     }
   
-    public void resetPageSize() {
+    public void resetPage() {
 		int totalpages = arr.size()/10;
     	pageList.setPageCount(totalpages);
     	pageList.setCurrentPageIndex(0);
@@ -148,8 +146,13 @@ public class AdministrationUiController {
 
 	public void removeElement(ProductionStop productionStop) {
 		arr.remove(productionStop);
-		resetPageSize();
+		resetPage();
 
+	}
+	
+	public void insertNewProductionStopToArray(ProductionStop productionStop) {
+		arr.add(productionStop);
+		resetPage();
 	}
     
     
