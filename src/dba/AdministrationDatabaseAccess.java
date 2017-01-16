@@ -46,9 +46,8 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(4, showDate);
 			statement.executeUpdate();
 			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Database Error: DailyMessage not created.");
+		} catch (SQLException e) {
+			throw new DbaException("Database fejl: DailyMessage kunne ikke oprettes.", e);
 		} finally {
 			dbSinCon.closeConnection();
 		}
@@ -81,9 +80,8 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(4, newShowDate);
 			statement.executeUpdate();
 			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Database Error: DailyMessage not found.");
+		} catch (SQLException e) {
+			throw new DbaException("Database fejl: Kunne ikke opdatere DailyMessage.", e);
 		} finally {
 			dbSinCon.closeConnection();
 		}
@@ -106,9 +104,8 @@ public class AdministrationDatabaseAccess {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Database Error: DailyMessage not found.");
+		} catch (SQLException e) {
+			throw new DbaException("Database fejl: DailyMessage kunne ikke slettes.", e);
 		} finally {
 			dbSinCon.closeConnection();
 		}
@@ -140,9 +137,8 @@ public class AdministrationDatabaseAccess {
 					DailyMessages dm = new DailyMessages(message, timestamp, expire, showDate);
 					messageList.add(dm);
 				}
-		} catch (Exception e) {
-			System.out.println("Database Error: Found nothing.");
-			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			throw new DbaException("Database fejl: Der blev ikke fundet nogen dailymessages.", e);
 		} finally {
 			dbSinCon.closeConnection();
 		}
@@ -157,8 +153,9 @@ public class AdministrationDatabaseAccess {
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param TeamTimeTableId ID of timetable working at the time of stop.
 	 * @return 
+	 * @throws DbaException 
 	 */
-	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) {
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, ?)";
 		int id = 0;
@@ -175,22 +172,20 @@ public class AdministrationDatabaseAccess {
 			int affectedRows = statement.executeUpdate();
 	
 		        if (affectedRows == 0) {
-		            throw new SQLException("Creating user failed, no rows affected.");
+		            throw new DbaException("Opretning af stop fejlet, ingen rækker blev påvirket.");
 		        }
 	
-		        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+		        ResultSet generatedKeys = statement.getGeneratedKeys(); 
 		            if (generatedKeys.next()) {
 		                id = generatedKeys.getInt(1);
 		            }
 		            else {
-		                throw new SQLException("Creating user failed, no ID obtained.");
+		                throw new DbaException("Opretning af stop fejlet, der blev ikke fanget noget ID.");
 		            }
-		        }
+		        			
 			
-			
-		} catch (Exception e) {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
+		} catch (SQLException e) {
+				throw new DbaException("Productionsstop ikke oprettet", e);
 		} finally {
 			DBConnection.getInstance().closeConnection();
 		}
@@ -208,8 +203,9 @@ public class AdministrationDatabaseAccess {
 	 * @param newStopLength new int for stopLength
 	 * @param newStopDescription new String to display
 	 * @param newTeamTimeTableId new int for teamTimeTable
+	 * @throws DbaException 
 	 */
-	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, int newTeamTimeTableId) {
+	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, int newTeamTimeTableId) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "UPDATE productionstop SET stoptime=?, stoplength=?, stopdescription=?, teamtimetableid=? WHERE id=?;";
 		Connection con = null;
@@ -224,9 +220,8 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(4, newTeamTimeTableId);
 			statement.executeUpdate();
 			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Database Error: ProductionStop not found.");
+		} catch (SQLException e) {
+			throw new DbaException("Database Fejl: Productionsstop kunne ikke opdateres", e);
 		} finally {
 			DBConnection.getInstance().closeConnection();
 		}
@@ -236,8 +231,9 @@ public class AdministrationDatabaseAccess {
 	 * Used to delete a ProductionStop from the productionstop table in database.
 	 * Uses id to find the productionStop to delete.
 	 * @param id the id from UI used to find the productionStop in the productionstop table.
+	 * @throws DbaException 
 	 */
-	public void deleteStop(int id) {
+	public void deleteStop(int id) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "DELETE FROM productionstop WHERE id=?;";
 		Connection con = null;
@@ -248,9 +244,8 @@ public class AdministrationDatabaseAccess {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("Database Error: ProductionStop not found.");
+		} catch (SQLException e) {
+			throw new DbaException("Database Fejl: Productionsstop kunne ikke slettes", e);
 		} finally {
 			DBConnection.getInstance().closeConnection();
 		}
@@ -260,8 +255,9 @@ public class AdministrationDatabaseAccess {
 	/**
 	 * Used to retrieve all ProductioStops from database.
 	 * @return all DailyMessages from the productionstop table as ArrayList.
+	 * @throws DbaException 
 	 */
-	public ArrayList<ProductionStop> getAllStops() {
+	public ArrayList<ProductionStop> getAllStops() throws DbaException {
 		PreparedStatement statement = null;
 		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
 		ResultSet result = null;
@@ -286,9 +282,8 @@ public class AdministrationDatabaseAccess {
 				}
 			}
 			
-		} catch (Exception e) {
-			System.out.println("Database Error: Found nothing.");
-			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			throw new DbaException("Database Fejl: kunne ikke finde alle productionstop", e);
 		} finally {
 			DBConnection.getInstance().closeConnection();
 		}
