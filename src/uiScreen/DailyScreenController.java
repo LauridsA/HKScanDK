@@ -14,6 +14,8 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -82,8 +84,7 @@ public class DailyScreenController {
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
 		} catch (PassThroughException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
@@ -99,7 +100,7 @@ public class DailyScreenController {
 			public void handle(WorkerStateEvent event) {
 				Throwable throwable = speedWorker.getException();
 				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
-					
+					showError((Exception) throwable);
 				}
 				
 			}
@@ -108,6 +109,14 @@ public class DailyScreenController {
     	speedWorker.start(); 
 	}
 	
+	private void showError(Exception e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("FATAL FEJL");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+		}
+
 	/**
      * Method for starting a worker.<br>
      * This worker will update a label from the UI based on a refresh rate and fieldType.
@@ -119,8 +128,7 @@ public class DailyScreenController {
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
 		} catch (PassThroughException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
@@ -145,9 +153,8 @@ public class DailyScreenController {
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
-		} catch (PassThroughException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (PassThroughException e) {
+			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
@@ -223,7 +230,7 @@ public class DailyScreenController {
 		 */
 		@Override
 		protected Task<MyTypeHolder> createTask() {
-			return new Task<MyTypeHolder>() {
+			return new Task<MyTypeHolder>()  {
 				/* (non-Javadoc)
 				 * @see javafx.concurrent.Task#call()
 				 */
@@ -234,7 +241,6 @@ public class DailyScreenController {
 					MyTypeHolder returnValue = null;
 						returnValue = ctr.getValue(fieldType);
 						System.out.println(fieldType + " Value: " + returnValue);
-
 					return returnValue;
 				}
 			};
