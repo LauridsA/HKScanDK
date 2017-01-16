@@ -171,7 +171,7 @@ public class DatabaseAccess {
 			e.printStackTrace();
 		} finally {
 			try {
-				con.setAutoCommit(false);
+				con.setAutoCommit(true);
 				dbSinCon.closeConnection();
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
