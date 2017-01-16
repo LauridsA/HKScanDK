@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import controller.Controller;
 import dba.DBSingleConnection;
+import exceptions.ControllerException;
+import exceptions.DbaException;
+import exceptions.PassThroughException;
+import exceptions.UiException;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -75,7 +79,12 @@ public class DailyScreenController {
      */
 	public void startWorker(FieldTypes fieldType) {
 		Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -83,6 +92,19 @@ public class DailyScreenController {
 				// Empty for now...
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
 	}
 	
@@ -94,7 +116,12 @@ public class DailyScreenController {
      */
     public void startWorker(FieldTypes fieldType, Label label){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -116,7 +143,12 @@ public class DailyScreenController {
      */
     public void startWorker(FieldTypes fieldType, ScrollPane scrollPane){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -195,9 +227,14 @@ public class DailyScreenController {
 				/* (non-Javadoc)
 				 * @see javafx.concurrent.Task#call()
 				 */
-				protected MyTypeHolder call(){
-					MyTypeHolder returnValue = ctr.getValue(fieldType);
-					System.out.println(fieldType + " Value: " + returnValue);
+				protected MyTypeHolder call() throws PassThroughException{
+					if(true){
+						throw new PassThroughException("test fejl");
+					}
+					MyTypeHolder returnValue = null;
+						returnValue = ctr.getValue(fieldType);
+						System.out.println(fieldType + " Value: " + returnValue);
+
 					return returnValue;
 				}
 			};

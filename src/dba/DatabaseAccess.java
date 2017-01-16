@@ -235,8 +235,8 @@ public class DatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-				dbSinCon.closeConnection();
-		}
+	    	DBConnection.getInstance().closeConnection();
+	    }
 		return res;
 	}
 	
