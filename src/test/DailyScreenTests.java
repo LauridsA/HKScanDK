@@ -14,6 +14,7 @@ import controller.Controller;
 import controller.ControllerTest;
 import dba.DBSingleConnection;
 import dba.DatabaseAccess;
+import exceptions.DbaException;
 import model.MyTypeHolder;
 import model.WorkingTeam;
 
@@ -50,16 +51,17 @@ public class DailyScreenTests {
 
 	/**
 	 * Test to try and get the latest speed entry from DB. Should pass.
+	 * @throws DbaException 
 	 */
 	@Test
-	public void SpeedTest() {
+	public void SpeedTest() throws DbaException {
 		MyTypeHolder speed = ctrt.getSpeed();
 		int speedint = speed.getInteger();
 		assertEquals(13000, speedint);
 	}
 	
 	@Test
-	public void testAvgWeight(){
+	public void testAvgWeight() throws DbaException{
 		MyTypeHolder getAvgWeight = ctrt.getAvgWeight();
 		int getAvgWeightInt = getAvgWeight.getInteger();
 		assertEquals(2648, getAvgWeightInt);
@@ -67,10 +69,11 @@ public class DailyScreenTests {
 	
 	/**
 	 * Test the working team method. Should pass.
+	 * @throws DbaException 
 	 */
 	@SuppressWarnings("static-access")
 	@Test
-	public void testGetWorkingTeam() {
+	public void testGetWorkingTeam() throws DbaException {
 		int team = 2;
 		long starttimestamp = 1486008000000L;
 		long endtimestamp = 1486036800000L;
@@ -85,9 +88,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * Either logic or SQL is broken. Returns remaining minutes until done with day? TODO
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testExpectedFinish(){
+	public void testExpectedFinish() throws DbaException{
 		
 		MyTypeHolder testRes = ctrt.expectedFinish();
 		int testResInt = testRes.getInteger();
@@ -98,9 +102,10 @@ public class DailyScreenTests {
 	/**
 	 * Retrieves the expected remaining chickens divided by the remaining hours of work for the day.
 	 * returns chickens/hour
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testExpectedPerHour(){
+	public void testExpectedPerHour() throws DbaException{
 		
 		MyTypeHolder testRes = ctrt.expectedPerHour(111);
 		int testResInt = testRes.getInteger();
@@ -117,9 +122,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * SQL fixed
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testDayExpected(){
+	public void testDayExpected() throws DbaException{
 		MyTypeHolder testRes = ctrt.dayExpected(91);
 		int testResInt = testRes.getInteger();
 		System.out.println("dayexpected: " + testResInt);
@@ -138,9 +144,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * SQL fixed
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testGetTotalSlaughterAmount(){
+	public void testGetTotalSlaughterAmount() throws DbaException{
 		MyTypeHolder result = ctrt.getTotalSlaughterAmount(2);
 		int resultInt = result.getInteger();
 		System.out.println("total SA : " + resultInt);
@@ -162,9 +169,10 @@ public class DailyScreenTests {
 	/**
 	 * Returns the total amount that the day and night team have slaughtered so far.
 	 * Return the sum of day team slaughtered + night team slaughtered
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testGetTotalCurrentSlaughterAmount(){
+	public void testGetTotalCurrentSlaughterAmount() throws DbaException{
 		MyTypeHolder result = ctrt.getTotalCurrentSlaughterAmount(2);
 		int resultInt = result.getInteger();
 		System.out.println("total current SA : " + resultInt);
@@ -190,9 +198,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * passed!
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testGetNoStopDay(){
+	public void testGetNoStopDay() throws DbaException{
 		
 		MyTypeHolder result = ctrt.getNoStopDay(1480305900000L);
 		int resultInt = result.getInteger();
@@ -210,9 +219,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * passed!
+	 * @throws DbaException 
 	 */
 	@Test
-	public void TestGetCurrentSlaughterAmountDay(){
+	public void TestGetCurrentSlaughterAmountDay() throws DbaException{
 		MyTypeHolder result = ctrt.getCurrentSlaughterAmountDay(1480305900000L);
 		int resultInt = result.getInteger();
 		System.out.println("WHAT : " +resultInt);
@@ -245,9 +255,10 @@ public class DailyScreenTests {
 	
 	/**
 	 * passed!
+	 * @throws DbaException 
 	 */
 	@Test
-	public void testOrganic() {
+	public void testOrganic() throws DbaException {
 		MyTypeHolder organic = ctrt.getOrganic(2);
 		boolean organicbool = organic.getBool();
 		assertEquals(organicbool, true);
