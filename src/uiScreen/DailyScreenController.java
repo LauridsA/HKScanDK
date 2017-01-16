@@ -140,6 +140,19 @@ public class DailyScreenController {
 				}
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					showError((Exception) throwable);
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
     }
     
@@ -184,6 +197,19 @@ public class DailyScreenController {
 				}
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					showError((Exception) throwable);
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
     }
     
@@ -235,9 +261,6 @@ public class DailyScreenController {
 				 * @see javafx.concurrent.Task#call()
 				 */
 				protected MyTypeHolder call() throws PassThroughException{
-					if(true){
-						throw new PassThroughException("test fejl");
-					}
 					MyTypeHolder returnValue = null;
 						returnValue = ctr.getValue(fieldType);
 						System.out.println(fieldType + " Value: " + returnValue);
