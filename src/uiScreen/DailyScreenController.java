@@ -218,7 +218,7 @@ public class DailyScreenController {
 				/* (non-Javadoc)
 				 * @see javafx.concurrent.Task#call()
 				 */
-				protected MyTypeHolder call(){
+				protected MyTypeHolder call() throws PassThroughException{
 					MyTypeHolder returnValue = ctr.getValue(fieldType);
 					System.out.println(fieldType + " Value: " + returnValue);
 					return returnValue;
