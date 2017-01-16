@@ -9,6 +9,7 @@ import java.util.Comparator;
 
 import controller.AdministrationController;
 import controller.Controller;
+import exceptions.DbaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,12 +45,12 @@ public class AdministrationUiController {
 	private ArrayList<ProductionStop> arr;
     
    
-    public void initialize(){
+    public void initialize() throws DbaException{
     	createProductionStop.setOnAction(e -> createProductionStop(e));
     	initProductionStops();
     }
     
-    private void initProductionStops() {
+    private void initProductionStops() throws DbaException {
     	arr = aCtr.getAllStops();
     	int totalpages = (int) Math.ceil(arr.size()/10D);
     	pageList.setPageCount(totalpages);
@@ -134,12 +135,12 @@ public class AdministrationUiController {
       }
     
     @FXML
-    private void reDrawPages(ActionEvent event) {
+    private void reDrawPages(ActionEvent event) throws DbaException {
     	reFreshPageContent();
     }
     
     
-    public void reFreshPageContent (){
+    public void reFreshPageContent () throws DbaException{
     	arr = aCtr.getAllStops();
     	resetPage();
     }
