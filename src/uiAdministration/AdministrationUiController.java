@@ -9,15 +9,19 @@ import java.util.Comparator;
 
 import controller.AdministrationController;
 import controller.Controller;
+import exceptions.DbaException;
+import exceptions.PassThroughException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -50,7 +54,11 @@ public class AdministrationUiController {
     }
     
     private void initProductionStops() {
-    	arr = aCtr.getAllStops();
+    	try {
+			arr = aCtr.getAllStops();
+		} catch (PassThroughException e) {
+			showError(e);
+		}
     	int totalpages = (int) Math.ceil(arr.size()/10D);
     	pageList.setPageCount(totalpages);
     	pageList.setPageFactory(new Callback<Integer, Node>() {
@@ -140,7 +148,11 @@ public class AdministrationUiController {
     
     
     public void reFreshPageContent (){
-    	arr = aCtr.getAllStops();
+    	try {
+			arr = aCtr.getAllStops();
+		} catch (PassThroughException e) {
+			showError(e);
+		}
     	resetPage();
     }
   
@@ -169,6 +181,13 @@ public class AdministrationUiController {
 		
 		resetPage();
 	}
+	private void showError(Exception e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("FATAL FEJL");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+		}
     
     
 }

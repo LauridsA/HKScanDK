@@ -14,6 +14,8 @@ import java.util.Optional;
 import controller.AdministrationController;
 import controller.Controller;
 import dba.DBSingleConnection;
+import exceptions.DbaException;
+import exceptions.PassThroughException;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -178,7 +180,11 @@ public class ProductionStopCreateModalBoxController {
 
 
         	if(updater){
-        		ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, teamTimeTableId);
+        		try {
+					ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, teamTimeTableId);
+				} catch (DbaException e) {
+					showError(e);
+				}
             	productionStop.setStopDescription(stopDescription);
         		productionStop.setStopLength(stopLength);
         		productionStop.setStopTime(stopTime);
@@ -186,7 +192,11 @@ public class ProductionStopCreateModalBoxController {
         		//aUC.resetPage();
         		
         	}else{
-        		productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+        		try {
+					productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+				} catch (PassThroughException e) {
+					showError(e);
+				}
         		aUC.insertNewProductionStopToArray(productionStop);
         	}
         	
@@ -208,6 +218,13 @@ public class ProductionStopCreateModalBoxController {
 		updater = true;
 		
 	}
+	private void showError(Exception e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("FATAL FEJL");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+		}
 	
 	
 	
