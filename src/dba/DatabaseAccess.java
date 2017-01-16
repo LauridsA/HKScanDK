@@ -319,7 +319,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountDay(long now) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT sum(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT teamtimetable.id  FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'dag' AND (endtimestamp + 14400000) > @now)";
+		String query = "DECLARE @now BIGINT = ?; SELECT sum(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT * FROM teamtimetableandteamfunction(@now))";
 		ResultSet result = null;
 		int amountDay = 0;
 		Connection con = null;
@@ -383,7 +383,7 @@ public class DatabaseAccess {
 	 */
 	public int getTotalCurrentSlaughterAmount(int teamId) throws DbaException{
 		PreparedStatement statement = null;
-		String query = "DECLARE @team INT = ?; SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamnighttimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team) OR teamtimetableid = (SELECT TOP 1 teamdaytimetableid FROM batch WHERE teamnighttimetableid = @team OR teamdaytimetableid = @team);";
+		String query = "DECLARE @team INT = ?; SELECT sum(value) AS totalamount FROM slaughteramount WHERE teamtimetableid = (SELECT * FROM teamnighttimetablefunction(@team)) OR teamtimetableid = (SELECT * FROM teamdaytimetablefunction(@team));";
 		ResultSet result = null;
 		int totalslaughteredcurrent = 0;
 		Connection con = null;
