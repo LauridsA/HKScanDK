@@ -149,7 +149,7 @@ public class DatabaseAccess {
 	 */
 	public int getCurrentSpeed() {
 		PreparedStatement statement = null;
-		String query = "SELECT TOP 1 value FROM speed ORDER BY stimestamp DESC";
+		String query = "SELECT * FROM currentspeedview";
 		ResultSet result = null;
 		int speed = 0;
 		
@@ -278,7 +278,7 @@ public class DatabaseAccess {
 	public void getCurrentWorkingTeam(long time){
 		
 		PreparedStatement statement = null;
-		String query = "SELECT TOP 1 id, starttimestamp, endtimestamp, teamid FROM teamtimetable WHERE ? BETWEEN starttimestamp AND endtimestamp";
+		String query = "SELECT * FROM workingteamfunction(?)";
 		ResultSet result = null;		
 		int teamTimeTableId = 0;
 		long startTime = 0;
