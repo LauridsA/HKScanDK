@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import exceptions.DbaException;
 import model.DailyMessages;
 import model.ProductionStop;
 
@@ -28,9 +29,10 @@ public class AdministrationDatabaseAccess {
 	 * @param expire the expiration date for this message.
 	 * @param showDate the time at which this message should be displayed from.
 	 * @return DailyMessages
+	 * @throws DbaException 
 	 * @throws Exception
 	 */
-	public void createDailyMessage(String message, Long timestamp, Long expire, Long showDate) {
+	public void createDailyMessage(String message, Long timestamp, Long expire, Long showDate) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "INSERT INTO dailymessages(dmessage, dtimestamp, expire, showdate) VALUES (?, ?, ?, ?);";
 		
@@ -62,8 +64,9 @@ public class AdministrationDatabaseAccess {
 	 * @param newTimeStamp new Unix time stamp to use
 	 * @param newExpire new expiration date
 	 * @param newShowDate new time to display the message
+	 * @throws DbaException 
 	 */
-	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) {
+	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "UPDATE dailymessages SET dmessage=?, dtimestamp=?, expire=?, showdate=? WHERE id = ?;";
 		Connection con = null;
@@ -90,8 +93,9 @@ public class AdministrationDatabaseAccess {
 	/**
 	 * Used to delete a daily message from the dailymessages table in the database.
 	 * @param id the id from UI used to find the dailyMessage in the dailymessages table.
+	 * @throws DbaException 
 	 */
-	public void deleteDailyMessage(int id) {
+	public void deleteDailyMessage(int id) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "DELETE FROM dailymessages WHERE id = ?;";
 		Connection con = null;
@@ -114,8 +118,9 @@ public class AdministrationDatabaseAccess {
 	/**
 	 * Used to get all daily messages currently in the database, ordered by display date ascendingly.<br>
 	 * @return an arrayList of dailyMessages to be used and displayed in UI.
+	 * @throws DbaException 
 	 */
-	public ArrayList<DailyMessages> getAllMessages() {
+	public ArrayList<DailyMessages> getAllMessages() throws DbaException {
 		PreparedStatement statement = null;
 		String query = "SELECT dmessage, dtimestamp, expire, showdate FROM dailymessages SORT BY showdate ASC";
 		ResultSet result = null;

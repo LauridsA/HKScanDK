@@ -3,6 +3,9 @@ package dba;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import exceptions.DbaException;
 
 public class DBConnection {
 
@@ -20,41 +23,35 @@ public class DBConnection {
 	
 	/**
 	 * Private constructor. Immediately connects to the database.
+	 * @throws DbaException 
 	 */
-	private DBConnection() {
+	private DBConnection() throws DbaException {
 		String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + databaseName + ";user=" + userName + ";password=" + passWord;
-		
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (Exception e) {
-			System.out.println("Driver not found");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			
-		}
-		
-		try {
 			con = DriverManager.getConnection(connectionString);
 			con.setAutoCommit(true);
 			dma = con.getMetaData();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			System.out.println("Con problem");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new DbaException("Driver ikke fundet", e);
 		}
 	}
 	
 	/**
 	 * Used to close the current connection.<br>
 	 * Resets the singleton connection.
+	 * @throws DbaException 
 	 */
-	public void closeConnection() {
+	public void closeConnection() throws DbaException {
 		try {
 			con.close();
 			instance = null;
-		} catch (Exception e) {
-			System.out.println("error");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new DbaException("Forbindelse kunne ikke lukkes", e);
 		}
 	}
 	
@@ -70,8 +67,9 @@ public class DBConnection {
 	/**
 	 * Method for singleton construction.
 	 * @return singleton instance.
+	 * @throws DbaException 
 	 */
-	public static DBConnection getInstance() {
+	public static DBConnection getInstance() throws DbaException {
 		if(instance == null){
 			instance = new DBConnection();
 		}

@@ -3,6 +3,9 @@ package dba;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import exceptions.DbaException;
 
 public class DBSingleConnection {
 
@@ -23,25 +26,20 @@ public class DBSingleConnection {
 	
 	/**
 	 * Private method used to establish connection the database.
+	 * @throws DbaException 
 	 */
-	private void openConnection() {
+	private void openConnection() throws DbaException {
 		String connectionString = "jdbc:sqlserver://" + server + ";databaseName=" + databaseName + ";user=" + userName + ";password=" + passWord;
 		
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (Exception e) {
-			System.out.println("Driver not found");
-			e.printStackTrace();
-			
-		}
-		
-		try {
 			con = DriverManager.getConnection(connectionString);
 			con.setAutoCommit(true);
 			dma = con.getMetaData();
-		} catch (Exception e) {
-			System.out.println("Con problem");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new DbaException("Kunne ikke oprette forbindelse til database", e);
+		} catch (ClassNotFoundException e) {
+			throw new DbaException("Driver ikke fundet", e);
 		}
 
 	}
@@ -49,15 +47,15 @@ public class DBSingleConnection {
 	/**
 	 * Used to close the current connection.<br>
 	 * Releases the connection for use by other threads.
+	 * @throws DbaException 
 	 */
-	public synchronized void closeConnection() {
+	public synchronized void closeConnection() throws DbaException {
 		try {
 			con.close();
 			inuse = false;
 			notifyAll();
-		} catch (Exception e) {
-			System.out.println("error");
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new DbaException("Forbindelse kunne ikke lukkes", e);
 		}
 	}
 	
@@ -65,14 +63,15 @@ public class DBSingleConnection {
 	 * Synchronized method used to retrieve the current database connection session.<br>
 	 * If the current connection is in use it will call for the thread to wait.
 	 * @return Connection session.
+	 * @throws DbaException 
 	 */
-	public synchronized Connection getDBcon() {
+	public synchronized Connection getDBcon() throws DbaException {
 		while (inuse) {
 			try {
 				System.out.println("I'm waiting");
 				wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				throw new DbaException("Fejl i tråd", e);
 			}
 		}
 		inuse = true;
