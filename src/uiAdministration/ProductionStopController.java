@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import controller.AdministrationController;
 import controller.Controller;
+import exceptions.PassThroughException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -62,7 +63,11 @@ public class ProductionStopController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == confirmButton){
-			aCtr.deleteStop(productionStop.getId());
+			try {
+				aCtr.deleteStop(productionStop.getId());
+			} catch (PassThroughException e) {
+				showError(e);
+			}
 	    	vbox.getChildren().remove(productionStop3);
 	    	administrationUiController.removeElement(productionStop);
 		} else {
@@ -89,5 +94,12 @@ public class ProductionStopController {
 		this.vbox = content;
 }
 	
+	private void showError(Exception e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("FATAL FEJL");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+		}
 
 }

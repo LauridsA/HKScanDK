@@ -4,12 +4,18 @@ import java.io.IOException;
 
 import controller.Controller;
 import dba.DBSingleConnection;
+import exceptions.ControllerException;
+import exceptions.DbaException;
+import exceptions.PassThroughException;
+import exceptions.UiException;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -75,7 +81,11 @@ public class DailyScreenController {
      */
 	public void startWorker(FieldTypes fieldType) {
 		Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e) {
+			showError(e);
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -83,9 +93,30 @@ public class DailyScreenController {
 				// Empty for now...
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					showError((Exception) throwable);
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
 	}
 	
+	private void showError(Exception e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("FATAL FEJL");
+		alert.setHeaderText(null);
+		alert.setContentText(e.getMessage());
+		alert.showAndWait();
+		}
+
 	/**
      * Method for starting a worker.<br>
      * This worker will update a label from the UI based on a refresh rate and fieldType.
@@ -94,7 +125,11 @@ public class DailyScreenController {
      */
     public void startWorker(FieldTypes fieldType, Label label){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e) {
+			showError(e);
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -105,6 +140,19 @@ public class DailyScreenController {
 				}
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					showError((Exception) throwable);
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
     }
     
@@ -116,7 +164,11 @@ public class DailyScreenController {
      */
     public void startWorker(FieldTypes fieldType, ScrollPane scrollPane){
     	Worker speedWorker = new Worker(fieldType, dbSinCon);
-    	speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+    	try {
+			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
+		} catch (PassThroughException e) {
+			showError(e);
+		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			
 			@Override
@@ -145,6 +197,19 @@ public class DailyScreenController {
 				}
 			}
 		});
+    	
+    	speedWorker.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Throwable throwable = speedWorker.getException();
+				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					showError((Exception) throwable);
+				}
+				
+			}
+		});
+    	
     	speedWorker.start(); 
     }
     
@@ -191,13 +256,14 @@ public class DailyScreenController {
 		 */
 		@Override
 		protected Task<MyTypeHolder> createTask() {
-			return new Task<MyTypeHolder>() {
+			return new Task<MyTypeHolder>()  {
 				/* (non-Javadoc)
 				 * @see javafx.concurrent.Task#call()
 				 */
-				protected MyTypeHolder call(){
-					MyTypeHolder returnValue = ctr.getValue(fieldType);
-					System.out.println(fieldType + " Value: " + returnValue);
+				protected MyTypeHolder call() throws PassThroughException{
+					MyTypeHolder returnValue = null;
+						returnValue = ctr.getValue(fieldType);
+						System.out.println(fieldType + " Value: " + returnValue);
 					return returnValue;
 				}
 			};

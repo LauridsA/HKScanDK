@@ -6,6 +6,7 @@ import java.util.Date;
 import dba.AdministrationDatabaseAccess;
 import dba.DBSingleConnection;
 import exceptions.DbaException;
+import exceptions.PassThroughException;
 import model.DailyMessages;
 import model.ProductionStop;
 
@@ -27,11 +28,16 @@ public class AdministrationController {
 	 * @param timestamp system Unix time stamp, generated at call.
 	 * @param expire the expiration date for this message.
 	 * @param showDate the time this message should be displayed from.
-	 * @throws DbaException 
+	 * @throws PassThroughException 
+
 	 */
-	public void createDailyMessage(String message, Long expire, Long showDate) throws DbaException {
+	public void createDailyMessage(String message, Long expire, Long showDate) throws PassThroughException{
 		Date time = new Date();
-		dba.createDailyMessage(message, time.getTime(), expire, showDate);
+		try {
+			dba.createDailyMessage(message, time.getTime(), expire, showDate);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -43,29 +49,43 @@ public class AdministrationController {
 	 * @param newTimeStamp new Unix time stamp to use
 	 * @param newExpire new expiration date
 	 * @param newShowDate new time to display the message
-	 * @throws DbaException 
+	 * @throws PassThroughException 
+
 	 */
-	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) throws DbaException {
-		dba.updateDailyMessage(id, newMessage, newTimeStamp, newExpire, newShowDate);
+	public void updateDailyMessage(int id, String newMessage, Long newTimeStamp, Long newExpire, Long newShowDate) throws PassThroughException{
+		try {
+			dba.updateDailyMessage(id, newMessage, newTimeStamp, newExpire, newShowDate);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
 	 * Used to delete a dailyMessage from the dailymessages table in database.
 	 * Uses id to find the dailymessage to delete.
 	 * @param id the id from UI used to find the dailyMessage in the dailymessages table.
-	 * @throws DbaException 
+
 	 */
-	public void deleteDailyMessage(int id) throws DbaException {
-		dba.deleteDailyMessage(id);
+	public void deleteDailyMessage(int id) throws PassThroughException {
+		try {
+			dba.deleteDailyMessage(id);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
 	 * Used to retrieve all DailyMessages from database.
 	 * @return all DailyMessages from the dailymessages table as ArrayList
-	 * @throws DbaException 
+	 * @throws PassThroughException 
+
 	 */
-	public ArrayList<DailyMessages> getAllMessages() throws DbaException {
-		return dba.getAllMessages();
+	public ArrayList<DailyMessages> getAllMessages() throws PassThroughException{
+		try {
+			return dba.getAllMessages();
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -75,10 +95,15 @@ public class AdministrationController {
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param TeamTimeTableId ID of timetable working at the time of stop.
 	 * @return 
-	 * @throws DbaException 
+	 * @throws PassThroughException 
+
 	 */
-	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) throws DbaException {
-		return dba.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) throws PassThroughException {
+		try {
+			return dba.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -90,7 +115,7 @@ public class AdministrationController {
 	 * @param newStopLength new int for stopLength
 	 * @param newStopDescription new String to display
 	 * @param newTeamTimeTableId new int for teamTimeTable
-	 * @throws DbaException 
+
 	 */
 	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, int newTeamTimeTableId) throws DbaException {
 		dba.updateStop(id, newStopTime, newStopLength, newStopDescription, newTeamTimeTableId);
@@ -100,19 +125,27 @@ public class AdministrationController {
 	 * Used to delete a ProductionStop from the productionstop table in database.
 	 * Uses id to find the productionStop to delete.
 	 * @param id the id from UI used to find the productionStop in the productionstop table.
-	 * @throws DbaException 
+	 * @throws PassThroughException 
 	 */
-	public void deleteStop(int id) throws DbaException {
-		dba.deleteStop(id);
+	public void deleteStop(int id) throws PassThroughException{
+		try {
+			dba.deleteStop(id);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 	
 	/**
 	 * Used to retrieve all ProductioStops from database.
 	 * @return all DailyMessages from the productionstop table as ArrayList
-	 * @throws DbaException 
+	 * @throws PassThroughException 
 	 */
-	public ArrayList<ProductionStop> getAllStops() throws DbaException {
-		return dba.getAllStops();
+	public ArrayList<ProductionStop> getAllStops() throws PassThroughException{
+		try {
+			return dba.getAllStops();
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 
 }
