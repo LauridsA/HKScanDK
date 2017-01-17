@@ -260,7 +260,7 @@ public class AdministrationDatabaseAccess {
 	 */
 	public ArrayList<ProductionStop> getAllStops() throws DbaException {
 		PreparedStatement statement = null;
-		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
+		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid, starttimestamp, endtimestamp, teamname, workers, department FROM productionstop ORDER BY stoptime desc";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;
@@ -277,6 +277,7 @@ public class AdministrationDatabaseAccess {
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
 					int ttti = result.getInt("teamtimetableid");
+					
 					int teamId = result.getInt("id");
 					Long startTime = result.getLong("starttimestamp");
 					Long endTime = result.getLong("endtimestamp");
