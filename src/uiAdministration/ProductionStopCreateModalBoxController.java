@@ -250,7 +250,13 @@ public class ProductionStopCreateModalBoxController {
 	
     void dateChange(LocalDate localDate) {
     	teamList.getChildren().clear();
-    	ArrayList<Team> teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    	ArrayList<Team> teamArrayList = null;
+		try {
+			teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+		} catch (PassThroughException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	/*
     	ArrayList<Team> teamArrayList = new ArrayList<>();
     	teamArrayList.add(new Team(1, 132, 456, "nat", 52, 0));
