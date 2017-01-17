@@ -630,10 +630,12 @@ public class DatabaseAccess {
 		return stopList;
 	}
 
-	public ArrayList<Team> getTeamList(long epochDay) {
-		
-		
-		return workingTeamList;
+	public ArrayList<Long> getDayGranularity(long epochDayStart) {
+		ArrayList<Long> res = new ArrayList<>();
+		long dayEnd = epochDayStart + 86400000;
+		res.add(epochDayStart);
+		res.add(dayEnd);
+		return res;
 	}
 	
 }
