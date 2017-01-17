@@ -636,12 +636,6 @@ public class DatabaseAccess {
 		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
 		ResultSet result = null;
 		Connection con = null;
-		int teamId = 0;
-		long startTime = 0;
-		long endTime = 0;
-		String teamName = "";
-		int teamSize = 0;
-		int department = 0;
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
@@ -649,12 +643,13 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			if (result.isBeforeFirst()) {
 				while (result.next()) {
-					teamId = result.getInt("id");
-					startTime = result.getLong("starttimestamp");
-					endTime = result.getLong("endtimestamp");
-					teamName = result.getString("teamname");
-					teamSize = result.getInt("workers");
-					department = result.getInt("department");
+					result.next();
+					int teamId = result.getInt("team.id");
+					long startTime = result.getLong("starttimestamp");
+					long endTime = result.getLong("endtime");
+					String teamName = result.getString("teamname");
+					int teamSize = result.getInt("workers");
+					int department = result.getInt("department");
 					
 					
 					res.add(new Team(teamId, startTime, endTime, teamName, teamSize, department));
