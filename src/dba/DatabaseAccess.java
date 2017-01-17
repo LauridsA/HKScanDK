@@ -629,18 +629,30 @@ public class DatabaseAccess {
 		
 		return stopList;
 	}
-
-	public ArrayList<Long> getDayGranularity(long epochDayStart) {
-		ArrayList<Long> res = new ArrayList<>();
-		long dayEnd = epochDayStart + 86400000;
-		res.add(epochDayStart);
-		res.add(dayEnd);
-		return res;
-	}
 	
-	public ArrayList<Team> getTeamList(long epochDayStart) {
+	public ArrayList<Team> getTeamList(long epochDayStart) throws DbaException {
 		ArrayList<Team> res = new ArrayList<>();
-		
+		long dayEnd = epochDayStart + 86400000;
+		PreparedStatement statement = null;
+		String query = "????????????";
+		ResultSet result = null;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setLong(1, epochDayStart);
+			statement.setLong(2, dayEnd);
+			result = statement.executeQuery();
+			if (result.isBeforeFirst()) {
+				while (result.next()) {
+					//get the stuff into teams... TODO
+				}
+			}
+		} catch (SQLException e) {
+			throw new DbaException("Data kunne ikke findes", e);
+		} finally {
+			DBConnection.getInstance().closeConnection();
+		}
 		return res;
 	}
 	
