@@ -11,6 +11,7 @@ import java.util.Map;
 import exceptions.DbaException;
 import model.FieldTypes;
 import model.ProductionStop;
+import model.Team;
 import model.WorkingTeam;
 
 public class DatabaseAccess {
@@ -629,7 +630,7 @@ public class DatabaseAccess {
 		return stopList;
 	}
 
-	public ArrayList<WorkingTeam> getTeamList(long epochDay) {
+	public ArrayList<Team> getTeamList(long epochDay) {
 		
 		
 		return workingTeamList;

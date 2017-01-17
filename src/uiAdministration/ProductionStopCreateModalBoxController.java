@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.ProductionStop;
+import model.WorkingTeam;
 
 public class ProductionStopCreateModalBoxController {
 	@FXML
@@ -240,8 +242,8 @@ public class ProductionStopCreateModalBoxController {
 	
     void dateChange(LocalDate localDate) {
     	
-    	Cctr.getTeamList(localDate.toEpochDay());
-    	
+    	ArrayList<WorkingTeam>Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+
     	teamList.getChildren().clear();
     	BorderPane bp = new BorderPane();
 		Label l = new Label("holdx");

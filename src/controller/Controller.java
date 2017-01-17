@@ -12,6 +12,7 @@ import exceptions.PassThroughException;
 import model.FieldTypes;
 import model.MyTypeHolder;
 import model.ProductionStop;
+import model.Team;
 import model.WorkingTeam;
 
 public class Controller {
@@ -342,7 +343,7 @@ public class Controller {
 		return dt.format(new Date(time));
 	}
 	
-	public ArrayList<WorkingTeam> getTeamList(long epochDay) {
+	public ArrayList<Team> getTeamList(long epochDay) {
 		return dba.getTeamList(epochDay);
 	}
 
