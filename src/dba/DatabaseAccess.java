@@ -285,7 +285,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountNight(long now) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
+		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT * FROM teamtimetableandteamnightfunction(@now))";
 		ResultSet result = null;
 		int amountNight = 0;
 		Connection con = null;
@@ -544,7 +544,7 @@ public class DatabaseAccess {
 	 * @throws DbaException 
 	 */
 	public Map<Integer, Integer> expectedFinish(int teamId) throws DbaException {
-		String query = "DECLARE @teamid INT = ?; SELECT beforebatch.organic, sum(ISNULL((beforebatch.value - afterbatch.value), beforebatch.value)) as result FROM (SELECT id, value, organic FROM batch WHERE teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AS beforebatch  LEFT JOIN (SELECT slaughteramount.batchid, sum(slaughteramount.value) AS value FROM slaughteramount JOIN batch ON slaughteramount.batchid = batch.id WHERE batch.teamdaytimetableid = @teamid OR batch.teamnighttimetableid = @teamid GROUP BY slaughteramount.batchid) AS afterbatch  ON beforebatch.id = afterbatch.batchid GROUP BY beforebatch.organic;";
+		String query = "SELECT * FROM idvalueorganicbatchfunction(?)";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
