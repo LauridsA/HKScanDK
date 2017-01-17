@@ -591,8 +591,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * Used to retrieve all ProductioStops from database.
-	 * @return all DailyMessages from the productionstop table as ArrayList.
+	 * Used to retrieve all ProductionStops from database.
+	 * @return all production stops from the productionstop table as ArrayList.
 	 * @throws DbaException 
 	 */
 	public ArrayList<ProductionStop> getAllStops() throws DbaException {
