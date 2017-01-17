@@ -343,8 +343,12 @@ public class Controller {
 		return dt.format(new Date(time));
 	}
 	
-	public ArrayList<Team> getTeamList(long epochDay) {
-		return dba.getTeamList(epochDay);
+	public ArrayList<Team> getTeamList(long epochDay) throws PassThroughException {
+		try {
+			return dba.getTeamList(epochDay);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 
 }
