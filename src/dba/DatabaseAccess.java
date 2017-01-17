@@ -628,5 +628,11 @@ public class DatabaseAccess {
 		
 		return stopList;
 	}
+
+	public ArrayList<WorkingTeam> getTeamList(long epochDay) {
+		
+		
+		return workingTeamList;
+	}
 	
 }

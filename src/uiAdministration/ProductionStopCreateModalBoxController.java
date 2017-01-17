@@ -16,7 +16,9 @@ import controller.Controller;
 import dba.DBSingleConnection;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,10 +26,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.ProductionStop;
 
@@ -52,6 +57,9 @@ public class ProductionStopCreateModalBoxController {
 
     @FXML
     private TextField fieldStopLength;
+    
+    @FXML
+    private VBox teamList;
 
 	private Stage stage;
 	private AdministrationController ctr = new AdministrationController();
@@ -65,6 +73,11 @@ public class ProductionStopCreateModalBoxController {
 				change.getControlNewText().length() <= 250 ? change : null));
 		fieldStopDate.setValue(LocalDate.now());
 		fieldStopTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+		fieldStopDate.setOnAction(event -> {
+			dateChange(fieldStopDate.getValue());
+		});
+		
+		
 	}
 
 	@FXML
@@ -176,7 +189,7 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	int teamTimeTableId = 9;
+        	int teamTimeTableId = 9; 
 
 
         	if(updater){
@@ -206,8 +219,6 @@ public class ProductionStopCreateModalBoxController {
     	
     }
 
-
-
 	public void initUpdate(ProductionStop productionStop) {
 		buttonCreateStop.setText("Updater");
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
@@ -218,6 +229,7 @@ public class ProductionStopCreateModalBoxController {
 		updater = true;
 		
 	}
+	
 	private void showError(Exception e) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("FATAL FEJL");
@@ -226,6 +238,18 @@ public class ProductionStopCreateModalBoxController {
 		alert.showAndWait();
 		}
 	
-	
+    void dateChange(LocalDate localDate) {
+    	
+    	Cctr.getTeamList(localDate.toEpochDay());
+    	
+    	teamList.getChildren().clear();
+    	BorderPane bp = new BorderPane();
+		Label l = new Label("holdx");
+		Button btnLeft = new Button("Vælg");
+    	bp.setLeft(l);
+    	bp.setRight(btnLeft);
+		teamList.getChildren().add(bp);
+    }
+		
 	
 }

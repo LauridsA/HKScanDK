@@ -341,5 +341,9 @@ public class Controller {
 		SimpleDateFormat dt = new SimpleDateFormat(format);
 		return dt.format(new Date(time));
 	}
+	
+	public ArrayList<WorkingTeam> getTeamList(long epochDay) {
+		return dba.getTeamList(epochDay);
+	}
 
 }
