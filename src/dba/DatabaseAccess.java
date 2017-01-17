@@ -638,4 +638,10 @@ public class DatabaseAccess {
 		return res;
 	}
 	
+	public ArrayList<Team> getTeamList(long epochDayStart) {
+		ArrayList<Team> res = new ArrayList<>();
+		
+		return res;
+	}
+	
 }
