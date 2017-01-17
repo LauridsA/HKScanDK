@@ -20,6 +20,7 @@ import exceptions.PassThroughException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -63,6 +64,9 @@ public class ProductionStopCreateModalBoxController {
     
     @FXML
     private VBox teamList;
+    
+    @FXML
+    private Label teamName;
 
 	private Stage stage;
 	private AdministrationController ctr = new AdministrationController();
@@ -252,7 +256,14 @@ public class ProductionStopCreateModalBoxController {
     		Button btnLeft = new Button("Vælg");
         	bp.setLeft(l);
         	bp.setRight(btnLeft);
-    		
+    		btnLeft.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					teamName.setText(team.getTeamName());
+					
+				}
+			});
     		teamList.getChildren().add(bp);
 		}
     	
