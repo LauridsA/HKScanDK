@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -55,6 +56,8 @@
       	                            <Label text="Længde på stop" GridPane.rowIndex="1" />
       	                            <TextField fx:id="fieldStopLength" maxWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label text="Tid:" />
+                                    <Label text="Hold" GridPane.rowIndex="2" />
+                                    <Label fx:id="teamName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

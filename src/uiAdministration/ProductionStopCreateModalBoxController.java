@@ -36,6 +36,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.ProductionStop;
+import model.Team;
 import model.WorkingTeam;
 
 public class ProductionStopCreateModalBoxController {
@@ -241,16 +242,22 @@ public class ProductionStopCreateModalBoxController {
 		}
 	
     void dateChange(LocalDate localDate) {
-    	
-    	ArrayList<WorkingTeam>Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
-
     	teamList.getChildren().clear();
-    	BorderPane bp = new BorderPane();
-		Label l = new Label("holdx");
-		Button btnLeft = new Button("Vælg");
-    	bp.setLeft(l);
-    	bp.setRight(btnLeft);
-		teamList.getChildren().add(bp);
+    	ArrayList<Team> teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+
+    	for (Team team : teamArrayList) {
+    		Label l = new Label(team.getTeamName());
+    		Label l2 = new Label(((Long)team.getStartTime()).toString());
+    		BorderPane bp = new BorderPane();
+    		Button btnLeft = new Button("Vælg");
+        	bp.setLeft(l);
+        	bp.setRight(btnLeft);
+    		
+    		teamList.getChildren().add(bp);
+		}
+    	
+    	
+		
     }
 		
 	
