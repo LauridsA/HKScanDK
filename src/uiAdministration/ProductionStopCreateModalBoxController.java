@@ -74,15 +74,18 @@ public class ProductionStopCreateModalBoxController {
 	private boolean updater = false;
 	private ProductionStop productionStop;
 	private AdministrationUiController aUC;
+	private Team selectedTeam;
 	
 	public void initialize() {
+		fieldStopDate.setOnAction(event -> {
+			dateChange(fieldStopDate.getValue());
+		});
+		dateChange(LocalDate.now());
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
 				change.getControlNewText().length() <= 250 ? change : null));
 		fieldStopDate.setValue(LocalDate.now());
 		fieldStopTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-		fieldStopDate.setOnAction(event -> {
-			dateChange(fieldStopDate.getValue());
-		});
+		
 		
 		
 	}
@@ -248,7 +251,11 @@ public class ProductionStopCreateModalBoxController {
     void dateChange(LocalDate localDate) {
     	teamList.getChildren().clear();
     	ArrayList<Team> teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
-
+    	/*
+    	ArrayList<Team> teamArrayList = new ArrayList<>();
+    	teamArrayList.add(new Team(1, 132, 456, "nat", 52, 0));
+    	teamArrayList.add(new Team(2, 789, 101112, "dag", 1337, 2));
+    	*/
     	for (Team team : teamArrayList) {
     		Label l = new Label(team.getTeamName());
     		Label l2 = new Label(((Long)team.getStartTime()).toString());
@@ -261,6 +268,7 @@ public class ProductionStopCreateModalBoxController {
 				@Override
 				public void handle(ActionEvent event) {
 					teamName.setText(team.getTeamName());
+					selectedTeam = team;
 					
 				}
 			});
