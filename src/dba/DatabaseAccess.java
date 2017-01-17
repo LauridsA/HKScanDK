@@ -649,15 +649,16 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			if (result.isBeforeFirst()) {
 				while (result.next()) {
-					result.next();
-					teamId = result.getInt("team.id");
+					teamId = result.getInt("id");
 					startTime = result.getLong("starttimestamp");
-					endTime = result.getLong("endtime");
+					endTime = result.getLong("endtimestamp");
 					teamName = result.getString("teamname");
 					teamSize = result.getInt("workers");
 					department = result.getInt("department");
 					
+					
 					res.add(new Team(teamId, startTime, endTime, teamName, teamSize, department));
+					
 				}
 			}
 		} catch (SQLException e) {
