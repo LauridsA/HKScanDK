@@ -80,12 +80,12 @@ public class ProductionStopCreateModalBoxController {
 		fieldStopDate.setOnAction(event -> {
 			dateChange(fieldStopDate.getValue());
 		});
-		dateChange(LocalDate.now());
+		
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
 				change.getControlNewText().length() <= 250 ? change : null));
 		fieldStopDate.setValue(LocalDate.now());
 		fieldStopTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-		
+		dateChange(LocalDate.now());
 		
 		
 	}
@@ -199,7 +199,7 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	int teamTimeTableId = 9; 
+        	int teamTimeTableId = selectedTeam.getTeamId(); 
 
 
         	if(updater){
@@ -234,6 +234,7 @@ public class ProductionStopCreateModalBoxController {
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
 		fieldStopDate.setValue(Instant.ofEpochMilli(productionStop.getStopTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		fieldStopLength.setText(Integer.toString(productionStop.getStopLength()));
+		teamName.setText(productionStop.g);
 		descBox.setText(productionStop.getStopDescription());
 		this.productionStop = productionStop;
 		updater = true;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import exceptions.DbaException;
 import model.DailyMessages;
 import model.ProductionStop;
+import model.Team;
 
 public class AdministrationDatabaseAccess {
 	private DBSingleConnection dbSinCon;
@@ -276,8 +277,14 @@ public class AdministrationDatabaseAccess {
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
 					int ttti = result.getInt("teamtimetableid");
-					
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti);
+					int teamId = result.getInt("id");
+					Long startTime = result.getLong("starttimestamp");
+					Long endTime = result.getLong("endtimestamp");
+					String teamName = result.getString("teamname");
+					int teamSize = result.getInt("workers");
+					int department = result.getInt("department");
+					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, team);
 					stopList.add(ps);
 				}
 			}

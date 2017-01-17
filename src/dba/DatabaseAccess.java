@@ -643,6 +643,7 @@ public class DatabaseAccess {
 			result = statement.executeQuery();
 			if (result.isBeforeFirst()) {
 				while (result.next()) {
+<<<<<<< HEAD
 					result.next();
 					int teamId = result.getInt("team.id");
 					long startTime = result.getLong("starttimestamp");
@@ -650,8 +651,18 @@ public class DatabaseAccess {
 					String teamName = result.getString("teamname");
 					int teamSize = result.getInt("workers");
 					int department = result.getInt("department");
+=======
+					teamId = result.getInt("id");
+					startTime = result.getLong("starttimestamp");
+					endTime = result.getLong("endtimestamp");
+					teamName = result.getString("teamname");
+					teamSize = result.getInt("workers");
+					department = result.getInt("department");
+>>>>>>> branch 'master' of https://github.com/LauridsA/HKScanDK.git
+					
 					
 					res.add(new Team(teamId, startTime, endTime, teamName, teamSize, department));
+					
 				}
 			}
 		} catch (SQLException e) {
