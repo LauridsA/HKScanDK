@@ -182,6 +182,7 @@ public class AdministrationUiController {
 		resetPage();
 	}
 	private void showError(Exception e) {
+		e.printStackTrace();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("FATAL FEJL");
 		alert.setHeaderText(null);

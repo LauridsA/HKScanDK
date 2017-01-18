@@ -181,7 +181,7 @@ public class ProductionStopCreateModalBoxController {
 
         	if(updater){
         		try {
-					ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, teamTimeTableId);
+					ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, productionStop.getTeamTimeTableId());
 				} catch (DbaException e) {
 					showError(e);
 				}
@@ -219,6 +219,7 @@ public class ProductionStopCreateModalBoxController {
 		
 	}
 	private void showError(Exception e) {
+		e.printStackTrace();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("FATAL FEJL");
 		alert.setHeaderText(null);
