@@ -270,9 +270,9 @@ public class AdministrationDatabaseAccess {
 	 * @return all DailyMessages from the productionstop table as ArrayList.
 	 * @throws DbaException 
 	 */
-	public ArrayList<ProductionStop> getAllStops() throws DbaException { //TODO Denne fejler, mangler at join team
+	public ArrayList<ProductionStop> getAllStops() throws DbaException { //TODO Anders??? (id?)
 		PreparedStatement statement = null;
-		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid, starttimestamp, endtimestamp, teamname, workers, department FROM productionstop ORDER BY stoptime desc";
+		String query = "SELECT teamtimetable.id, stoptime, stoplength, stopdescription, teamtimetableid, starttimestamp, endtimestamp, teamname, workers, department FROM productionstop JOIN teamtimetable ON productionstop.teamtimetableid = teamtimetable.id JOIN team on teamtimetable.teamid = team.id ORDER BY stoptime desc";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;
