@@ -633,20 +633,19 @@ public class DatabaseAccess {
 	public ArrayList<Team> getTeamList(long epochDayStart) throws DbaException {
 		ArrayList<Team> res = new ArrayList<>();
 		PreparedStatement statement = null;
-		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
+		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT starttimestamp, endtimestamp, team.id, teamname, workers, department FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
 		ResultSet result = null;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setLong(1, epochDayStart);
 			result = statement.executeQuery();
 			if (result.isBeforeFirst()) {
 				while (result.next()) {
-					result.next();
-					int teamId = result.getInt("team.id");
+					int teamId = result.getInt("id");
 					long startTime = result.getLong("starttimestamp");
-					long endTime = result.getLong("endtime");
+					long endTime = result.getLong("endtimestamp");
 					String teamName = result.getString("teamname");
 					int teamSize = result.getInt("workers");
 					int department = result.getInt("department");
