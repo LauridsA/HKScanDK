@@ -12,6 +12,7 @@ import exceptions.PassThroughException;
 import model.FieldTypes;
 import model.MyTypeHolder;
 import model.ProductionStop;
+import model.Team;
 import model.WorkingTeam;
 
 public class Controller {
@@ -340,6 +341,14 @@ public class Controller {
 	public String getFormattedTime(Long time, String format) {
 		SimpleDateFormat dt = new SimpleDateFormat(format);
 		return dt.format(new Date(time));
+	}
+	
+	public ArrayList<Team> getTeamList(long epochDay) throws PassThroughException {
+		try {
+			return dba.getTeamList(epochDay);
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
 	}
 
 }

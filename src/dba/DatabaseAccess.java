@@ -11,6 +11,7 @@ import java.util.Map;
 import exceptions.DbaException;
 import model.FieldTypes;
 import model.ProductionStop;
+import model.Team;
 import model.WorkingTeam;
 
 public class DatabaseAccess {
@@ -285,7 +286,7 @@ public class DatabaseAccess {
 	 */
 	public int getSlaughterAmountNight(long now) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT TOP 1 teamtimetable.id FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE starttimestamp < @now AND teamname = 'nat' ORDER BY starttimestamp DESC)";
+		String query = "DECLARE @now BIGINT = ?; SELECT SUM(value) AS currentamount FROM slaughteramount WHERE teamtimetableid = (SELECT * FROM teamtimetableandteamnightfunction(@now))";
 		ResultSet result = null;
 		int amountNight = 0;
 		Connection con = null;
@@ -544,7 +545,7 @@ public class DatabaseAccess {
 	 * @throws DbaException 
 	 */
 	public Map<Integer, Integer> expectedFinish(int teamId) throws DbaException {
-		String query = "DECLARE @teamid INT = ?; SELECT beforebatch.organic, sum(ISNULL((beforebatch.value - afterbatch.value), beforebatch.value)) as result FROM (SELECT id, value, organic FROM batch WHERE teamnighttimetableid = @teamid OR teamdaytimetableid = @teamid) AS beforebatch  LEFT JOIN (SELECT slaughteramount.batchid, sum(slaughteramount.value) AS value FROM slaughteramount JOIN batch ON slaughteramount.batchid = batch.id WHERE batch.teamdaytimetableid = @teamid OR batch.teamnighttimetableid = @teamid GROUP BY slaughteramount.batchid) AS afterbatch  ON beforebatch.id = afterbatch.batchid GROUP BY beforebatch.organic;";
+		String query = "SELECT * FROM idvalueorganicbatchfunction(?)";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
@@ -591,8 +592,8 @@ public class DatabaseAccess {
 	}
 	
 	/**
-	 * Used to retrieve all ProductioStops from database.
-	 * @return all DailyMessages from the productionstop table as ArrayList.
+	 * Used to retrieve all ProductionStops from database.
+	 * @return all production stops from the productionstop table as ArrayList.
 	 * @throws DbaException 
 	 */
 	public ArrayList<ProductionStop> getAllStops() throws DbaException {
@@ -627,6 +628,40 @@ public class DatabaseAccess {
 		}
 		
 		return stopList;
+	}
+	
+	public ArrayList<Team> getTeamList(long epochDayStart) throws DbaException {
+		ArrayList<Team> res = new ArrayList<>();
+		PreparedStatement statement = null;
+		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
+		ResultSet result = null;
+		Connection con = null;
+		try {
+			con = DBConnection.getInstance().getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setLong(1, epochDayStart);
+			result = statement.executeQuery();
+			if (result.isBeforeFirst()) {
+				while (result.next()) {
+					result.next();
+					int teamId = result.getInt("team.id");
+					long startTime = result.getLong("starttimestamp");
+					long endTime = result.getLong("endtime");
+					String teamName = result.getString("teamname");
+					int teamSize = result.getInt("workers");
+					int department = result.getInt("department");
+					
+					
+					res.add(new Team(teamId, startTime, endTime, teamName, teamSize, department));
+					
+				}
+			}
+		} catch (SQLException e) {
+			throw new DbaException("Data kunne ikke findes", e);
+		} finally {
+			DBConnection.getInstance().closeConnection();
+		}
+		return res;
 	}
 	
 }

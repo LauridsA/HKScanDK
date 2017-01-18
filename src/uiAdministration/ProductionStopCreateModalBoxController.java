@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -16,7 +17,10 @@ import controller.Controller;
 import dba.DBSingleConnection;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,12 +28,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.ProductionStop;
+import model.Team;
+import model.WorkingTeam;
 
 public class ProductionStopCreateModalBoxController {
 	@FXML
@@ -52,6 +61,12 @@ public class ProductionStopCreateModalBoxController {
 
     @FXML
     private TextField fieldStopLength;
+    
+    @FXML
+    private VBox teamList;
+    
+    @FXML
+    private Label teamName;
 
 	private Stage stage;
 	private AdministrationController ctr = new AdministrationController();
@@ -59,12 +74,20 @@ public class ProductionStopCreateModalBoxController {
 	private boolean updater = false;
 	private ProductionStop productionStop;
 	private AdministrationUiController aUC;
+	private Team selectedTeam;
 	
 	public void initialize() {
+		fieldStopDate.setOnAction(event -> {
+			dateChange(fieldStopDate.getValue());
+		});
+		
 		descBox.setTextFormatter(new TextFormatter<String>(change ->
 				change.getControlNewText().length() <= 250 ? change : null));
 		fieldStopDate.setValue(LocalDate.now());
 		fieldStopTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+		dateChange(LocalDate.now());
+		
+		
 	}
 
 	@FXML
@@ -176,7 +199,7 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	int teamTimeTableId = 9;
+        	int teamTimeTableId = selectedTeam.getTeamId(); 
 
 
         	if(updater){
@@ -206,18 +229,18 @@ public class ProductionStopCreateModalBoxController {
     	
     }
 
-
-
 	public void initUpdate(ProductionStop productionStop) {
 		buttonCreateStop.setText("Updater");
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
 		fieldStopDate.setValue(Instant.ofEpochMilli(productionStop.getStopTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		fieldStopLength.setText(Integer.toString(productionStop.getStopLength()));
+		teamName.setText(productionStop.g);
 		descBox.setText(productionStop.getStopDescription());
 		this.productionStop = productionStop;
 		updater = true;
 		
 	}
+	
 	private void showError(Exception e) {
 		e.printStackTrace();
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -227,6 +250,42 @@ public class ProductionStopCreateModalBoxController {
 		alert.showAndWait();
 		}
 	
-	
+    void dateChange(LocalDate localDate) {
+    	teamList.getChildren().clear();
+    	ArrayList<Team> teamArrayList = null;
+		try {
+			teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+		} catch (PassThroughException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	/*
+    	ArrayList<Team> teamArrayList = new ArrayList<>();
+    	teamArrayList.add(new Team(1, 132, 456, "nat", 52, 0));
+    	teamArrayList.add(new Team(2, 789, 101112, "dag", 1337, 2));
+    	*/
+    	for (Team team : teamArrayList) {
+    		Label l = new Label(team.getTeamName());
+    		Label l2 = new Label(((Long)team.getStartTime()).toString());
+    		BorderPane bp = new BorderPane();
+    		Button btnLeft = new Button("Vælg");
+        	bp.setLeft(l);
+        	bp.setRight(btnLeft);
+    		btnLeft.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					teamName.setText(team.getTeamName());
+					selectedTeam = team;
+					
+				}
+			});
+    		teamList.getChildren().add(bp);
+		}
+    	
+    	
+		
+    }
+		
 	
 }
