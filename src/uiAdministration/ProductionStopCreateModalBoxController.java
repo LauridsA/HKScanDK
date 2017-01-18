@@ -74,7 +74,8 @@ public class ProductionStopCreateModalBoxController {
 	private boolean updater = false;
 	private ProductionStop productionStop;
 	private AdministrationUiController aUC;
-	private Team selectedTeam;
+	private Team selectedTeam = new Team(0, 0, 0, null, 0, 0);
+	private Team selectedTeamTest = 
 	
 	public void initialize() {
 		fieldStopDate.setOnAction(event -> {
@@ -169,8 +170,7 @@ public class ProductionStopCreateModalBoxController {
 		}
 	}
 	
-	// TODO virker men der er ingen tjek på om det er korrekte input
-	@FXML
+   @FXML
    private void addNewStop(){
     	if(!fieldStopTime.getText().matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
     		regexModalbox("Tid er forkert. Skal være f.eks. 01:00");
@@ -230,7 +230,7 @@ public class ProductionStopCreateModalBoxController {
     }
 
 	public void initUpdate(ProductionStop productionStop) {
-		buttonCreateStop.setText("Updater");
+		buttonCreateStop.setText("Opdater");
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
 		fieldStopDate.setValue(Instant.ofEpochMilli(productionStop.getStopTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		fieldStopLength.setText(Integer.toString(productionStop.getStopLength()));
