@@ -158,32 +158,44 @@ public class AdministrationDatabaseAccess {
 	 */
 	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, ?)";
-		int id = 0;
+		String query = "DECLARE @teamtimetableid INT = ?; INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, @teamtimetable); SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE teamtimetable.id = @teamtimetableid;";
+		int keyId = 0;
+		Team team = null;
+		ResultSet result = null;
 		
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
-			statement.setLong(1, stopTime);
-			statement.setInt(2, stopLength);
-			statement.setString(3, stopDescription);
-			statement.setInt(4, teamTimeTableId);
+			statement.setLong(2, stopTime);
+			statement.setInt(3, stopLength);
+			statement.setString(4, stopDescription);
+			statement.setInt(1, teamTimeTableId);
 			
-			int affectedRows = statement.executeUpdate();
+			result = statement.executeQuery();
 	
-		        if (affectedRows == 0) {
+		        if (result.equals(null)) {
 		            throw new DbaException("Opretning af stop fejlet, ingen rækker blev påvirket.");
 		        }
 	
 		        ResultSet generatedKeys = statement.getGeneratedKeys(); 
 		            if (generatedKeys.next()) {
-		                id = generatedKeys.getInt(1);
+		                keyId = generatedKeys.getInt(1);
 		            }
 		            else {
 		                throw new DbaException("Opretning af stop fejlet, der blev ikke fanget noget ID.");
 		            }
-		        			
+		        
+		        while(result.next()){
+		        	int teamId = result.getInt("id");
+		        	String teamName = result.getString("teamname");
+		        	int teamSize = result.getInt("workers");
+		        	int department = result.getInt("department");
+		        	long startTime = result.getLong("starttimestamp");
+		        	long endTime = result.getLong("endtimestamp");
+		        	
+		        	team =  new Team(teamId, startTime, endTime, teamName, teamSize, department);
+		        }
 			
 		} catch (SQLException e) {
 				throw new DbaException("Productionsstop ikke oprettet", e);
@@ -191,7 +203,7 @@ public class AdministrationDatabaseAccess {
 			DBConnection.getInstance().closeConnection();
 		}
 
-		return new ProductionStop(id, stopTime, stopLength, stopDescription, teamTimeTableId, null); //TODO team ?? select from teamtimetable...
+		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team); //TODO team ?? select from teamtimetable...
 		
 	}
 	
@@ -258,7 +270,7 @@ public class AdministrationDatabaseAccess {
 	 * @return all DailyMessages from the productionstop table as ArrayList.
 	 * @throws DbaException 
 	 */
-	public ArrayList<ProductionStop> getAllStops() throws DbaException {
+	public ArrayList<ProductionStop> getAllStops() throws DbaException { //TODO Denne fejler, mangler at join team
 		PreparedStatement statement = null;
 		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid, starttimestamp, endtimestamp, teamname, workers, department FROM productionstop ORDER BY stoptime desc";
 		ResultSet result = null;
