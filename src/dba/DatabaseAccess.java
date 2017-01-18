@@ -616,7 +616,7 @@ public class DatabaseAccess {
 					String sd = result.getString("stopdescription");
 					int ttti = result.getInt("teamtimetableid");
 					
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti);
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, null); // TODO select from teamtimetable ...
 					stopList.add(ps);
 				}
 			}

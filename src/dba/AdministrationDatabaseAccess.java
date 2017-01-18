@@ -191,7 +191,7 @@ public class AdministrationDatabaseAccess {
 			DBConnection.getInstance().closeConnection();
 		}
 
-		return new ProductionStop(id, stopTime, stopLength, stopDescription, teamTimeTableId);
+		return new ProductionStop(id, stopTime, stopLength, stopDescription, teamTimeTableId, null); //TODO team ?? select from teamtimetable...
 		
 	}
 	

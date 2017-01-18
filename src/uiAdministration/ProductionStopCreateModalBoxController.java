@@ -234,7 +234,7 @@ public class ProductionStopCreateModalBoxController {
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
 		fieldStopDate.setValue(Instant.ofEpochMilli(productionStop.getStopTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		fieldStopLength.setText(Integer.toString(productionStop.getStopLength()));
-		teamName.setText(productionStop.g);
+		teamName.setText(productionStop.getTeam().getTeamName()); // TODO anders wtf
 		descBox.setText(productionStop.getStopDescription());
 		this.productionStop = productionStop;
 		updater = true;
