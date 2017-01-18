@@ -74,8 +74,7 @@ public class ProductionStopCreateModalBoxController {
 	private boolean updater = false;
 	private ProductionStop productionStop;
 	private AdministrationUiController aUC;
-	private Team selectedTeam = new Team(0, 0, 0, null, 0, 0);
-	private Team selectedTeamTest = 
+	private Team selectedTeam;
 	
 	public void initialize() {
 		fieldStopDate.setOnAction(event -> {
