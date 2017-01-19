@@ -17,7 +17,6 @@ import controller.Controller;
 import dba.DBSingleConnection;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,7 +37,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.ProductionStop;
 import model.Team;
-import model.WorkingTeam;
 
 public class ProductionStopCreateModalBoxController {
 	@FXML
@@ -197,7 +195,7 @@ public class ProductionStopCreateModalBoxController {
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
         	int teamTimeTableId = selectedTeam.getTeamId();
-        	Team team = null; // temporary 'fix'
+        	Team team = null; // TODO DIS DONT WORK BOSS
 
 
         	if(updater){
@@ -254,7 +252,6 @@ public class ProductionStopCreateModalBoxController {
 		try {
 			teamArrayList = Cctr.getTeamList(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
 		} catch (PassThroughException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	/*

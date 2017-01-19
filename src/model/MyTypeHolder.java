@@ -56,6 +56,14 @@ public class MyTypeHolder {
 	}
 	
 	/**
+	 * Constructor for setting production stop list.
+	 * @param pList
+	 */
+	public MyTypeHolder(List<DailyMessages> dList) {
+		setdList(dList);
+	}
+	
+	/**
 	 * Setter for integer
 	 * Will also set the type of MyTypeHolder with an enumeration.
 	 * @param integer

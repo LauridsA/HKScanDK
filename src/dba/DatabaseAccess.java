@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import exceptions.DbaException;
+import model.DailyMessages;
 import model.FieldTypes;
 import model.ProductionStop;
 import model.Team;
@@ -668,6 +669,11 @@ public class DatabaseAccess {
 			dbSinCon.closeConnection();
 		}
 		return res;
+	}
+
+	public ArrayList<DailyMessages> getDailyMessages() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

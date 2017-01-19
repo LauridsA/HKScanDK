@@ -9,6 +9,7 @@ import dba.DBSingleConnection;
 import dba.DatabaseAccess;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
+import model.DailyMessages;
 import model.FieldTypes;
 import model.MyTypeHolder;
 import model.ProductionStop;
@@ -244,10 +245,17 @@ public class Controller {
 	/**
 	 * Retrieves the active daily messages objects.
 	 * @return DailyMessages object in an array.
+	 * @throws PassThroughException 
 	 */
-	private MyTypeHolder getDailyMessages() {
+	private MyTypeHolder getDailyMessages() throws PassThroughException {
 		// TODO About the same as getProductionstop. Boilerplate HO!
-		return null;
+		ArrayList<DailyMessages> result;
+		try {
+			result = dba.getDailyMessages();
+		} catch (DbaException e) {
+			throw new PassThroughException(e.getMessage(), e);
+		}
+		return new MyTypeHolder(result);
 	}
 	
 	/**
