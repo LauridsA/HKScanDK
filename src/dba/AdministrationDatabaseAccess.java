@@ -152,21 +152,22 @@ public class AdministrationDatabaseAccess {
 	 * @param stopTime Unix time stamp at which this stop occurred.
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
-	 * @param TeamTimeTableId ID of timetable working at the time of stop.
+	 * @param teamTimeTableId ID of timetable working at the time of stop.
 	 * @return 
 	 * @throws DbaException 
 	 */
-	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId) throws DbaException {
+	@SuppressWarnings("static-access")
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId, Team team) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "DECLARE @teamtimetableid INT = ?; INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, @teamtimetable); SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE teamtimetable.id = @teamtimetableid;";
 		int keyId = 0;
-		Team team = null;
+		team = null;
 		ResultSet result = null;
 		
 		Connection con = null;
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS);
+			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS); // static-access suppressed.
 			statement.setLong(2, stopTime);
 			statement.setInt(3, stopLength);
 			statement.setString(4, stopDescription);
@@ -203,7 +204,7 @@ public class AdministrationDatabaseAccess {
 			DBConnection.getInstance().closeConnection();
 		}
 
-		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team); //TODO team ?? select from teamtimetable...
+		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team);
 		
 	}
 	

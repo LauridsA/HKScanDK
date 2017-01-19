@@ -180,7 +180,6 @@ public class ProductionStopCreateModalBoxController {
     		
     		
     	} else if(!fieldStopLength.getText().matches("^(10[0-8][0-9]|[0-9]{3}|[0-9]{2}|[1-9])$")) {
-    		//throw new Exception("Stoplængde er forkert. Skal være eks.: 10 og max 1090");
     		regexModalbox("Stoplængde er forkert. Skal være mellem 1 og 1089");
     		return;
     	} else {
@@ -191,7 +190,6 @@ public class ProductionStopCreateModalBoxController {
     			Date date = df.parse(stopString);
     	    	stopTime = date.getTime();
     		} catch (ParseException e) {
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
 
@@ -215,7 +213,7 @@ public class ProductionStopCreateModalBoxController {
         		
         	}else{
         		try {
-					productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId);
+					productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId, team);
 				} catch (PassThroughException e) {
 					showError(e);
 				}
