@@ -196,7 +196,8 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	int teamTimeTableId = selectedTeam.getTeamId(); 
+        	int teamTimeTableId = selectedTeam.getTeamId();
+        	Team team = null; // temporary 'fix'
 
 
         	if(updater){
