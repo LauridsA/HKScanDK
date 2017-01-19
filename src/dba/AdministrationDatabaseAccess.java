@@ -153,6 +153,7 @@ public class AdministrationDatabaseAccess {
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
 	 * @param teamTimeTableId ID of timetable working at the time of stop.
+	 * @param team Team object used for tying together and displaying information.
 	 * @return 
 	 * @throws DbaException 
 	 */
@@ -163,8 +164,8 @@ public class AdministrationDatabaseAccess {
 		int keyId = 0;
 		team = null;
 		ResultSet result = null;
-		
 		Connection con = null;
+		
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS); // static-access suppressed.
