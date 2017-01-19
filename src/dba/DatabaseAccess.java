@@ -604,19 +604,27 @@ public class DatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 			
 			if(result.isBeforeFirst()){
 				while(result.next()){
 					int id = result.getInt("id");
-					Long st = result.getLong("stoptime");
+					long st = result.getLong("stoptime");
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
 					int ttti = result.getInt("teamtimetableid");
 					
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, null); // TODO select from teamtimetable ...
+					int teamId = result.getInt("id");
+					long startTime = result.getLong("starttime");
+					long endTime = result.getLong("endtime");
+					String teamName = result.getString("teamname");
+					int teamSize = result.getInt("workers");
+					int department = result.getInt("department");
+					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
+					
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, team); // TODO select from teamtimetable ...
 					stopList.add(ps);
 				}
 			}
@@ -624,7 +632,7 @@ public class DatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 		}
 		
 		return stopList;
@@ -650,15 +658,13 @@ public class DatabaseAccess {
 					int teamSize = result.getInt("workers");
 					int department = result.getInt("department");
 					
-					
 					res.add(new Team(teamId, startTime, endTime, teamName, teamSize, department));
-					
 				}
 			}
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 		}
 		return res;
 	}
