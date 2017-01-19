@@ -541,7 +541,7 @@ public class DatabaseAccess {
 	 * Calculates and retrieves the expected time at which the workshift will be done with the day's batches.
 	 * @param teamId given id of team.
 	 * @return A HashMap of k=Integer, v=Integer.<br>
-	 * The key holds whether or not a result, held by value, is organic or not.
+	 * The key holds whether or not the result, held by value, is organic.
 	 * @throws DbaException 
 	 */
 	public Map<Integer, Integer> expectedFinish(int teamId) throws DbaException {
@@ -598,7 +598,7 @@ public class DatabaseAccess {
 	 */
 	public ArrayList<ProductionStop> getAllStops() throws DbaException {
 		PreparedStatement statement = null;
-		String query = "SELECT id, stoptime, stoplength, stopdescription, teamtimetableid FROM productionstop ORDER BY stoptime desc";
+		String query = "SELECT * FROM getallstops ORDER BY stoptime DESC;";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;
