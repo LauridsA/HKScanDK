@@ -575,9 +575,10 @@ public class DatabaseAccess {
 	 */
 	public int getTotalStops() throws DbaException {
 	    String query = "SELECT count(id) as total FROM productionstop";
+	    Connection con = null;
 	    int total = 0;
 	    try {
-		Connection con = DBConnection.getInstance().getDBcon(); 
+	    con = dbSinCon.getDBcon();
 		PreparedStatement statement = con.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
 			if(result.next()){
@@ -586,7 +587,7 @@ public class DatabaseAccess {
 	    } catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-	    	DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 	    }
 	    return total;
 	}
