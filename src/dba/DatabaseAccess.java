@@ -228,7 +228,7 @@ public class DatabaseAccess {
 		int res = 0;
 		Connection con = null;
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setString(1, sqlType);
@@ -243,7 +243,7 @@ public class DatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-	    	DBConnection.getInstance().closeConnection();
+	    	dbSinCon.closeConnection();
 	    }
 		return res;
 	}
