@@ -624,8 +624,8 @@ public class DatabaseAccess {
 					int ttti = result.getInt("teamtimetableid");
 					
 					int teamId = result.getInt("id");
-					long startTime = result.getLong("starttime");
-					long endTime = result.getLong("endtime");
+					long startTime = result.getLong("starttimestamp");
+					long endTime = result.getLong("endtimestamp");
 					String teamName = result.getString("teamname");
 					int teamSize = result.getInt("workers");
 					int department = result.getInt("department");
