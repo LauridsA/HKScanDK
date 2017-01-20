@@ -84,6 +84,7 @@ public class DailyScreenController {
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
 		} catch (PassThroughException e) {
+			e.printStackTrace();
 			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -128,6 +129,7 @@ public class DailyScreenController {
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
 		} catch (PassThroughException e) {
+			e.printStackTrace();
 			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -167,6 +169,7 @@ public class DailyScreenController {
     	try {
 			speedWorker.setPeriod(Duration.seconds(ctr.getRefreshRate(fieldType)));
 		} catch (PassThroughException e) {
+			e.printStackTrace();
 			showError(e);
 		}
     	speedWorker.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -204,6 +207,7 @@ public class DailyScreenController {
 			public void handle(WorkerStateEvent event) {
 				Throwable throwable = speedWorker.getException();
 				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					((Exception) throwable).printStackTrace();
 					showError((Exception) throwable);
 				}
 				
