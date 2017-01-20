@@ -8,11 +8,10 @@ public class ProductionStop {
 	private int teamTimeTableId;
 	private Team team;
 	
-	public ProductionStop(int id, Long stopTime, int stopLength, String stopDescription, int teamTimeTableId, Team team){
+	public ProductionStop(int id, Long stopTime, int stopLength, String stopDescription, Team team){
 		this.stopTime = stopTime;
 		this.stopLength = stopLength;
 		this.stopDescription = stopDescription;
-		this.teamTimeTableId = teamTimeTableId;
 		this.id = id;
 		this.team = team;
 	}
@@ -53,14 +52,6 @@ public class ProductionStop {
 
 	public void setStopDescription(String stopDescription) {
 		this.stopDescription = stopDescription;
-	}
-
-	public int getTeamTimeTableId() {
-		return teamTimeTableId;
-	}
-
-	public void setTeamTimeTableId(int teamTimeTableId) {
-		this.teamTimeTableId = teamTimeTableId;
 	}
 
 	/**

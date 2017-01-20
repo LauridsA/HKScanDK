@@ -27,6 +27,9 @@ public class ProductionStopController {
 	
 	@FXML
 	private Label descField;
+	
+	@FXML
+	private Label fieldTeamName;
 		
 	private ProductionStop productionStop;
 	
@@ -44,6 +47,7 @@ public class ProductionStopController {
 		timeField.setText(ctr.getFormattedTime(element.getStopTime(), "dd-MM-yy HH:mm"));
 		lengthField.setText(((Integer)element.getStopLength()).toString());
 		descField.setText(element.getStopDescription());
+		fieldTeamName.setText(element.getTeam().getTeamName());
 		
 		
 

@@ -152,18 +152,15 @@ public class AdministrationDatabaseAccess {
 	 * @param stopTime Unix time stamp at which this stop occurred.
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
-	 * @param teamTimeTableId ID of timetable working at the time of stop.
 	 * @param team Team object used for tying together and displaying information.
 	 * @return 
 	 * @throws DbaException 
 	 */
 	@SuppressWarnings("static-access")
-	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId, Team team) throws DbaException {
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, Team team) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "DECLARE @teamtimetableid INT = ?; INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, @teamtimetable); SELECT * FROM teamtimetable JOIN team ON teamtimetable.teamid = team.id WHERE teamtimetable.id = @teamtimetableid;";
+		String query = "DECLARE @teamtimetableid INT = ?; INSERT INTO productionstop(stoptime, stoplength, stopdescription, teamtimetableid) VALUES (?, ?, ?, @teamtimetableid);";
 		int keyId = 0;
-		team = null;
-		ResultSet result = null;
 		Connection con = null;
 		
 		try {
@@ -172,14 +169,14 @@ public class AdministrationDatabaseAccess {
 			statement.setLong(2, stopTime);
 			statement.setInt(3, stopLength);
 			statement.setString(4, stopDescription);
-			statement.setInt(1, teamTimeTableId);
+			statement.setInt(1, team.getTeamId());
 			
-			result = statement.executeQuery();
-	
+			statement.executeUpdate();
+	/*
 		        if (result.equals(null)) {
 		            throw new DbaException("Opretning af stop fejlet, ingen rækker blev påvirket.");
 		        }
-	
+	*/
 		        ResultSet generatedKeys = statement.getGeneratedKeys(); 
 		            if (generatedKeys.next()) {
 		                keyId = generatedKeys.getInt(1);
@@ -188,24 +185,20 @@ public class AdministrationDatabaseAccess {
 		                throw new DbaException("Opretning af stop fejlet, der blev ikke fanget noget ID.");
 		            }
 		        
-		        while(result.next()){
-		        	int teamId = result.getInt("id");
-		        	String teamName = result.getString("teamname");
-		        	int teamSize = result.getInt("workers");
-		        	int department = result.getInt("department");
-		        	long startTime = result.getLong("starttimestamp");
-		        	long endTime = result.getLong("endtimestamp");
-		        	
-		        	team =  new Team(teamId, startTime, endTime, teamName, teamSize, department);
-		        }
+		  
 			
 		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				throw new DbaException("Fejl i database", e1);
+			}
 				throw new DbaException("Productionsstop ikke oprettet", e);
 		} finally {
 			DBConnection.getInstance().closeConnection();
 		}
 
-		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team);
+		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, team);
 		
 	}
 	
@@ -220,22 +213,20 @@ public class AdministrationDatabaseAccess {
 	 * @param newTeamTimeTableId new int for teamTimeTable
 	 * @throws DbaException 
 	 */
-	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, int newTeamTimeTableId) throws DbaException {
+	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, Team team) throws DbaException {
 		PreparedStatement statement = null;
 		String query = "UPDATE productionstop SET stoptime=?, stoplength=?, stopdescription=?, teamtimetableid=? WHERE id=?;";
 		Connection con = null;
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
-			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
 			statement.setLong(1, newStopTime);
 			statement.setInt(2, newStopLength);
 			statement.setString(3, newStopDescription);
-			statement.setLong(4, newTeamTimeTableId);
+			statement.setLong(4, team.getTeamId());
 			statement.executeUpdate();
-			con.commit();
 		} catch (SQLException e) {
 			try {
 				con.rollback();
@@ -244,12 +235,7 @@ public class AdministrationDatabaseAccess {
 			}
 			throw new DbaException("Database Fejl: Productionsstop kunne ikke opdateres", e);
 		} finally {
-			try {
-				con.setAutoCommit(true);
-				DBConnection.getInstance().closeConnection();
-			} catch (SQLException e) {
-				throw new DbaException("Database Fejl: Fejl med at lukke forbindelsen.", e);
-			}
+			DBConnection.getInstance().closeConnection();
 		}
 	}
 	
@@ -301,7 +287,6 @@ public class AdministrationDatabaseAccess {
 					Long st = result.getLong("stoptime");
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
-					int ttti = result.getInt("teamtimetableid");
 					
 					int teamId = result.getInt("id");
 					Long startTime = result.getLong("starttimestamp");
@@ -310,7 +295,7 @@ public class AdministrationDatabaseAccess {
 					int teamSize = result.getInt("workers");
 					int department = result.getInt("department");
 					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, team);
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, team);
 					stopList.add(ps);
 				}
 			}

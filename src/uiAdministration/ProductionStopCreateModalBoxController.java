@@ -65,6 +65,9 @@ public class ProductionStopCreateModalBoxController {
     
     @FXML
     private Label teamName;
+    
+    @FXML
+    private Label fieldTeamStart;
 
 	private Stage stage;
 	private AdministrationController ctr = new AdministrationController();
@@ -194,25 +197,24 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	int teamTimeTableId = selectedTeam.getTeamId();
-        	Team team = null; // TODO DIS DONT WORK BOSS
+        	//Team team = null; // TODO DIS DONT WORK BOSS
 
 
         	if(updater){
         		try {
-					ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, productionStop.getTeamTimeTableId());
+					ctr.updateStop(productionStop.getId(), stopTime, stopLength, stopDescription, selectedTeam);
 				} catch (DbaException e) {
 					showError(e);
 				}
             	productionStop.setStopDescription(stopDescription);
         		productionStop.setStopLength(stopLength);
         		productionStop.setStopTime(stopTime);
-        		productionStop.setTeamTimeTableId(teamTimeTableId);
+        		productionStop.setTeam(selectedTeam);
         		//aUC.resetPage();
         		
         	}else{
         		try {
-					productionStop = ctr.createStop(stopTime, stopLength, stopDescription, teamTimeTableId, team);
+					productionStop = ctr.createStop(stopTime, stopLength, stopDescription, selectedTeam);
 				} catch (PassThroughException e) {
 					showError(e);
 				}
@@ -230,7 +232,7 @@ public class ProductionStopCreateModalBoxController {
 		fieldStopTime.setText(Cctr.getFormattedTime(productionStop.getStopTime(), "HH:mm"));
 		fieldStopDate.setValue(Instant.ofEpochMilli(productionStop.getStopTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 		fieldStopLength.setText(Integer.toString(productionStop.getStopLength()));
-		teamName.setText(productionStop.getTeam().getTeamName()); // TODO anders wtf
+		//teamName.setText(productionStop.getTeam().getTeamName()); // TODO anders wtf
 		descBox.setText(productionStop.getStopDescription());
 		this.productionStop = productionStop;
 		updater = true;
@@ -261,16 +263,18 @@ public class ProductionStopCreateModalBoxController {
     	*/
     	for (Team team : teamArrayList) {
     		Label l = new Label(team.getTeamName());
-    		Label l2 = new Label(((Long)team.getStartTime()).toString());
+    		Label l2 = new Label(Cctr.getFormattedTime(team.getStartTime(),"HH:mm"));
     		BorderPane bp = new BorderPane();
     		Button btnLeft = new Button("Vælg");
         	bp.setLeft(l);
+        	bp.setCenter(l2);
         	bp.setRight(btnLeft);
     		btnLeft.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override
 				public void handle(ActionEvent event) {
 					teamName.setText(team.getTeamName());
+					fieldTeamStart.setText(Cctr.getFormattedTime(team.getStartTime(),"HH:mm"));
 					selectedTeam = team;
 					
 				}

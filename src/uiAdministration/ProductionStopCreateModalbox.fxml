@@ -58,6 +58,7 @@
                                     <Label text="Tid:" />
                                     <Label text="Hold" GridPane.rowIndex="2" />
                                     <Label fx:id="teamName" text="Vælg hold til højre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="fieldTeamStart" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

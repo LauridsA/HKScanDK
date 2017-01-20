@@ -94,15 +94,14 @@ public class AdministrationController {
 	 * @param stopTime Unix time stamp at which this stop occurred.
 	 * @param stopLength Length of the stop in minutes.
 	 * @param stopDescription String displaying a description of the stop.
-	 * @param teamTimeTableId ID of timetable working at the time of stop.
 	 * @param team Team object used to display information in UI.
 	 * @return the created productionStop along with a team object.
 	 * @throws PassThroughException 
 
 	 */
-	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, int teamTimeTableId, Team team) throws PassThroughException {
+	public ProductionStop createStop(Long stopTime, int stopLength, String stopDescription, Team team) throws PassThroughException {
 		try {
-			return dba.createStop(stopTime, stopLength, stopDescription, teamTimeTableId, team);
+			return dba.createStop(stopTime, stopLength, stopDescription, team);
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -118,8 +117,8 @@ public class AdministrationController {
 	 * @param newStopDescription new String to display
 	 * @param newTeamTimeTableId new int for teamTimeTable
 	 */
-	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, int newTeamTimeTableId) throws DbaException {
-		dba.updateStop(id, newStopTime, newStopLength, newStopDescription, newTeamTimeTableId);
+	public void updateStop(int id, Long newStopTime, int newStopLength, String newStopDescription, Team team) throws DbaException {
+		dba.updateStop(id, newStopTime, newStopLength, newStopDescription, team);
 	}
 	
 	/**

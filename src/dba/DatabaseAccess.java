@@ -621,7 +621,6 @@ public class DatabaseAccess {
 					long st = result.getLong("stoptime");
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
-					int ttti = result.getInt("teamtimetableid");
 					
 					int teamId = result.getInt("id");
 					long startTime = result.getLong("starttimestamp");
@@ -631,7 +630,7 @@ public class DatabaseAccess {
 					int department = result.getInt("department");
 					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
 					
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, ttti, team); // TODO select from teamtimetable ...
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, team); // TODO select from teamtimetable ...
 					stopList.add(ps);
 				}
 			}
@@ -648,10 +647,10 @@ public class DatabaseAccess {
 	public ArrayList<Team> getTeamList(long epochDayStart) throws DbaException {
 		ArrayList<Team> res = new ArrayList<>();
 		PreparedStatement statement = null;
-		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT starttimestamp, endtimestamp, team.id, teamname, workers, department FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
+		String query = "DECLARE @daystart BIGINT = ?; DECLARE @dayend BIGINT = @daystart + 86400000; SELECT starttimestamp, endtimestamp, teamtimetable.id, teamname, workers, department FROM teamtimetable JOIN team ON teamtimetable.teamid=team.id WHERE (starttimestamp BETWEEN @daystart AND @dayend) OR (endtimestamp BETWEEN @daystart AND @dayend);";
 		ResultSet result = null;
 		Connection con = null;
-		try {
+		try { 
 			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setLong(1, epochDayStart);
