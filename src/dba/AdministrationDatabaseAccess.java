@@ -39,7 +39,7 @@ public class AdministrationDatabaseAccess {
 		
 		Connection con = null;
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setString(1, message);
 			statement.setLong(2, timestamp);
@@ -50,7 +50,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database fejl: DailyMessage kunne ikke oprettes.", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 	}
@@ -72,7 +72,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
 			statement.setString(1, newMessage);
@@ -84,7 +84,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database fejl: Kunne ikke opdatere DailyMessage.", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 	}
@@ -100,7 +100,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
@@ -108,7 +108,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database fejl: DailyMessage kunne ikke slettes.", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 	}
@@ -126,7 +126,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 				while(result.next()){
@@ -141,7 +141,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database fejl: Der blev ikke fundet nogen dailymessages.", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 		return messageList;
@@ -167,7 +167,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS); // static-access suppressed.
 			statement.setLong(2, stopTime);
 			statement.setInt(3, stopLength);
@@ -202,7 +202,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 				throw new DbaException("Productionsstop ikke oprettet", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 
 		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team);
@@ -226,7 +226,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
@@ -246,7 +246,7 @@ public class AdministrationDatabaseAccess {
 		} finally {
 			try {
 				con.setAutoCommit(true);
-				dbSinCon.closeConnection();
+				DBConnection.getInstance().closeConnection();
 			} catch (SQLException e) {
 				throw new DbaException("Database Fejl: Fejl med at lukke forbindelsen.", e);
 			}
@@ -265,7 +265,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
@@ -273,7 +273,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database Fejl: Productionsstop kunne ikke slettes", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 	}
@@ -291,7 +291,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = dbSinCon.getDBcon();
+			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 			
@@ -318,7 +318,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database Fejl: kunne ikke finde alle productionstop", e);
 		} finally {
-			dbSinCon.closeConnection();
+			DBConnection.getInstance().closeConnection();
 		}
 		
 		return stopList;
