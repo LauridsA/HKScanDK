@@ -12,6 +12,8 @@ import controller.Controller;
 import dba.DBSingleConnection;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +49,8 @@ public class AdministrationUiController {
 
 	private int perPage = 10;
 	
-	private ArrayList<ProductionStop> arr;
+	//private ArrayList<ProductionStop> arr;
+	private ObservableList<ProductionStop> arr;
     
    
     public void initialize(){
@@ -57,12 +60,13 @@ public class AdministrationUiController {
     
     private void initProductionStops() {
     	try {
-			arr = aCtr.getAllStops();
+			arr = FXCollections.observableArrayList(aCtr.getAllStops());
 		} catch (PassThroughException e) {
 			showError(e);
 		}
     	int totalpages = (int) Math.ceil(arr.size()/10D);
     	pageList.setPageCount(totalpages);
+ 
     	pageList.setPageFactory(new Callback<Integer, Node>() {
 			
 			@Override
@@ -72,7 +76,7 @@ public class AdministrationUiController {
 		});
 	}
     
-    public Node createPage(int pages, ArrayList<ProductionStop> arr){
+    public Node createPage(int pages, ObservableList<ProductionStop> arr){
     	ScrollPane sPane = new ScrollPane();
     	VBox content = new VBox(10);
     	int startValue = pages * 10;
@@ -151,7 +155,7 @@ public class AdministrationUiController {
     
     public void reFreshPageContent (){
     	try {
-			arr = aCtr.getAllStops();
+			arr = FXCollections.observableArrayList(aCtr.getAllStops());
 		} catch (PassThroughException e) {
 			showError(e);
 		}
@@ -171,7 +175,8 @@ public class AdministrationUiController {
 	}
 	
 	public void insertNewProductionStopToArray(ProductionStop productionStop) {
-		arr.add(productionStop);
+		//arr.add(productionStop);
+		arr.addAll(productionStop);
 		Collections.sort(arr, new Comparator<ProductionStop>() {
 
 			@Override
@@ -180,7 +185,7 @@ public class AdministrationUiController {
 			}
 		});
 		
-		
+	   	//pageList.pageFactoryProperty().;
 		resetPage();
 	}
 	private void showError(Exception e) {
