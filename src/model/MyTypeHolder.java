@@ -51,7 +51,7 @@ public class MyTypeHolder {
 	 * Constructor for setting production stop list.
 	 * @param pList
 	 */
-	public MyTypeHolder(List<ProductionStop> pList) {
+	public MyTypeHolder(List<ProductionStop> pList, ProductionStop something) {
 		setpList(pList);
 	}
 	
@@ -59,7 +59,7 @@ public class MyTypeHolder {
 	 * Constructor for setting production stop list.
 	 * @param pList
 	 */
-	public MyTypeHolder(List<DailyMessages> dList) {
+	public MyTypeHolder(List<DailyMessages> dList, DailyMessages something) {
 		setdList(dList);
 	}
 	

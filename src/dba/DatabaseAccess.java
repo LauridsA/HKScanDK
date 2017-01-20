@@ -54,7 +54,13 @@ public class DatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
 		} finally {
-				dbSinCon.closeConnection();
+				try {
+					con.setAutoCommit(true);
+					dbSinCon.closeConnection();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 		return organic;
 	}
@@ -671,7 +677,7 @@ public class DatabaseAccess {
 		return res;
 	}
 
-	public ArrayList<DailyMessages> getDailyMessages() {
+	public ArrayList<DailyMessages> getDailyMessages() throws DbaException {
 		// TODO Auto-generated method stub
 		return null;
 	}

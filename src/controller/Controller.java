@@ -226,7 +226,7 @@ public class Controller {
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
-		return new MyTypeHolder(result);
+		return new MyTypeHolder(result, result.get(0));
 	}
 	
 	/**
@@ -255,7 +255,7 @@ public class Controller {
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
-		return new MyTypeHolder(result);
+		return new MyTypeHolder(result, result.get(0));
 	}
 	
 	/**

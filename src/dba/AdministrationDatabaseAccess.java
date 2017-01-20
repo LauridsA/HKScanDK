@@ -167,7 +167,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query, statement.RETURN_GENERATED_KEYS); // static-access suppressed.
 			statement.setLong(2, stopTime);
 			statement.setInt(3, stopLength);
@@ -202,7 +202,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 				throw new DbaException("Productionsstop ikke oprettet", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 		}
 
 		return new ProductionStop(keyId, stopTime, stopLength, stopDescription, teamTimeTableId, team);
@@ -226,7 +226,8 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
+			con.setAutoCommit(false);
 			statement = con.prepareStatement(query);
 			statement.setInt(5, id);
 			statement.setLong(1, newStopTime);
@@ -234,11 +235,21 @@ public class AdministrationDatabaseAccess {
 			statement.setString(3, newStopDescription);
 			statement.setLong(4, newTeamTimeTableId);
 			statement.executeUpdate();
-			
+			con.commit();
 		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				throw new DbaException("Database Fejl: Fejl undervejs i processen. Tjek forbindelse.", e);
+			}
 			throw new DbaException("Database Fejl: Productionsstop kunne ikke opdateres", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			try {
+				con.setAutoCommit(true);
+				dbSinCon.closeConnection();
+			} catch (SQLException e) {
+				throw new DbaException("Database Fejl: Fejl med at lukke forbindelsen.", e);
+			}
 		}
 	}
 	
@@ -254,7 +265,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
 			statement.executeUpdate();
@@ -262,7 +273,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database Fejl: Productionsstop kunne ikke slettes", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 		}
 		
 	}
@@ -280,7 +291,7 @@ public class AdministrationDatabaseAccess {
 		Connection con = null;
 		
 		try {
-			con = DBConnection.getInstance().getDBcon();
+			con = dbSinCon.getDBcon();
 			statement = con.prepareStatement(query);
 			result = statement.executeQuery();
 			
@@ -307,7 +318,7 @@ public class AdministrationDatabaseAccess {
 		} catch (SQLException e) {
 			throw new DbaException("Database Fejl: kunne ikke finde alle productionstop", e);
 		} finally {
-			DBConnection.getInstance().closeConnection();
+			dbSinCon.closeConnection();
 		}
 		
 		return stopList;
