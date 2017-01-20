@@ -622,7 +622,7 @@ public class DatabaseAccess {
 					int sl = result.getInt("stoplength");
 					String sd = result.getString("stopdescription");
 					
-					int teamId = result.getInt("id");
+					int teamId = result.getInt("teamtimetableid");
 					long startTime = result.getLong("starttimestamp");
 					long endTime = result.getLong("endtimestamp");
 					String teamName = result.getString("teamname");

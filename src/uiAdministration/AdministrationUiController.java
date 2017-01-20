@@ -9,6 +9,7 @@ import java.util.Comparator;
 
 import controller.AdministrationController;
 import controller.Controller;
+import dba.DBSingleConnection;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
 import javafx.event.ActionEvent;
@@ -39,9 +40,10 @@ public class AdministrationUiController {
     
     @FXML
     private Button refreshButton;
-    
-    private Controller ctr = new Controller();
-    private AdministrationController aCtr = new AdministrationController();
+
+	private DBSingleConnection dbSingleConnection = new DBSingleConnection();
+    private Controller ctr = new Controller(dbSingleConnection);
+    private AdministrationController aCtr = new AdministrationController(dbSingleConnection);
 
 	private int perPage = 10;
 	

@@ -17,7 +17,7 @@ import model.Team;
 import model.WorkingTeam;
 
 public class Controller {
-	private DatabaseAccess dba = new DatabaseAccess();
+	private DatabaseAccess dba;
 		
 	public Controller(DBSingleConnection dbSinCon) {
 		dba = new DatabaseAccess(dbSinCon);	

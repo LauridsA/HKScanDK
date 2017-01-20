@@ -247,14 +247,15 @@ public class AdministrationDatabaseAccess {
 	 */
 	public void deleteStop(int id) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "DELETE FROM productionstop WHERE id=?;";
+		String query = "DELETE FROM productionstop WHERE id=?";
 		Connection con = null;
 		
 		try {
 			con = DBConnection.getInstance().getDBcon();
 			statement = con.prepareStatement(query);
 			statement.setInt(1, id);
-			statement.executeUpdate();
+			System.out.println(id);
+			System.out.println(statement.executeUpdate());
 			
 		} catch (SQLException e) {
 			throw new DbaException("Database Fejl: Productionsstop kunne ikke slettes", e);
@@ -263,49 +264,5 @@ public class AdministrationDatabaseAccess {
 		}
 		
 	}
-	
-	/**
-	 * Used to retrieve all ProductioStops from database.
-	 * @return all DailyMessages from the productionstop table as ArrayList.
-	 * @throws DbaException 
-	 */
-	public ArrayList<ProductionStop> getAllStops() throws DbaException { //TODO Anders??? (id?)
-		PreparedStatement statement = null;
-		String query = "SELECT teamtimetable.id, stoptime, stoplength, stopdescription, teamtimetableid, starttimestamp, endtimestamp, teamname, workers, department FROM productionstop JOIN teamtimetable ON productionstop.teamtimetableid = teamtimetable.id JOIN team on teamtimetable.teamid = team.id ORDER BY stoptime desc";
-		ResultSet result = null;
-		ArrayList<ProductionStop> stopList = new ArrayList<>();
-		Connection con = null;
-		
-		try {
-			con = DBConnection.getInstance().getDBcon();
-			statement = con.prepareStatement(query);
-			result = statement.executeQuery();
-			
-			if(result.isBeforeFirst()){
-				while(result.next()){
-					int id = result.getInt("id");
-					Long st = result.getLong("stoptime");
-					int sl = result.getInt("stoplength");
-					String sd = result.getString("stopdescription");
-					
-					int teamId = result.getInt("id");
-					Long startTime = result.getLong("starttimestamp");
-					Long endTime = result.getLong("endtimestamp");
-					String teamName = result.getString("teamname");
-					int teamSize = result.getInt("workers");
-					int department = result.getInt("department");
-					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
-					ProductionStop ps = new ProductionStop(id, st, sl, sd, team);
-					stopList.add(ps);
-				}
-			}
-			
-		} catch (SQLException e) {
-			throw new DbaException("Database Fejl: kunne ikke finde alle productionstop", e);
-		} finally {
-			DBConnection.getInstance().closeConnection();
-		}
-		
-		return stopList;
-	}
 }
+

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import dba.AdministrationDatabaseAccess;
 import dba.DBSingleConnection;
+import dba.DatabaseAccess;
 import exceptions.DbaException;
 import exceptions.PassThroughException;
 import model.DailyMessages;
@@ -13,13 +14,16 @@ import model.Team;
 
 public class AdministrationController {
 	private AdministrationDatabaseAccess dba;
+	private DatabaseAccess maindba;
 
 	public AdministrationController(DBSingleConnection dbSinCon) {
-		dba = new AdministrationDatabaseAccess(dbSinCon);	
+		dba = new AdministrationDatabaseAccess(dbSinCon);
+		maindba = new DatabaseAccess(dbSinCon);
 	}
 	
 	public AdministrationController() {
 		dba = new AdministrationDatabaseAccess();
+		maindba = new DatabaseAccess();
 	}
 	
 	/**
@@ -142,7 +146,7 @@ public class AdministrationController {
 	 */
 	public ArrayList<ProductionStop> getAllStops() throws PassThroughException{
 		try {
-			return dba.getAllStops();
+			return maindba.getAllStops();
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
