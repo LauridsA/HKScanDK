@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -72,6 +73,13 @@ public class DailyScreenController {
     
     @FXML
     private ScrollPane productionStopScrollPane;
+    
+	private Label dateField;
+	
+	private Label teamName;
+	
+	@FXML
+	private ProgressBar timerBar;
 
 	private DBSingleConnection dbSinCon = new DBSingleConnection();
     
@@ -236,6 +244,8 @@ public class DailyScreenController {
     	startWorker(FieldTypes.EXPECTEDFINISH, expectedFinishTimeField);
     	//startWorker(FieldTypes.DAILYMESSAGES, dailyMsgScrollPane);
     	startWorker(FieldTypes.PRODUCTIONSTOPS, productionStopScrollPane);
+    	//dateField.setText(ctr.getFormattedTime(System.currentTimeMillis(), "DD-MM-YYYY"));
+    	
     }
     /**
      * The worker who is going to run every so often based on the time given on setup.<br>
@@ -281,6 +291,12 @@ public class DailyScreenController {
 	
 	public DBSingleConnection getDbSinCon() {
 		return dbSinCon;
+	}
+
+	public void setHeaderLabels(Label teamName, Label dateField) {
+		this.teamName = teamName;
+		this.dateField = dateField;
+		
 	}
     
 }

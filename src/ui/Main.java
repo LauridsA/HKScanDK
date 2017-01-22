@@ -6,10 +6,12 @@ import dba.DBSingleConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import uiScreen.DailyScreenController;
+import uiScreen.MainController;
 
 
 public class Main extends Application {
@@ -17,6 +19,8 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private AnchorPane anchorPane;
 	private DBSingleConnection dbsincon = new DBSingleConnection();
+	private Label teamName;
+	private Label dateField;
 
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
@@ -101,6 +105,8 @@ public class Main extends Application {
 			//scene.getStylesheets().add(getClass().getResource("/uiScreen/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			//teamName = ((MainController) loader.getController()).getTeamName();
+			//dateField = ((MainController) loader.getController()).getDateField();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -118,7 +124,9 @@ public class Main extends Application {
 			anchorPane = (AnchorPane) loader.load();
 			
 			rootLayout.setCenter(anchorPane);
-			((DailyScreenController) loader.getController()).setDatabaseController(dbsincon);
+			DailyScreenController sctr = ((DailyScreenController) loader.getController());
+			sctr.setDatabaseController(dbsincon);
+			//sctr.setHeaderLabels(teamName, dateField);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

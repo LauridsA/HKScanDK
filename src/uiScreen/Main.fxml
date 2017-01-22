@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="576.0" prefWidth="1024.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiScreen.MainController">
-   <top>
-      <BorderPane BorderPane.alignment="CENTER">
-         <center>
-            <Label fx:id="dateField" text="Dags dato" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
-   </top>
+<BorderPane prefHeight="576.0" prefWidth="1024.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiScreen.MainController">
    <bottom>
       <BorderPane BorderPane.alignment="CENTER">
          <bottom>
@@ -24,4 +22,16 @@
          </bottom>
       </BorderPane>
    </bottom>
+   <top>
+      <AnchorPane BorderPane.alignment="BOTTOM_CENTER">
+         <children>
+            <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="dateField" text="Dags dato" />
+                  <Label fx:id="teamName" text="Hold" />
+               </children>
+            </FlowPane>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
