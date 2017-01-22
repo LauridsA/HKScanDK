@@ -1,5 +1,6 @@
 package uiScreen;
 
+import controller.Controller;
 import dba.DBSingleConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,6 +16,8 @@ public class MainController {
 	
 	@FXML
 	private ProgressBar timerBar;
+	
+	private Controller ctr = new Controller();
 
 	/**
 	 * @return the dateField
@@ -44,6 +47,10 @@ public class MainController {
 		this.teamName = teamName;
 	}
 	
+	
+	public void initialize() {
+		dateField.setText(ctr.getFormattedTime(System.currentTimeMillis(), "DD-MM-YYYY"));
+	}
 	
 	
 	
