@@ -173,6 +173,10 @@ public class ProductionStopCreateModalBoxController {
 	
    @FXML
    private void addNewStop(){
+	   if(selectedTeam == null){
+		   regexModalbox("Vælg et hold i højre side.");
+		   return;
+	   }
     	if(!fieldStopTime.getText().matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
     		regexModalbox("Tid er forkert. Skal være f.eks. 01:00");
     		return;
@@ -198,7 +202,6 @@ public class ProductionStopCreateModalBoxController {
         	
         	int stopLength = Integer.parseInt(fieldStopLength.getText());
         	String stopDescription = descBox.getText();
-        	//Team team = null; // TODO DIS DONT WORK BOSS
 
 
         	if(updater){
