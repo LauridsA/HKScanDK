@@ -30,7 +30,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		Parameters parameters = getParameters();
 		Map<String, String> namedParameters = parameters.getNamed();
-		if(namedParameters.containsKey("administrator")){
+		if(namedParameters.containsKey("admin")){
 			 initAdministratorStage();
 			 initAdministratorScene();
 		}else{
