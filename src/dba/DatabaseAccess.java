@@ -516,7 +516,7 @@ public class DatabaseAccess {
 	 * @throws DbaException 
 	 */
 	public int expectedPerHour(int teamId, long now) throws DbaException {
-		String query = "DECLARE @team INT = ?; DECLARE @now BIGINT = ?; DECLARE @totalval INT = (SELECT SUM(value) AS totalval FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team) SELECT ISNULL((@totalval-(SELECT SUM(slaughteramount.value) AS slaughterval FROM slaughteramount JOIN batch ON batchid = batch.id WHERE slaughteramount.teamtimetableid = @team)), @totalval)/((((SELECT TOP 1 teamtimetable.endtimestamp FROM batch JOIN teamtimetable ON batch.teamdaytimetableid = teamtimetable.id WHERE batch.teamdaytimetableid = @team OR batch.teamnighttimetableid = @team)) - @now)/3600000) AS result;";
+		String query = "DECLARE @team INT = ?; DECLARE @now BIGINT = ?; DECLARE @totalval INT = (SELECT SUM(value) AS totalval FROM batch WHERE teamdaytimetableid = @team OR teamnighttimetableid = @team) DECLARE @something INT = (((SELECT TOP 1 teamtimetable.endtimestamp FROM batch JOIN teamtimetable ON batch.teamdaytimetableid = teamtimetable.id WHERE batch.teamdaytimetableid = @team OR batch.teamnighttimetableid = @team) - @now)/3600000) SELECT ISNULL((@totalval-(SELECT SUM(slaughteramount.value) AS slaughterval FROM slaughteramount JOIN batch ON batchid = batch.id WHERE slaughteramount.teamtimetableid = @team)), @totalval)/(IIF(@something = 0 ,1, @something)) AS result;";
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		Connection con = null;
