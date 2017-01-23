@@ -147,7 +147,7 @@ public class Controller {
 	 */
 	private MyTypeHolder dayExpected() throws PassThroughException {
 		try {
-			return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamId()));
+			return new MyTypeHolder(dba.dayExpected(WorkingTeam.getInstance().getTeamTimeTableId()));
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -162,7 +162,7 @@ public class Controller {
 		Date time = new Date();
 		int eke;
 		try {
-			eke = dba.expectedPerHour(WorkingTeam.getInstance().getTeamId(),time.getTime());
+			eke = dba.expectedPerHour(WorkingTeam.getInstance().getTeamTimeTableId(),time.getTime());
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -182,7 +182,7 @@ public class Controller {
 		int totalTime = 0;
 		Map<Integer, Integer> map;
 		try {
-			map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
+			map = dba.expectedFinish(WorkingTeam.getInstance().getTeamTimeTableId());
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -207,7 +207,7 @@ public class Controller {
 	public MyTypeHolder getTotalCurrentSlaughterAmount() throws PassThroughException {
 		int myresult;
 		try {
-			myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamId());
+			myresult = dba.getTotalCurrentSlaughterAmount(WorkingTeam.getInstance().getTeamTimeTableId());
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -236,7 +236,7 @@ public class Controller {
 	 */
 	public MyTypeHolder getTotalSlaughterAmount() throws PassThroughException {
 		try {
-			return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamId()));
+			return new MyTypeHolder(dba.totalSlaughterAmount(WorkingTeam.getInstance().getTeamTimeTableId()));
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
@@ -297,7 +297,7 @@ public class Controller {
 	 */
 	public MyTypeHolder getOrganic() throws PassThroughException {
 		try {
-			return new MyTypeHolder(dba.getOrganic(WorkingTeam.getInstance().getTeamId()));
+			return new MyTypeHolder(dba.getOrganic(WorkingTeam.getInstance().getTeamTimeTableId()));
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}

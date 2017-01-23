@@ -157,6 +157,7 @@ public class DailyScreenController {
 			public void handle(WorkerStateEvent event) {
 				Throwable throwable = speedWorker.getException();
 				if(throwable instanceof ControllerException || throwable instanceof DbaException || throwable instanceof PassThroughException || throwable instanceof UiException){
+					((Exception) throwable).printStackTrace();
 					showError((Exception) throwable);
 				}
 				

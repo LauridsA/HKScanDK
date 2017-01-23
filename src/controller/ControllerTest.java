@@ -40,7 +40,7 @@ public class ControllerTest {
 	 */
 	public MyTypeHolder expectedFinish() throws DbaException {
 		int totalTime = 0;
-		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamId());
+		Map<Integer, Integer> map = dba.expectedFinish(WorkingTeam.getInstance().getTeamTimeTableId());
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()){
 			if (entry.getKey() == 1) {
 				totalTime += entry.getValue() / 217;

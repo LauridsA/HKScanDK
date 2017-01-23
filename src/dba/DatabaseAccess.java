@@ -400,11 +400,10 @@ public class DatabaseAccess {
 			statement.setInt(1, teamId);
 			result = statement.executeQuery();
 			
-			if(result.isBeforeFirst()) {
-				result.next();
+			if(result.next()) {
+				
 				totalslaughteredcurrent = result.getInt("totalamount");
-			} else{
-				System.out.println("FACK OFF");
+				System.out.println("total slay: " +totalslaughteredcurrent + " teamid: " + teamId);
 			}
 		} catch (SQLException e) {
 			throw new DbaException("Data kunne ikke findes", e);
