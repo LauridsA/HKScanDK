@@ -678,5 +678,46 @@ public class DatabaseAccess {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public ArrayList<ProductionStop> getStops(int teamId) throws DbaException {
+		PreparedStatement statement = null;
+		String query = "SELECT * FROM getallstops WHERE teamtimetableid = ? ORDER BY stoptime DESC;";
+		ResultSet result = null;
+		ArrayList<ProductionStop> stopList = new ArrayList<>();
+		Connection con = null;
+		
+		try {
+			con = dbSinCon.getDBcon();
+			statement = con.prepareStatement(query);
+			statement.setInt(1, teamId);
+			result = statement.executeQuery();
+			
+			if(result.isBeforeFirst()){
+				while(result.next()){
+					int id = result.getInt("id");
+					long st = result.getLong("stoptime");
+					int sl = result.getInt("stoplength");
+					String sd = result.getString("stopdescription");
+					
+					long startTime = result.getLong("starttimestamp");
+					long endTime = result.getLong("endtimestamp");
+					String teamName = result.getString("teamname");
+					int teamSize = result.getInt("workers");
+					int department = result.getInt("department");
+					Team team = new Team(teamId, startTime, endTime, teamName, teamSize, department);
+					
+					ProductionStop ps = new ProductionStop(id, st, sl, sd, team);
+					stopList.add(ps);
+				}
+			}
+			
+		} catch (SQLException e) {
+			throw new DbaException("Data kunne ikke findes", e);
+		} finally {
+			dbSinCon.closeConnection();
+		}
+		
+		return stopList;
+	}
 	
 }

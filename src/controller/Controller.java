@@ -219,10 +219,11 @@ public class Controller {
 	 * @return the object ProductionStop
 	 * @throws PassThroughException 
 	 */
+	@SuppressWarnings("static-access")
 	private MyTypeHolder getProductionStop() throws PassThroughException {
 		ArrayList<ProductionStop> result;
 		try {
-			result = dba.getAllStops();
+			result = dba.getStops(WorkingTeam.getInstance().getTeamTimeTableId());
 		} catch (DbaException e) {
 			throw new PassThroughException(e.getMessage(), e);
 		}
