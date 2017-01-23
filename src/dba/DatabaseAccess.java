@@ -681,7 +681,7 @@ public class DatabaseAccess {
 
 	public ArrayList<ProductionStop> getStops(int teamId) throws DbaException {
 		PreparedStatement statement = null;
-		String query = "SELECT * FROM getallstops WHERE teamtimetableid = ? ORDER BY stoptime DESC;";
+		String query = "DECLARE @teamid INT = ?; SELECT * FROM getallstops WHERE teamtimetableid = (SELECT TOP 1 batch.teamdaytimetableid FROM batch WHERE batch.teamnighttimetableid = @teamid OR batch.teamdaytimetableid = @teamid) OR teamtimetableid = (SELECT TOP 1 batch.teamnighttimetableid FROM batch WHERE batch.teamnighttimetableid = @teamid OR batch.teamdaytimetableid = @teamid) ORDER BY stoptime DESC";
 		ResultSet result = null;
 		ArrayList<ProductionStop> stopList = new ArrayList<>();
 		Connection con = null;
